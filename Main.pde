@@ -23,6 +23,7 @@ void setup()
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
+  widgetList1.addFlightScreenButton("Tracker", color(255, 255, 0), 1);
 }
 
 void draw() 
@@ -57,14 +58,8 @@ void draw()
 
 void mouseMoved()
 {
-  if (count == homeScreen) 
-  {
-    widgetList.checkButtonsBorder(mouseX, mouseY);
-  }
-  else if (count == flightScreen)
-  {
-    widgetList1.checkButtonsBorder(mouseX, mouseY);
-  }
+  widgetList.checkButtonsBorder(mouseX, mouseY);
+  widgetList1.checkButtonsBorder(mouseX, mouseY);
 }
 
 void mousePressed() 
