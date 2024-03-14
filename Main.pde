@@ -46,11 +46,11 @@ void draw()
   }
   else if(count == cancelledScreen)
   {
-    
+    background(0);
   }
   else if(count == divertedScreen)
   {
-    
+    background(0);
   }
 }
 
