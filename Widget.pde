@@ -28,6 +28,18 @@ class Widget
     textSize(50);
   }
   
+  void display1() 
+  {
+    strokeWeight(5);
+    stroke(borderColor);
+    fill(widgetColor);
+    rect(x, y, width, height, 15, 15, 0, 0);
+    fill(labelColor);
+    textAlign(CENTER, CENTER);
+    text(label, x + width / 2, y + height / 2);
+    textSize(50);
+  }
+  
   boolean checkBorder(float mx, float my)
   {
     if (mx > x && mx < x + width && my > y && my < y + height)
@@ -46,7 +58,7 @@ class Widget
   boolean checkMouse(float mx, float my) {
     if (mx > x && mx < x + width && my > y && my < y + height) 
     {
-      //
+      count = screenNumber;
       return true;
     }
     return false;
