@@ -36,4 +36,4 @@ class Data
    //    // ARRIVAL DATA
    //  }
    //}
-   
+}
