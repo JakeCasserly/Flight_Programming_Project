@@ -22,10 +22,4 @@ class HeatMap {
   }
   
 }
-
-//theUSImage = loadShape("theUS.svg");
-  //theHeatMap = new HeatMap(70, 200, theUSImage);
   
-//HeatMap theHeatMap;
-//PShape theUSImage;   
-// theHeatMap.draw();

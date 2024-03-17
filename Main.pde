@@ -8,11 +8,15 @@ final int flightScreen = 1;
 final int cancelledScreen = 2;
 final int divertedScreen = 3;
 int count = 0;
+HeatMap theHeatMap;
+PShape theUSImage;
 
 void setup() 
 {
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
+  theUSImage = loadShape("theUS.svg");
+  theHeatMap = new HeatMap(70, 200, theUSImage);
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), 1);
@@ -43,6 +47,7 @@ void draw()
   {
     background(0);
     widgetList1.display();
+    theHeatMap.draw();
   }
   else if(count == cancelledScreen)
   {
