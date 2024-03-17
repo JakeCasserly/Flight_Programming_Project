@@ -62,3 +62,21 @@ void draw()
     background(0);
   }
 }
+
+void mouseMoved()
+{
+  widgetList.checkButtonsBorder(mouseX, mouseY);
+  widgetList1.checkButtonsBorder(mouseX, mouseY);
+}
+
+void mousePressed() 
+{
+  if (count == homeScreen) 
+  {
+    widgetList.checkButtons(mouseX, mouseY);
+  } 
+  else if (count == flightScreen) 
+  {
+    widgetList1.checkButtons(mouseX, mouseY);
+  }
+}
