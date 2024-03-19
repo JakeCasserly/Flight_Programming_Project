@@ -24,7 +24,7 @@ class HeatMap {
     this.xpos = xpos;
     this.ypos = ypos;
     this.img = img;
-    table = loadTable("flights2k.csv", "header");
+    table = loadTable("flights_full.csv", "header");
     readInData = false;
     michigan = img.getChild("MI");
     ohio = img.getChild("OH");
@@ -68,14 +68,14 @@ class HeatMap {
       state = allStates[i];
       stateShape = img.getChild(state);
       stateShape.disableStyle();
-      if ((amountInStates.get(i)/(entries/(entries/0.7))) >= 255) {
+      if ((((double)amountInStates.get(i)/(entries)) * 2550) >= 255) {
         fill(255, 20, 50);
       }
       else {
-        fill((amountInStates.get(i)/(entries/(entries/0.7))), 20, 50);
+        fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 20, 50);
       }
       shape(stateShape, 200, 264);
-      println((amountInStates.get(i)/(entries/(entries/0.7))));
+      println((((double)amountInStates.get(i)/(entries)) * 2550));
     }
   }
 }
