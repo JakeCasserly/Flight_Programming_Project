@@ -9,21 +9,20 @@ class HeatMap {
   int amountInState;
   boolean readInData;
   
+  PShape michigan;
+  PShape ohio;
+  
   HeatMap(int xpos, int ypos, PShape img) {
     this.xpos = xpos;
     this.ypos = ypos;
     this.img = img;
     table = loadTable("flights2k.csv", "header");
     readInData = false;
+    michigan = img.getChild("MI");
+    ohio = img.getChild("OH");
   }
   
   void draw() {
-    img.enableStyle();
-    noStroke();
-    fill(255);
-    rect(70,210,1380,720);
-    img.setFill(color(20, 50, 123));
-    shape(img, 200, 264);
     
     if (!readInData) {
       for(TableRow row:table.rows()) {
@@ -36,7 +35,29 @@ class HeatMap {
       }
       readInData = true;
       println(amountInState);
+      
     }
+    
+    img.enableStyle();
+    noStroke();
+    fill(255);
+    rect(70,210,1380,720);
+    shape(img, 200, 264);
+    
+    michigan.disableStyle();
+    
+    fill(200, 20, 50);
+    shape(michigan, 200, 264);
+    
+    ohio.disableStyle();
+    
+    fill(amountInState, 20, 50);
+    shape(ohio, 200, 264);
+    
+    
+    
+    
+    
   }
 }
   
