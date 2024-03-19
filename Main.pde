@@ -54,6 +54,7 @@ void draw()
     textSize(25);
     widgetList1.display();
     theHeatMap.draw();
+    theHeatMap.drawStates();
   }
   else if(count == divertedScreen)
   {
