@@ -37,7 +37,7 @@ class Widget
     fill(labelColor);
     textAlign(CENTER, CENTER);
     text(label, x + width / 2, y + height / 2);
-    textSize(50);
+    textSize(25);
   }
   
   boolean checkBorder(float mx, float my)
