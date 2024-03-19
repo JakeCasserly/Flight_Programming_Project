@@ -55,7 +55,7 @@ class HeatMap {
     
     img.enableStyle();
     noStroke();
-    fill(255);
+    fill(255, 255, 0);
     rect(70,210,1380,720);
     shape(img, 200, 264);
     
