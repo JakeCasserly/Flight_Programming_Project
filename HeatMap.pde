@@ -56,7 +56,7 @@ class HeatMap {
     img.enableStyle();
     noStroke();
     fill(255, 255, 0);
-    rect(70,210,1380,720);
+    rect(0,180,1512,900);
     shape(img, 200, 264);
     
   }
@@ -75,7 +75,7 @@ class HeatMap {
         fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 20, 50);
       }
       shape(stateShape, 200, 264);
-      println((((double)amountInStates.get(i)/(entries)) * 2550));
+      //println((((double)amountInStates.get(i)/(entries)) * 2550)); for testing
     }
   }
 }
