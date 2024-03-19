@@ -7,10 +7,18 @@ class HeatMap {
   PShape img;
   Table table;
   int amountInState;
+  int amountInThisState;
   boolean readInData;
-  
+  ArrayList<Integer> amountInStates;
+  int entries;
   PShape michigan;
   PShape ohio;
+  PShape stateShape;
+  
+  String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
+      "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
+      "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
+      "WV","WI","WY"};
   
   HeatMap(int xpos, int ypos, PShape img) {
     this.xpos = xpos;
@@ -20,23 +28,30 @@ class HeatMap {
     readInData = false;
     michigan = img.getChild("MI");
     ohio = img.getChild("OH");
+    amountInStates = new ArrayList<>();
+    entries = table.getRowCount();
   }
   
   void draw() {
     
     if (!readInData) {
-      for(TableRow row:table.rows()) {
-        String state = row.getString("ORIGIN_STATE_ABR");
-        if (state.equals("TX")) {
-          //println("departed from "+origin);
-          println(state + " ");
-          amountInState++;
+      for (int i = 0; i < allStates.length; i++) {
+        for(TableRow row:table.rows()) {
+          String state = row.getString("ORIGIN_STATE_ABR");
+          if (state.equals(allStates[i])) {
+            //println("departed from "+origin);
+            println(state + " ");
+            amountInThisState++;
+          }
         }
+        amountInStates.add(amountInThisState);
+        println(amountInStates.get(i));
+        amountInThisState = 0;
       }
       readInData = true;
-      println(amountInState);
-      
     }
+    
+    
     
     img.enableStyle();
     noStroke();
@@ -44,20 +59,23 @@ class HeatMap {
     rect(70,210,1380,720);
     shape(img, 200, 264);
     
-    michigan.disableStyle();
+  }
+  
+  void drawStates() {
+    String state;
     
-    fill(200, 20, 50);
-    shape(michigan, 200, 264);
-    
-    ohio.disableStyle();
-    
-    fill(amountInState, 20, 50);
-    shape(ohio, 200, 264);
-    
-    
-    
-    
-    
+    for (int i = 0; i < allStates.length; i++) {
+      state = allStates[i];
+      stateShape = img.getChild(state);
+      stateShape.disableStyle();
+      if ((amountInStates.get(i)/(entries/(entries/0.7))) >= 255) {
+        fill(255, 20, 50);
+      }
+      else {
+        fill((amountInStates.get(i)/(entries/(entries/0.7))), 20, 50);
+      }
+      shape(stateShape, 200, 264);
+      println((amountInStates.get(i)/(entries/(entries/0.7))));
+    }
   }
 }
-  
