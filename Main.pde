@@ -1,12 +1,13 @@
 WidgetList widgetList;
 WidgetList widgetList1;
 WidgetList widgetList2;
+WidgetList widgetList3;
 PImage globe;
 PImage planeSymbol;
 final int homeScreen = 0;
 final int flightScreen = 1;
-final int cancelledScreen = 2;
-final int divertedScreen = 3;
+final int divertedScreen = 2;
+final int cancelledScreen = 3;
 int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
@@ -19,17 +20,19 @@ void setup()
   theHeatMap = new HeatMap(70, 200, theUSImage);
   size(1512, 982);
   widgetList = new WidgetList();
-  widgetList.addButton("Flights", color(255, 255, 0), 1);
-  widgetList.addButton("Diverted Flights", color(255, 255, 0), 2);
-  widgetList.addButton("Cancelled Flights", color(255, 255, 0), 3);
+  widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
+  widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
+  widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
-  widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), 0);
+  widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 1);
   widgetList2 = new WidgetList();
-  widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), 0);
+  widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
+  widgetList3 = new WidgetList();
+  widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
 }
 
 void draw() 
@@ -52,14 +55,15 @@ void draw()
     widgetList1.display();
     theHeatMap.draw();
   }
-  else if(count == cancelledScreen)
+  else if(count == divertedScreen)
   {
     background(0);
     widgetList2.display();
   }
-  else if(count == divertedScreen)
+  else if(count == cancelledScreen)
   {
     background(0);
+    widgetList3.display();
   }
 }
 
@@ -67,16 +71,14 @@ void mouseMoved()
 {
   widgetList.checkButtonsBorder(mouseX, mouseY);
   widgetList1.checkButtonsBorder(mouseX, mouseY);
+  widgetList2.checkButtonsBorder(mouseX, mouseY);
+  widgetList3.checkButtonsBorder(mouseX, mouseY);
 }
 
 void mousePressed() 
 {
-  if (count == homeScreen) 
-  {
-    widgetList.checkButtons(mouseX, mouseY);
-  } 
-  else if (count == flightScreen) 
-  {
-    widgetList1.checkButtons(mouseX, mouseY);
-  }
+  widgetList.checkButtons(mouseX, mouseY);
+  widgetList1.checkButtons(mouseX, mouseY);
+  widgetList2.checkButtons(mouseX, mouseY);
+  widgetList3.checkButtons(mouseX, mouseY);
 }

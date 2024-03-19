@@ -19,7 +19,7 @@ class WidgetList
   void addFlightScreenButton(String label, color widgetColor, int screen) 
   {
     float x = (flightScreenButtons.size() * 305);
-    Widget button = new Widget(x, 100, 290, 100, label, widgetColor, screen);
+    Widget button = new Widget(x, 50, 290, 35, label, widgetColor, screen);
     flightScreenButtons.add(button);
   }
   
