@@ -1,4 +1,4 @@
-class Widget 
+class Widget
 {
   float x, y, width, height;
   String label;

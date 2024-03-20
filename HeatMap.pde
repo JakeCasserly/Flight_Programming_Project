@@ -1,5 +1,5 @@
 // HeatMap
-// Jake Casserly's code for Heat map using an svg file
+// Jake Casserly's code for Heat map 15/03/2024
 
 class HeatMap {
   int xpos;
