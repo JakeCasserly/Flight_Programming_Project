@@ -4,16 +4,18 @@
 class HeatMap {
   int xpos;
   int ypos;
+  float currentxpos;
+  float currentypos;
   PShape img;
   Table table;
   int amountInState;
   int amountInThisState;
   boolean readInData;
+  boolean animated;
   ArrayList<Integer> amountInStates;
   int entries;
-  PShape michigan;
-  PShape ohio;
   PShape stateShape;
+  float t;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -23,13 +25,15 @@ class HeatMap {
   HeatMap(int xpos, int ypos, PShape img) {
     this.xpos = xpos;
     this.ypos = ypos;
+    currentxpos = 200;
+    currentypos = 900;
     this.img = img;
     table = loadTable("flights_full.csv", "header");
     readInData = false;
-    michigan = img.getChild("MI");
-    ohio = img.getChild("OH");
+    animated = false;
     amountInStates = new ArrayList<>();
     entries = table.getRowCount();
+    t = 0;
   }
   
   void draw() {
@@ -40,7 +44,7 @@ class HeatMap {
           String state = row.getString("ORIGIN_STATE_ABR");
           if (state.equals(allStates[i])) {
             //println("departed from "+origin);
-            println(state + " ");
+            //println(state + " ");
             amountInThisState++;
           }
         }
@@ -51,12 +55,14 @@ class HeatMap {
       readInData = true;
     }
     
-    
+    if (!animated) {
+      animate();
+    }
     
     img.enableStyle();
     noStroke();
     fill(255, 255, 0);
-    rect(70,210,1380,720);
+    rect(0,180,1512,900);
     shape(img, 200, 264);
     
   }
@@ -72,10 +78,26 @@ class HeatMap {
         fill(255, 20, 50);
       }
       else {
-        fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 20, 50);
+        fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 10, 27);
       }
       shape(stateShape, 200, 264);
-      println((((double)amountInStates.get(i)/(entries)) * 2550));
+      //println((((double)amountInStates.get(i)/(entries)) * 2550)); for testing
+      shape(stateShape, currentxpos, currentypos);
+      //println((((double)amountInStates.get(i)/(entries)) * 2550));
+    }
+  }
+  
+  void animate () {
+    if (currentypos < ypos) {
+      animated = true;
+      currentypos = ypos;
+      currentxpos = xpos;
+    }
+    else {
+      currentxpos = (200 + 80 * sin(t) );
+      t += 0.2382;
+      currentypos -= 9.5;
+      print(currentypos);
     }
   }
 }

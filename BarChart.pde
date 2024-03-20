@@ -9,4 +9,8 @@ class barChart {
     this.x = x;
     this.y = y;
   }
+  
+  void draw() {
+    
+  }
 }

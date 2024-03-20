@@ -17,7 +17,7 @@ void setup()
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
-  theHeatMap = new HeatMap(70, 200, theUSImage);
+  theHeatMap = new HeatMap(200, 264, theUSImage);
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
