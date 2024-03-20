@@ -10,6 +10,7 @@ final int divertedScreen = 2;
 final int cancelledScreen = 3;
 int count = 0;
 HeatMap theHeatMap;
+boolean heatMapScreen;
 PShape theUSImage;
 
 void setup() 
@@ -18,6 +19,7 @@ void setup()
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage);
+  heatMapScreen = true;
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
@@ -33,6 +35,8 @@ void setup()
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
+  //widgetList4 = new WidgetList();
+  //widgetList4.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
 }
 
 void draw() 
@@ -53,8 +57,10 @@ void draw()
     background(0);
     textSize(25);
     widgetList1.display();
-    theHeatMap.draw();
-    theHeatMap.drawStates();
+    if (heatMapScreen) {
+      theHeatMap.draw();
+      theHeatMap.drawStates();
+    }
   }
   else if(count == divertedScreen)
   {
