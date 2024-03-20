@@ -12,6 +12,7 @@ int count = 0;
 HeatMap theHeatMap;
 boolean heatMapScreen;
 PShape theUSImage;
+searchBar theSearchBar;
 
 void setup() 
 {
@@ -35,6 +36,7 @@ void setup()
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
+  theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), 1, "null");
   //widgetList4 = new WidgetList();
   //widgetList4.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
 }
@@ -60,6 +62,10 @@ void draw()
     if (heatMapScreen) {
       theHeatMap.draw();
       theHeatMap.drawStates();
+      theSearchBar.display();
+    }
+    else {
+      // nothing forever
     }
   }
   else if(count == divertedScreen)
@@ -80,6 +86,7 @@ void mouseMoved()
   widgetList1.checkButtonsBorder(mouseX, mouseY);
   widgetList2.checkButtonsBorder(mouseX, mouseY);
   widgetList3.checkButtonsBorder(mouseX, mouseY);
+  
 }
 
 void mousePressed() 
