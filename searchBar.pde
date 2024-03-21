@@ -10,4 +10,10 @@ class searchBar extends Widget {
     
     this.result = result;
   }
+  
+  void adjustText(searchBar theSearchBar) {
+    if (theSearchBar.checkBorder(mouseX, mouseY)) {
+      theSearchBar.label = "";
+    }
+  }
 }

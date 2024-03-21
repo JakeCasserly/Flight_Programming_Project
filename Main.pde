@@ -8,9 +8,11 @@ final int homeScreen = 0;
 final int flightScreen = 1;
 final int divertedScreen = 2;
 final int cancelledScreen = 3;
+final int heatMapScreen = 4;
 int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
+searchBar theSearchBar;
 
 void setup() 
 {
@@ -28,11 +30,12 @@ void setup()
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
-  widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 1);
+  widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
   widgetList2 = new WidgetList();
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
+  theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), 1, "null");
 }
 
 void draw() 
@@ -53,8 +56,15 @@ void draw()
     background(0);
     textSize(25);
     widgetList1.display();
+  }
+  else if (count == heatMapScreen) 
+  {
+    background(0);
+    textSize(25);
+    widgetList1.display();
     theHeatMap.draw();
     theHeatMap.drawStates();
+    theSearchBar.display();
   }
   else if(count == divertedScreen)
   {
@@ -74,6 +84,7 @@ void mouseMoved()
   widgetList1.checkButtonsBorder(mouseX, mouseY);
   widgetList2.checkButtonsBorder(mouseX, mouseY);
   widgetList3.checkButtonsBorder(mouseX, mouseY);
+  
 }
 
 void mousePressed() 
