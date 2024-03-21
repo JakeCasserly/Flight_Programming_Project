@@ -8,9 +8,9 @@ final int homeScreen = 0;
 final int flightScreen = 1;
 final int divertedScreen = 2;
 final int cancelledScreen = 3;
+final int heatMapScreen = 4;
 int count = 0;
 HeatMap theHeatMap;
-boolean heatMapScreen;
 PShape theUSImage;
 searchBar theSearchBar;
 
@@ -20,7 +20,6 @@ void setup()
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage);
-  heatMapScreen = true;
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
@@ -31,14 +30,12 @@ void setup()
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
-  widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 1);
+  widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
   widgetList2 = new WidgetList();
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), 1, "null");
-  //widgetList4 = new WidgetList();
-  //widgetList4.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
 }
 
 void draw() 
@@ -59,14 +56,15 @@ void draw()
     background(0);
     textSize(25);
     widgetList1.display();
-    if (heatMapScreen) {
-      theHeatMap.draw();
-      theHeatMap.drawStates();
-      theSearchBar.display();
-    }
-    else {
-      // nothing forever
-    }
+  }
+  else if (count == heatMapScreen) 
+  {
+    background(0);
+    textSize(25);
+    widgetList1.display();
+    theHeatMap.draw();
+    theHeatMap.drawStates();
+    theSearchBar.display();
   }
   else if(count == divertedScreen)
   {
