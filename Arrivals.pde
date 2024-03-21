@@ -1,20 +1,16 @@
 // arrivals
 class Arrival {  
-  int oriWac, destWac; 
-  String time, crs, origin, oriCity, oriState, dest, destCity, destState;
+  int wac; 
+  String time, crs, city, state, dest;
   
   Arrival(Data data,int row)
   {
-    time = timeFormat(data.getEntry(row).getInt("DEP_TIME"));
-    crs = timeFormat(data.getEntry(row).getInt("CRS_DEP_TIME"));
-    origin = data.getEntry(row).getString("ORIGIN");
-    oriCity = data.getEntry(row).getString("ORIGIN_CITY_NAME");
-    oriState = data.getEntry(row).getString("ORIGIN_STATE_ABR");
-    oriWac = data.getEntry(row).getInt("ORIGIN_WAC");
+    time = timeFormat(data.getEntry(row).getInt("ARR_TIME"));
+    crs = timeFormat(data.getEntry(row).getInt("CRS_ARR_TIME"));
     dest = data.getEntry(row).getString("DEST");
-    destCity = data.getEntry(row).getString("DEST_CITY_NAME");
-    destState = data.getEntry(row).getString("DEST_STATE_ABR");
-    destWac = data.getEntry(row).getInt("DEST_WAC");
+    city = data.getEntry(row).getString("DEST_CITY_NAME");
+    state = data.getEntry(row).getString("DEST_STATE_ABR");
+    wac = data.getEntry(row).getInt("DEST_WAC");
   }
 
   String timeFormat(int time)

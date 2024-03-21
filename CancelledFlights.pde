@@ -22,6 +22,7 @@ void draw()
       if(flights2k.cancelled == true) cancelNum++;
       if(flights2k.depData.origin.equals("JFK")) jfkFlights++;
       if(flights2k.arrData.dest.equals("JFK")) jfkArrivals++;
+      if(flights2k.
     }
     println("There are "+cancelNum+" cancelled flights");
     println("There are "+jfkFlights+" flights departing from JFK airport");
