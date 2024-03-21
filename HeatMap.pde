@@ -16,6 +16,7 @@ class HeatMap {
   int entries;
   PShape stateShape;
   float t;
+  int largest;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -34,6 +35,7 @@ class HeatMap {
     amountInStates = new ArrayList<>();
     entries = table.getRowCount();
     t = 0;
+    largest = 0;
   }
   
   void draw() {
@@ -53,6 +55,11 @@ class HeatMap {
         amountInThisState = 0;
       }
       readInData = true;
+      for (int i = 0; i < amountInStates.size(); i++) {
+        if (amountInStates.get(i) > largest) {
+          largest = amountInStates.get(i);
+        }
+      }
     }
     
     if (!animated) {
@@ -70,6 +77,10 @@ class HeatMap {
     line(1260, 280, 1260, 800);
     line(1260, 280, 1283, 280);
     line(1260, 800, 1283, 800);
+    fill(0);
+    text(largest, 1325, 277);
+    text("0", 1310, 790);
+    textSize(25);
     
     setGradient(1263, 283, 12, 514, color(255,20,50), color(0,20,50), 1);
     
