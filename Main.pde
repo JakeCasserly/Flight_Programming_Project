@@ -35,7 +35,7 @@ void setup()
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
-  theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), 1, "null", false);
+  theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   //widgetList4 = new WidgetList();
   //widgetList4.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
 }
@@ -95,7 +95,4 @@ void mousePressed()
   widgetList2.checkButtons(mouseX, mouseY);
   widgetList3.checkButtons(mouseX, mouseY);
   theSearchBar.result();
-}
-void keyPressed() {
-  theSearchBar.adjustText(theSearchBar);
 }

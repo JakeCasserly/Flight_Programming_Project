@@ -1,20 +1,41 @@
 // Jake Casserly's code for searchBar 20/03/2024
 
-class searchBar extends Widget {
+class searchBar {
+  
+  float x, y, width, height;
+  String label;
+  color widgetColor, labelColor, borderColor;
   
   private String result;
   private boolean blank;
   
-  public searchBar(float x, float y, float width, float height, String label, color widgetColor, int screenNumber, String result, boolean blank) 
+  public searchBar(float x, float y, float width, float height, String label, color widgetColor, String result, boolean blank) 
   {
-    super(x, y, width, height, label, widgetColor, screenNumber);
-    
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.label = label;
+    this.widgetColor = widgetColor;
+    labelColor = color(0);
     this.result = result;
     this.blank = blank;
   }
   
+  void display() 
+  {
+    strokeWeight(5);
+    stroke(borderColor);
+    fill(widgetColor);
+    rect(x, y, width, height, 15);
+    fill(labelColor);
+    textAlign(CENTER, CENTER);
+    text(label, x + width / 2, y + height / 2);
+    textSize(50);
+  }
+  
   void adjustText(searchBar theSearchBar) {
-    if (theSearchBar.checkMouse(mouseX, mouseY) && blank == false) {
+    if (theSearchBar.checkMouseSearchBar(mouseX, mouseY) && blank == false) {
       theSearchBar.label = "";
       blank = true;
     }
@@ -22,6 +43,14 @@ class searchBar extends Widget {
         label += key;
         //print(key);
     }
+  }
+  
+  boolean checkMouseSearchBar(float mx, float my) {
+    if (mx > x && mx < x + width && my > y && my < y + height) 
+    {
+      return true;
+    }
+    return false;
   }
   
   void result() {
@@ -54,7 +83,7 @@ class searchBar extends Widget {
           for(TableRow row:table.rows()) {
             String flightnum = row.getString("MKT_CARRIER_FL_NUM");
             if (flightnum == (String)result.substring(2)) {
-              print(row.getString("ORIGIN_STATE_ABR"));
+              //print(row.getString("ORIGIN_STATE_ABR"));
             }
             //println(flightnum + " " + (String)result.substring(2));
           }
@@ -63,5 +92,7 @@ class searchBar extends Widget {
         }
       }
   }
-  
-}
+  void keyPressed() {
+      theSearchBar.adjustText(theSearchBar);
+   }
+ }
