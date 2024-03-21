@@ -2,11 +2,13 @@ class WidgetList
 {
   ArrayList<Widget> buttons;
   ArrayList<Widget> flightScreenButtons;
+  ArrayList<Widget> heatMapStates;
   
   WidgetList() 
   {
     buttons = new ArrayList<Widget>();
     flightScreenButtons = new ArrayList<Widget>();
+    heatMapStates = new ArrayList<Widget>();
   }
   
   void addButton(String label, color widgetColor, int screen) 
@@ -21,6 +23,13 @@ class WidgetList
     float x = (flightScreenButtons.size() * 305);
     Widget button = new Widget(x, 50, 290, 35, label, widgetColor, screen);
     flightScreenButtons.add(button);
+  }
+  
+  void addState(String label, color widgetColor, int screen, float xpos, float ypos) 
+  {
+    //float x = (buttons.size() * 500) + 60;
+    Widget button = new Widget(xpos, ypos, 400, 100, label, widgetColor, screen);
+    buttons.add(button);
   }
   
   void display() 
