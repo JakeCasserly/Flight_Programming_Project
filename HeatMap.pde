@@ -89,7 +89,7 @@ class HeatMap {
   void drawStates() {
     String state;
     
-    strokeWeight(0.8);
+    strokeWeight(0.5);
     stroke(255);
     
     for (int i = 0; i < allStates.length; i++) {
