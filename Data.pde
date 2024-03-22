@@ -3,6 +3,7 @@ class Data
 {
    Table data;
    TableRow entry;
+   // variables of each flight entry
    Departure depData;
    Arrivals arrData;
    String date, code;
@@ -21,6 +22,7 @@ class Data
        //}
    }
    
+   // return full table of data
    Table getData()
    {
      return data;
