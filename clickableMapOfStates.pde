@@ -1,12 +1,15 @@
-class clickableMap {
-  ArrayList<Button> stateButtons;
-  PImage mapImage;
-  String selectedState = "";
-  boolean showCancelledFlights = false;
-  boolean showStateDetails = false;
-  boolean displayHistogram = false;
-  HashMap<String, ArrayList<Flight>> flightsByState = new HashMap<String, ArrayList<Flight>>();
-  String[] states = {"WA", "ID", "MT", "ND", "MN", "IL", "MI", "NY", "VT", "NH", "ME",
+import processing.core.PApplet;
+import processing.core.PImage;
+import processing.data.Table;
+import processing.data.TableRow;
+import java.util.ArrayList;
+import java.util.HashMap;
+
+    ArrayList<Button> stateButtons;
+    String selectedState = "";
+    PImage mapImage;
+    HashMap<String, HashMap<String, Integer>> stateAirports = new HashMap<>();
+    String[] states = {"WA", "ID", "MT", "ND", "MN", "IL", "MI", "NY", "VT", "NH", "ME",
     "OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "RI", "MA",
     "CA", "UT", "CO", "NE", "MO", "KY", "WV", "VA", "MD", "DE",
     "AZ", "NM", "KS", "AR", "TN", "NC", "SC", "WI",
@@ -19,96 +22,116 @@ class clickableMap {
     {701, 392}, {857, 417}, {1232, 436}, {1017, 402}, {1242, 402}, {1246, 364}, {252, 482}, {393, 497}, {560, 389},
     {692, 488}, {850, 465}, {1002, 455}, {987, 497}, {751, 202}, {593, 476}, {737, 626}, {770, 556}, {840, 528},
     {945, 547}, {1006, 691}, {549, 594}, {145, 663}, {364, 750}};
-  
-  BackButton backButton;
+    BackButton backButton;
 
-  FlightManager() {
-    stateButtons = new ArrayList<Button>();
-    mapImage = loadImage("Map_of_USA_showing_state_names.png");
-   
-    for (int i = 0; i < states.length; i++) {
-      float x = buttonPositions[i][0];
-      float y = buttonPositions[i][1];
-      
-      stateButtons.add(new Button(states[i], x, y, 80, 40, false));
+    public void settings() {
+        size(1310, 796);
     }
 
-    backButton = new BackButton("Back", 50, height - 60, 150, 60, true, color(200), color(255));
-  }
+    public void setup() {
+        mapImage = loadImage("Map_of_USA_showing_state_names.png");
+        loadAndParseData("flights2k(1).csv");
+        initializeButtons();
+        backButton = new BackButton("Back", 50, height - 60, 150, 60, true);
+    }
 
+    public void draw() {
+        background(255);
+        image(mapImage, 0, 0, width, height);
+        for (Button button : stateButtons) {
+            button.display();
+        }
 
-void display() {
-  textSize(12);
-  background(255);
-  boolean isCursorOverButton = false;
-  displayHistogram = false;
-  if (!showStateDetails) {
-    image(mapImage, 0, 0, width, height); 
-    for (Button button : stateButtons) {
-      button.display(); 
-      if (button.isOver(mouseX, mouseY)) {
-        isCursorOverButton = true; 
+        backButton.display();
+        if (!selectedState.isEmpty()) {
+            drawHistogram(selectedState);
+        }
+    }
+
+    public void mousePressed() {
+        for (Button button : stateButtons) {
+            if (button.isOver(mouseX, mouseY)) {
+                selectedState = button.label;
+                return;
+            }
+        }
+        if (backButton.isOver(mouseX, mouseY)) {
+            selectedState = ""; // Reset selected state if back button is pressed
+        }
+    }
+
+    void loadAndParseData(String fileName) {
+        Table table = loadTable(fileName, "header");
+        for (TableRow row : table.rows()) {
+            String state = row.getString("ORIGIN_STATE_ABR");
+            String airport = row.getString("ORIGIN");
+            stateAirports.computeIfAbsent(state, k -> new HashMap<>()).merge(airport, 1, Integer::sum);
+        }
+    }int findMaxFlights(HashMap<String, Integer> airports) {
+    int maxFlights = 0;
+    for (Integer flights : airports.values()) {
+      if (flights > maxFlights) {
+        maxFlights = flights;
       }
     }
-  } else {
-    if (displayHistogram) {
-      
-      background(240);
-      textSize(24);
-      text("Flights from " + selectedState, 100, 50); // Title for histogram
-
-      
-    } else {
-     
-      textSize(32); // Larger text for detailed view
-      text("Details for " + selectedState, 100, 100);
-    }
-
-
-    backButton.display();
-    if (backButton.isOver(mouseX, mouseY)) {
-      isCursorOverButton = true;
-    }
+    return maxFlights;
   }
 
+    void drawHistogram(String state) {
+        if (!stateAirports.containsKey(state)) {
+            println("State not found or no data for state: " + state);
+            return;
+        }
+        
 
-  if (isCursorOverButton) {
-    cursor(HAND); 
-  } else {
-    cursor(ARROW); 
-  }
-}
+        HashMap<String, Integer> airports = stateAirports.get(state);
+        if (airports.isEmpty()) return;
 
+        float margin = 50;
+        float spacing = 10;
+        float barWidth = (width - 2 * margin - (airports.size() - 1) * spacing) / airports.size();
+        float maxFlights = findMaxFlights(airports);
 
-void drawStateDetailsScreen() {
-  background(240);
-  if (displayHistogram) {
-    textSize(24);
-    text("Flights from " + selectedState, 100, 50); // Title for histogram
-  } else {
-    // Display other state details if not showing histogram
-    textSize(32);
-    text("Details for " + selectedState, 100, 100);
-  }
-  backButton.display();
-}
+        textSize(20);
+        textAlign(CENTER, BOTTOM);
+        text("State: " + state, width / 2, margin / 2);
 
+        int i = 0;
+        for (String airport : airports.keySet()) {
+            float x = margin + i * (barWidth + spacing);
+            float flights = airports.get(airport);
+            float barHeight = map(flights, 0, maxFlights, 0, height - 2 * margin);
 
+            fill(100, 100, 250);
+            noStroke();
+            rect(x, height - margin - barHeight, barWidth, barHeight);
 
-void mousePressed() {
-  if (showStateDetails) {
-    if (backButton.isOver(mouseX, mouseY)) {
-      showStateDetails = false; 
-      displayHistogram = false;
+            pushMatrix();
+            translate(x + barWidth / 2, height - margin + 5);
+            rotate(PI / 4);
+            fill(0);
+            textAlign(LEFT, CENTER);
+            text(airport, 0, 0);
+            popMatrix();
+
+            i++;
+        }
+
+        fill(0);
+        textSize(12);
+        textAlign(CENTER, BOTTOM);
+        text("Airports", width / 2, height - 10);
+        textAlign(RIGHT, CENTER);
+        text("Number of Flights", margin / 4, height / 2);
     }
-  } else {
-    for (Button button : stateButtons) {
-      if (button.isOver(mouseX, mouseY)) {
-        selectedState = button.label;
-        showStateDetails = true;
-        displayHistogram = true; 
-        break;
-      }
+    void initializeButtons() {
+        // Initialize your buttons based on the `states` and `buttonPositions`
+        stateButtons = new ArrayList<Button>();
+        for (int i = 0; i < states.length; i++) {
+            float x = buttonPositions[i][0];
+            float y = buttonPositions[i][1];
+            stateButtons.add(new Button(states[i], x, y, 80, 40, false));
+        }
     }
-  }
-}
+
+    // Inner classes for Button and BackButton (including any logic for displaying and checking if they are clicked

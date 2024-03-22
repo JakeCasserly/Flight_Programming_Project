@@ -7,15 +7,14 @@ class BackButton {
     boolean labelVisible; 
 
    
-    BackButton(String label, float x, float y, float width, float height, boolean labelVisible, color baseColor, color hoverColor) {
+    BackButton(String label, float x, float y, float width, float height, boolean labelVisible) {
         this.label = label;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.labelVisible = labelVisible;
-        this.baseColor = baseColor;
-        this.hoverColor = hoverColor;
+      
     }
 
     
@@ -26,9 +25,9 @@ class BackButton {
     
     void display() {
         if (isOver(mouseX, mouseY)) {
-            fill(hoverColor);
+            fill(0, 0, 0, 127);
         } else {
-            fill(baseColor);
+            noFill();
         }
         rect(x, y, width, height, 7); 
 
