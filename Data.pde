@@ -4,7 +4,7 @@ class Data
    Table data;
    TableRow entry;
    Departure depData;
-   Arrival arrData;
+   Arrivals arrData;
    String date, code;
    boolean cancelled, diverted;
    int distance;
@@ -14,6 +14,10 @@ class Data
    {
        data = loadTable(database,"header");
        length = data.getRowCount();
+       //for (TableRow row:data.getRows())
+       //{
+       //  setData(row);
+       //}
    }
    
    Table getData()
@@ -27,7 +31,7 @@ class Data
      date = split(entry.getString("FL_DATE")," ")[0];
      code = entry.getString("MKT_CARRIER") + entry.getString("MKT_CARRIER_FL_NUM");
      depData = new Departure(this,row);
-     arrData = new Arrival(this,row);
+     arrData = new Arrivals(this,row);
      cancelled = entry.getInt("CANCELLED")==1 ? true : false;
      diverted = entry.getInt("DIVERTED")==1 ? true : false;
      distance = entry.getInt("DISTANCE");
