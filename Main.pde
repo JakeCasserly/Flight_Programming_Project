@@ -13,6 +13,7 @@ int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
 searchBar theSearchBar;
+barChart theBarChart;
 
 void setup() 
 {
@@ -20,6 +21,7 @@ void setup()
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage);
+  theBarChart = new barChart(0, 0, 40, 40);
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
@@ -67,6 +69,7 @@ void draw()
     theHeatMap.draw();
     theHeatMap.drawStates();
     theSearchBar.display();
+    theBarChart.draw();
   }
   else if(count == divertedScreen)
   {
