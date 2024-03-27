@@ -30,7 +30,7 @@ class barChart {
     this.y = y;
     this.width = width;
     this.height = height;
-    xAxis = "time";
+    xAxis = "state";
     paramatersSame = false;
     currentData = new Data("flights_full.csv"); // *********
     amountInStates = new ArrayList<>();
@@ -80,6 +80,8 @@ class barChart {
         strokeWeight(4);
         line(x, y+750-(i*25), x-8, y+750-(i*25));
       }
+      text(Integer.toString((int)((amountInStates.get(10)/count)*2000)), x-40, y+(750-(amountInStates.get(10)/count)*2000));
+      line(x, y+(750-(amountInStates.get(10)/count)*2000), x-6, y+(750-(amountInStates.get(10)/count)*2000));
     }
     else if (xAxis == "time") {
       for (int i = 0; i < dates.length; i++) {
