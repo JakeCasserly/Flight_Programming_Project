@@ -1,6 +1,5 @@
 // barChart
 // Jake Casserly's code for Bar Chart 20/03/2024
-
 class barChart {
   int x;
   int y;
@@ -12,6 +11,7 @@ class barChart {
   ArrayList<Integer> amountInStates;
   String state;
   String flightCarrier;
+  String prevFlightCarrier;
   int number;
   float count;
   boolean departures;
@@ -21,7 +21,6 @@ class barChart {
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
       
-  
   
   barChart (int x, int y, double height, double width) {
     this.x = x;
@@ -35,13 +34,17 @@ class barChart {
       amountInStates.add(0);
     }
     departures = true;
+    flightCarrier = "B6";
+    prevFlightCarrier = "B6";
   }
   
   void draw() {
+    
     if (!paramatersSame) {
       readData();
       paramatersSame = true;
     }
+    
     fill(255);
     strokeWeight(7);
     line(x, y, x, y+750);
@@ -61,6 +64,16 @@ class barChart {
     }
     // }
     
+    //if (!theBarChart.paramatersSame) { // for main
+    //  theBarChart.readData();
+    //  theBarChart.paramatersSame = true;
+    //}
+    
+    //if (theSearchBar.result != flightCarrier) {
+    //  flightCarrier = theSearchBar.result;
+    //  paramatersSame = false;
+    //}
+    
   }
   
   void readData() {
@@ -68,7 +81,7 @@ class barChart {
     
     for (int i = 0; i < currentData.length; i++) {
       currentData.setData(i);
-      if (currentData.code.contains("B6")) {
+      if (currentData.code.contains(flightCarrier)) {
         for (int z = 0; z < allStates.length; z++) {
           if (departures) {
             state = currentData.depData.state;
