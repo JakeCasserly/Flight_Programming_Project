@@ -67,7 +67,7 @@ void draw()
     textSize(25);
     widgetList1.display();
     theHeatMap.draw();
-    theHeatMap.drawStates();
+    //theHeatMap.drawStates();
     theSearchBar.display();
     theBarChart.draw();
   }
