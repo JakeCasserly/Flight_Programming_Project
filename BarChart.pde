@@ -74,6 +74,12 @@ class barChart {
         fill(17, 17, 200);
         rect(x+(i*20), y+(750-(amountInStates.get(i)/count)*2000), 20, (amountInStates.get(i)/count)*2000);
       }
+      
+      // Y-Axis
+      for (int i = 0; i < 25; i++) {
+        strokeWeight(4);
+        line(x, y+750-(i*25), x-8, y+750-(i*25));
+      }
     }
     else if (xAxis == "time") {
       for (int i = 0; i < dates.length; i++) {
@@ -85,16 +91,22 @@ class barChart {
         text(Integer.toString(i+1), x+6+(i*25), y+764);
         stroke(1);
         fill(17, 17, 200);
-        rect(x+(i*25), y+(750-(amountOnDate.get(i)/count)*8000), 20, (amountOnDate.get(i)/count)*8000);
+        rect(x+(i*25), y+(750-(amountOnDate.get(i)/count)*12000), 20, (amountOnDate.get(i)/count)*12000);
       }
+      
+      // Y-Axis
+      for (int i = 0; i < 25; i++) {
+        strokeWeight(4);
+        line(x, y+750-(i*25), x-8, y+750-(i*25));
+      }
+      textSize(20);
+      text(Integer.toString((int)((amountOnDate.get(10)/count)*12000)), x-40, y+(750-(amountOnDate.get(10)/count)*12000));
+      line(x, y+(750-(amountOnDate.get(10)/count)*12000), x-6, y+(750-(amountOnDate.get(10)/count)*12000));
+      
+      text(Integer.toString((int)(((amountOnDate.get(10)/count)*12000)/2)), x-40, y+(750-((amountOnDate.get(10)/count)*12000)/2));
+      line(x, y+(750-((amountOnDate.get(10)/count)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/count)*12000)/2));
     }
     
-    // Y-Axis
-    for (int i = 0; i < 25; i++) {
-      strokeWeight(3);
-      line(x, y+750-(i*25), x-5, y+750-(i*25));
-    }
-    text(Integer.toString((int)(amountOnDate.get(10)/count)*8000), x, y+750-(24*25));
     
     //if (!theBarChart.paramatersSame) { // for main
     //  theBarChart.readData();
@@ -136,6 +148,7 @@ class barChart {
     else if (xAxis == "time") {
       for (int i = 0; i < currentData.length; i++) {
         currentData.setData(i);
+        //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
         date = currentData.date.split("/");
         //print(date[1]); testing
         for (int z = 0; z < dates.length; z++) {
@@ -145,6 +158,7 @@ class barChart {
           }
         }
         count++;
+      //}
       }
     }
     else {
