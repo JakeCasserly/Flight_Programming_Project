@@ -71,12 +71,15 @@ class HeatMap {
     img.enableStyle();
     noStroke();
     fill(255, 255, 0);
-    rect(0,180,1512,900);
+    rect(0,85,1512,900);
     strokeWeight(4);
     stroke(0);
+    fill(0);
+    text("HeatMap:\n(Concentration of flights per state)", 750, 190);
     line(1260, 280, 1260, 800);
     line(1260, 280, 1283, 280);
     line(1260, 800, 1283, 800);
+    text("No.\nflights", 1330, 530);
     fill(0);
     text(largest, 1325, 277);
     text("0", 1310, 790);
