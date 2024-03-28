@@ -18,6 +18,7 @@ class barChart {
   int[] dates;
   ArrayList<Integer> amountOnDate;
   String xAxis;
+  String prevxAxis;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -31,6 +32,7 @@ class barChart {
     this.width = width;
     this.height = height;
     xAxis = "time";
+    prevxAxis = "time";
     paramatersSame = false;
     currentData = new Data("flights_full.csv"); // *********
     amountInStates = new ArrayList<>();
@@ -52,17 +54,21 @@ class barChart {
   
   void draw() {
     
-    if (!paramatersSame) {
+    if (!paramatersSame) {           // initial read of the data
       readData();
       paramatersSame = true;
     }
     
+    if (prevxAxis != xAxis) {        // if the xAxis variable is changed, re-read the data
+      readData();
+    }
+    
     fill(255);
     strokeWeight(7);
-    line(x, y, x, y+750);
+    line(x, y, x, y+750);            // draw the x-Axis and y-Axis:
     line(x, y+750, x+1000, y+750);
     strokeWeight(3);
-    if(xAxis == "state") {
+    if(xAxis == "state") {           // if the x-Axis is meant to display states, then display states, else display time
       for (int i = 0; i < allStates.length; i++) {
         strokeWeight(3);
         stroke(3);                                      // needs to be revised
