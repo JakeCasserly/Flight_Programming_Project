@@ -9,7 +9,7 @@ final int flightScreen = 1;
 final int divertedScreen = 2;
 final int cancelledScreen = 3;
 final int heatMapScreen = 4;
-final int barChartScreen = 5
+final int barChartScreen = 5;
 int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
