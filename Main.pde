@@ -10,6 +10,8 @@ final int divertedScreen = 2;
 final int cancelledScreen = 3;
 final int heatMapScreen = 4;
 final int barChartScreen = 5;
+final int loadingFrameAmount = 64;
+PImage[] loadingGif = new PImage[loadingFrameAmount];
 int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
@@ -25,6 +27,12 @@ void setup()
   theHeatMap = new HeatMap(200, 264, theUSImage);
   theBarChart = new barChart(100, 130, 40, 40);
   size(1512, 982);
+   // for loop to load in array of image frames for loading gif
+  for (int i = 0; i < loadingFrameAmount; i++) 
+    {
+      String frameName = "frame_"+ nf(i, 3) +"_delay-0.03s.gif";
+      loadingGif[i] = loadImage(frameName);
+    }
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
   widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
