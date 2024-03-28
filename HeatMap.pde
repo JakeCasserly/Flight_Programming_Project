@@ -40,12 +40,19 @@ class HeatMap {
   
   void draw() {
     
+    /*
+    Initial read in of the data:
+    This code loops through the entire dataset and checks
+    for the amount of occurances of specific states.
+    It then stores the number of occurances of each respective
+    state within an ArrayList by the name of "amountInStates".
+    */
+    
     if (!readInData) {
       for (int i = 0; i < allStates.length; i++) {
         for(TableRow row:table.rows()) {
           String state = row.getString("ORIGIN_STATE_ABR");
           if (state.equals(allStates[i])) {
-            //println("departed from "+origin);
             //println(state + " ");
             amountInThisState++;
           }
