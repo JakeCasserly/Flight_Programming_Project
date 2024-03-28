@@ -1,5 +1,8 @@
 // barChart
 // Jake Casserly's code for Bar Chart 20/03/2024
+
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 class barChart {
   int x;
   int y;
@@ -14,12 +17,16 @@ class barChart {
   String prevFlightCarrier;
   int number;
   float count;
+  float countTime;
   boolean departures;
   int[] dates;
   ArrayList<Integer> amountOnDate;
   String xAxis;
   String prevxAxis;
   boolean dataRead;
+  ExecutorService executorService = Executors.newCachedThreadPool();
+  readDataTask readStates;
+  boolean readTime;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -35,7 +42,9 @@ class barChart {
     xAxis = "time";
     prevxAxis = "time";
     paramatersSame = false;
-    dataRead = false;
+    readTime = false;
+    count = 0;
+    countTime = 0;
     currentData = new Data("flights_full.csv"); // *********
     amountInStates = new ArrayList<>();
     dates = new int[30];
@@ -52,17 +61,30 @@ class barChart {
     departures = true;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
+    readStates = new readDataTask("state");
   }
   
   void draw() {
     
     if (!paramatersSame) {           // initial read of the data
-      readData();
+      //readData();
+      readDataTask readTimes = new readDataTask("time");
+      
+      System.out.println("Starting Executor");
+      
+      executorService.execute(readTimes);
+      
+      // Start each individual task (i.e. you've created the task objects, 
+      // now you just want to run them on individual threads
+      // which the executor will handle for you by using a "ThreadPool")
+      
+      //executorService.shutdown(); // this is used to shut down the threads
       paramatersSame = true;
     }
     
     if (prevxAxis != xAxis) {        // if the xAxis variable is changed, re-read the data
       readData();
+      executorService.execute(readStates);
       //prevxAxis = xAxis;
     }
     
@@ -103,7 +125,7 @@ class barChart {
         text(Integer.toString(i+1), x+6+(i*25), y+764);
         stroke(1);
         fill(17, 17, 200);
-        rect(x+(i*25), y+(750-(amountOnDate.get(i)/count)*12000), 20, (amountOnDate.get(i)/count)*12000);
+        rect(x+(i*25), y+(750-(amountOnDate.get(i)/countTime)*12000), 20, (amountOnDate.get(i)/countTime)*12000);
       }
       
       // Y-Axis
@@ -112,11 +134,11 @@ class barChart {
         line(x, y+750-(i*25), x-8, y+750-(i*25));
       }
       textSize(20);
-      text(Integer.toString((int)((amountOnDate.get(10)/count)*12000)), x-40, y+(750-(amountOnDate.get(10)/count)*12000));
-      line(x, y+(750-(amountOnDate.get(10)/count)*12000), x-6, y+(750-(amountOnDate.get(10)/count)*12000));
+      text(Integer.toString((int)((amountOnDate.get(10)/countTime)*12000)), x-40, y+(750-(amountOnDate.get(10)/countTime)*12000));
+      line(x, y+(750-(amountOnDate.get(10)/countTime)*12000), x-6, y+(750-(amountOnDate.get(10)/countTime)*12000));
       
-      text(Integer.toString((int)(((amountOnDate.get(10)/count)*12000)/2)), x-40, y+(750-((amountOnDate.get(10)/count)*12000)/2));
-      line(x, y+(750-((amountOnDate.get(10)/count)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/count)*12000)/2));
+      text(Integer.toString((int)(((amountOnDate.get(10)/countTime)*12000)/2)), x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
+      line(x, y+(750-((amountOnDate.get(10)/countTime)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
     }
     
     
@@ -153,51 +175,51 @@ class barChart {
   
   void readData() {
     //int amountInThisState = 0;
-    String[] date;
+    //String[] date;
     
-    // reads Data for a specific flight carrier state by state
-    if (xAxis == "state") {
-      for (int i = 0; i < currentData.length; i++) {
-        currentData.setData(i);
-        if (currentData.code.contains(flightCarrier)) {
-          for (int z = 0; z < allStates.length; z++) {
-            if (departures) {
-              state = currentData.depData.state;
-            }
-            else {
-              state = currentData.arrData.state;
-            }
-            if (state.equals(allStates[z])) {
-              number = amountInStates.get(z);
-              amountInStates.set(z, number+1);
+    //// reads Data for a specific flight carrier state by state
+    //if (xAxis == "state") {
+    //  for (int i = 0; i < currentData.length; i++) {
+    //    currentData.setData(i);
+    //    if (currentData.code.contains(flightCarrier)) {
+    //      for (int z = 0; z < allStates.length; z++) {
+    //        if (departures) {
+    //          state = currentData.depData.state;
+    //        }
+    //        else {
+    //          state = currentData.arrData.state;
+    //        }
+    //        if (state.equals(allStates[z])) {
+    //          number = amountInStates.get(z);
+    //          amountInStates.set(z, number+1);
               
-            }
-          }
-          count++;
-        }
-        //print("test");
-      }
-      dataRead = true;
-    }
-    else if (xAxis == "time") {
-      for (int i = 0; i < currentData.length; i++) {
-        currentData.setData(i);
-        //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-        date = currentData.date.split("/");
-        //print(date[1]); testing
-        for (int z = 0; z < dates.length; z++) {
-          if (Integer.parseInt(date[1]) == dates[z]) {
-            number = amountOnDate.get(z);
-            amountOnDate.set(z, number+1);
-          }
-        }
-        count++;
-      //}
-      }
-    }
-    else {
-      // do nothing forever
-    }
+    //        }
+    //      }
+    //      count++;
+    //    }
+    //    //print("test");
+    //  }
+    //  dataRead = true;
+    //}
+    //else if (xAxis == "time") {
+    //  for (int i = 0; i < currentData.length; i++) {
+    //    currentData.setData(i);
+    //    //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
+    //    date = currentData.date.split("/");
+    //    //print(date[1]); testing
+    //    for (int z = 0; z < dates.length; z++) {
+    //      if (Integer.parseInt(date[1]) == dates[z]) {
+    //        number = amountOnDate.get(z);
+    //        amountOnDate.set(z, number+1);
+    //      }
+    //    }
+    //    count++;
+    //  //}
+    //  }
+    //}
+    //else {
+    //  // do nothing forever
+    //}
     
   }
   
