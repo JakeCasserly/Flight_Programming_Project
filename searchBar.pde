@@ -5,7 +5,7 @@ class searchBar {
   float x, y, width, height;
   String label;
   color widgetColor, labelColor, borderColor;
-  
+  private boolean active;
   private String result;
   private boolean blank;
   
@@ -19,7 +19,7 @@ class searchBar {
     this.widgetColor = widgetColor;
     labelColor = color(0);
     this.result = result;
-    this.blank = blank;
+    this.blank = false;
   }
   
   void display() 
@@ -34,20 +34,46 @@ class searchBar {
     textSize(50);
   }
   
-  void adjustText(searchBar theSearchBar) {
-    if (theSearchBar.checkMouseSearchBar(mouseX, mouseY) && blank == false) {
-      theSearchBar.label = "";
-      blank = true;
-    }
-    if(keyPressed) {
-        label += key;
-        //print(key);
-    }
+  void adjustText() 
+  {
+      if (!blank) 
+      {
+        label = "";
+        blank = true;
+      }
+      if (keyPressed) 
+      {
+        if (key != ENTER && key != BACKSPACE) 
+        {
+          label += key;
+        } 
+        else if (key == BACKSPACE && label.length() > 0) 
+        {
+          label = label.substring(0, label.length() - 1);
+        }
+        keyPressed = false;
+      }
   }
   
-  boolean checkMouseSearchBar(float mx, float my) {
-    if (mx > x && mx < x + width && my > y && my < y + height) 
+  boolean checkSearchBar(float mx, float my)
+  {
+    if (mx > x && mx < x + width && my > y && my < y + height)
     {
+      return true;
+    }
+    return false;
+  }
+  
+  boolean checkBorder(float mx, float my)
+  {
+    if (mx > x && mx < x + width && my > y && my < y + height)
+    {
+      borderColor = 255;
+      return true;
+    }
+    if (mx < x || mx > x + width || my < y || my > y + height)
+    {
+      borderColor = 0;
       return true;
     }
     return false;
@@ -92,7 +118,4 @@ class searchBar {
         }
       }
   }
-  void keyPressed() {
-      theSearchBar.adjustText(theSearchBar);
-   }
  }
