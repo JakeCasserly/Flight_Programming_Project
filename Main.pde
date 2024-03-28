@@ -23,7 +23,7 @@ String barChartLabel;
 
 void setup() 
 {
-  barChartLabel = "Time";
+  barChartLabel = "Change to Time";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
@@ -137,15 +137,15 @@ void mousePressed()
     {
       theBarChart.xAxis = "state";
     }
-    if(barChartLabel == "Time")
+    if(barChartLabel == "Change to Time")
     {
-      widgetList4.setBarChartButtonLabel("State");
-      barChartLabel = "State";
+      widgetList4.setBarChartButtonLabel("Change to State");
+      barChartLabel = "Change to State";
     }
     else
     {
-      widgetList4.setBarChartButtonLabel("Time");
-      barChartLabel = "Time";
+      widgetList4.setBarChartButtonLabel("Change to Time");
+      barChartLabel = "Change to Time";
     }
   }
   if(theSearchBar.checkSearchBar(mouseX, mouseY))
