@@ -2,6 +2,7 @@ WidgetList widgetList;
 WidgetList widgetList1;
 WidgetList widgetList2;
 WidgetList widgetList3;
+WidgetList widgetList4;
 PImage globe;
 PImage planeSymbol;
 final int homeScreen = 0;
@@ -18,9 +19,11 @@ PShape theUSImage;
 searchBar theSearchBar;
 boolean searchBarActive;
 barChart theBarChart;
+String barChartLabel;
 
 void setup() 
 {
+  barChartLabel = "Time";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
@@ -48,8 +51,8 @@ void setup()
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
-  //widgetList4 = new WidgetList();
-  //widgetList4.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
+  widgetList4 = new WidgetList();
+  widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
 }
 
@@ -91,6 +94,8 @@ else if (count == barChartScreen)
     textSize(25);
     widgetList1.display();
     theBarChart.draw();
+    textSize(25);
+    widgetList4.display();
   }
   else if(count == divertedScreen)
   {
@@ -110,6 +115,7 @@ void mouseMoved()
   widgetList1.checkButtonsBorder(mouseX, mouseY);
   widgetList2.checkButtonsBorder(mouseX, mouseY);
   widgetList3.checkButtonsBorder(mouseX, mouseY);
+  widgetList4.checkButtonsBorder(mouseX, mouseY);
   theSearchBar.checkBorder(mouseX, mouseY);
 }
 
@@ -119,7 +125,29 @@ void mousePressed()
   widgetList1.checkButtons(mouseX, mouseY);
   widgetList2.checkButtons(mouseX, mouseY);
   widgetList3.checkButtons(mouseX, mouseY);
+  widgetList4.checkButtons(mouseX, mouseY);
   //theSearchBar.result();
+  if(widgetList4.checkBarChartButton(mouseX, mouseY))
+  {
+    if(theBarChart.xAxis == "state")
+    {
+      theBarChart.xAxis = "time";
+    }
+    else
+    {
+      theBarChart.xAxis = "state";
+    }
+    if(barChartLabel == "Time")
+    {
+      widgetList4.setBarChartButtonLabel("State");
+      barChartLabel = "State";
+    }
+    else
+    {
+      widgetList4.setBarChartButtonLabel("Time");
+      barChartLabel = "Time";
+    }
+  }
   if(theSearchBar.checkSearchBar(mouseX, mouseY))
   {
     searchBarActive = true;
