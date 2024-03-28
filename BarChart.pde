@@ -60,6 +60,7 @@ class barChart {
     }
     
     if (prevxAxis != xAxis) {        // if the xAxis variable is changed, re-read the data
+      prevxAxis = xAxis;
       readData();
     }
     
