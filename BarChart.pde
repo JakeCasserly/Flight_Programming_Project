@@ -19,6 +19,7 @@ class barChart {
   ArrayList<Integer> amountOnDate;
   String xAxis;
   String prevxAxis;
+  boolean dataRead;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -34,6 +35,7 @@ class barChart {
     xAxis = "time";
     prevxAxis = "time";
     paramatersSame = false;
+    dataRead = false;
     currentData = new Data("flights_full.csv"); // *********
     amountInStates = new ArrayList<>();
     dates = new int[30];
@@ -61,6 +63,7 @@ class barChart {
     
     if (prevxAxis != xAxis) {        // if the xAxis variable is changed, re-read the data
       readData();
+      //prevxAxis = xAxis;
     }
     
     fill(255);
@@ -78,7 +81,7 @@ class barChart {
         text(allStates[i], x+6+(i*20), y+764);
         stroke(1);
         fill(17, 17, 200);
-        rect(x+(i*20), y+(750-(amountInStates.get(i)/count)*2000), 20, (amountInStates.get(i)/count)*2000);
+        //rect(x+(i*20), y+(750-(amountInStates.get(i)/count)*2000), 20, (amountInStates.get(i)/count)*2000);
         setGradient((int)x+(i*20), (int)(y+(750-(amountInStates.get(i)/count)*2000)), (float)20, (float)((amountInStates.get(i)/count)*2000), (int)color(255,20,50), (int)color(0,20,50), (int)1);
       }
       
@@ -167,11 +170,14 @@ class barChart {
             if (state.equals(allStates[z])) {
               number = amountInStates.get(z);
               amountInStates.set(z, number+1);
+              
             }
           }
           count++;
         }
+        //print("test");
       }
+      dataRead = true;
     }
     else if (xAxis == "time") {
       for (int i = 0; i < currentData.length; i++) {
