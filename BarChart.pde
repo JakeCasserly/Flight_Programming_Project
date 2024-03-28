@@ -30,7 +30,7 @@ class barChart {
     this.y = y;
     this.width = width;
     this.height = height;
-    xAxis = "state";
+    xAxis = "time";
     paramatersSame = false;
     currentData = new Data("flights_full.csv"); // *********
     amountInStates = new ArrayList<>();
@@ -121,6 +121,25 @@ class barChart {
     //  paramatersSame = false;
     //}
     
+    if (theSearchBar.result != "null") {
+      if (theSearchBar.result != "state" && theSearchBar.result != "time"){
+        print(theSearchBar.result);
+        if (prevFlightCarrier != theSearchBar.result) {
+          prevFlightCarrier = flightCarrier;
+          flightCarrier = theSearchBar.result;
+          readData();
+          print("something");
+        }
+      }
+      else if (theSearchBar.result == "state" || theSearchBar.result == "time"){
+        xAxis = theSearchBar.result;
+        readData();
+      }
+      else {
+        // do nothing forever
+      }
+    }
+    
   }
   
   void readData() {
@@ -190,6 +209,10 @@ class barChart {
         line(i, y, i, y+h);
       }
     }
+  }
+  
+  void mousePressed() {
+    
   }
   
 }
