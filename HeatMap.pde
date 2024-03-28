@@ -71,7 +71,7 @@ class HeatMap {
     img.enableStyle();
     noStroke();
     fill(255, 255, 0);
-    rect(0,85,1512,900);
+    //rect(0,85,1512,900);
     strokeWeight(4);
     stroke(0);
     fill(0);

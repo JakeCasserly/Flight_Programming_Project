@@ -9,7 +9,7 @@ final int flightScreen = 1;
 final int divertedScreen = 2;
 final int cancelledScreen = 3;
 final int heatMapScreen = 4;
-final int barChartScreen = 5
+final int barChartScreen = 5;
 int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
@@ -23,7 +23,7 @@ void setup()
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage);
-  theBarChart = new barChart(100, 150, 40, 40);
+  theBarChart = new barChart(100, 130, 40, 40);
   size(1512, 982);
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
@@ -31,7 +31,7 @@ void setup()
   widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
-  widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), 1);
+  widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
@@ -66,7 +66,7 @@ void draw()
   }
   else if (count == heatMapScreen) 
   {
-    background(0);
+    background(255, 255, 0);
     textSize(25);
     widgetList1.display();
     theHeatMap.draw();
@@ -79,7 +79,7 @@ void draw()
   }
 else if (count == barChartScreen)
   {
-    background(0);
+    background(255, 255, 0);
     textSize(25);
     widgetList1.display();
     theBarChart.draw();
