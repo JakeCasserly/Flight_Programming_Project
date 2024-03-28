@@ -1,9 +1,9 @@
 // arrivals
-class Arrival {  
+class Arrivals {  
   int wac; 
   String time, crs, city, state, dest;
   
-  Arrival(Data data,int row)
+  Arrivals(Data data,int row)
   {
     time = timeFormat(data.getEntry(row).getInt("ARR_TIME"));
     crs = timeFormat(data.getEntry(row).getInt("CRS_ARR_TIME"));
