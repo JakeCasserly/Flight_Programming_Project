@@ -73,6 +73,7 @@ class barChart {
         stroke(1);
         fill(17, 17, 200);
         rect(x+(i*20), y+(750-(amountInStates.get(i)/count)*2000), 20, (amountInStates.get(i)/count)*2000);
+        setGradient((int)x+(i*20), (int)(y+(750-(amountInStates.get(i)/count)*2000)), (float)20, (float)((amountInStates.get(i)/count)*2000), (int)color(255,20,50), (int)color(0,20,50), (int)1);
       }
       
       // Y-Axis
@@ -167,6 +168,28 @@ class barChart {
       // do nothing forever
     }
     
+  }
+  
+    void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
+
+    noFill();
+  
+    if (axis == 1) {  // Top to bottom gradient
+      for (int i = y; i <= y+h; i++) {
+        float inter = map(i, y, y+h, 0, 1);
+        color c = lerpColor(c1, c2, inter);
+        stroke(c);
+        line(x, i, x+w, i);
+      }
+    }  
+    else if (axis == 2) {  // Left to right gradient
+      for (int i = x; i <= x+w; i++) {
+        float inter = map(i, x, x+w, 0, 1);
+        color c = lerpColor(c1, c2, inter);
+        stroke(c);
+        line(i, y, i, y+h);
+      }
+    }
   }
   
 }
