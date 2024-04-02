@@ -2,11 +2,15 @@ class WidgetList
 {
   ArrayList<Widget> buttons;
   ArrayList<Widget> flightScreenButtons;
+  ArrayList<Widget> heatMapStates;
+  ArrayList<Widget> barChartButtons;
   
   WidgetList() 
   {
     buttons = new ArrayList<Widget>();
     flightScreenButtons = new ArrayList<Widget>();
+    heatMapStates = new ArrayList<Widget>();
+    barChartButtons = new ArrayList<Widget>();
   }
   
   void addButton(String label, color widgetColor, int screen) 
@@ -23,6 +27,36 @@ class WidgetList
     flightScreenButtons.add(button);
   }
   
+  void addBarChartButton(String label, color widgetColor, int screen)
+  {
+    Widget button = new Widget(1220, 110, 290, 35, label, widgetColor, screen);
+    barChartButtons.add(button);
+  }
+  
+  boolean checkBarChartButton(float mx, float my)
+  {
+    if (mx > 1220 && mx < 1220 + width && my > 110 && my < 110 + height)
+    {
+      return true;
+    }
+    return false;
+  }
+  
+  void setBarChartButtonLabel(String newLabel) 
+  {
+    for (Widget button : barChartButtons) 
+    {
+        button.label = newLabel;
+    }
+  }
+  
+  void addState(String label, color widgetColor, int screen, float xpos, float ypos) 
+  {
+    //float x = (buttons.size() * 500) + 60;
+    Widget button = new Widget(xpos, ypos, 400, 100, label, widgetColor, screen);
+    buttons.add(button);
+  }
+  
   void display() 
   {
     for (Widget button : buttons) 
@@ -32,6 +66,10 @@ class WidgetList
     for(Widget button : flightScreenButtons)
     {
       button.display1();
+    }
+    for(Widget button : barChartButtons)
+    {
+       button.display(); 
     }
   }
   
@@ -45,6 +83,10 @@ class WidgetList
     {
       button.checkMouse(mx, my);
     }
+    for(Widget button : barChartButtons)
+    {
+      button.checkMouse(mx, my);
+    }
   }
   
   void checkButtonsBorder(float mx, float my)
@@ -54,6 +96,10 @@ class WidgetList
       button.checkBorder(mx, my);
     }
     for (Widget button : flightScreenButtons) 
+    {
+      button.checkBorder(mx, my);
+    }
+    for(Widget button : barChartButtons)
     {
       button.checkBorder(mx, my);
     }
