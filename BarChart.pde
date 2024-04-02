@@ -1,6 +1,13 @@
 // barChart
 // Jake Casserly's code for Bar Chart 20/03/2024
 
+/**
+* This class generates a barChart of data. 
+* 
+* 
+* @params: 
+*/
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
 class barChart {
@@ -33,7 +40,6 @@ class barChart {
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
       
-  
   barChart (int x, int y, double height, double width) {
     this.x = x;
     this.y = y;
@@ -98,6 +104,11 @@ class barChart {
         strokeWeight(3);
         stroke(3);                                      // needs to be revised
         line(x+(i*20), y+750, (x-5)+(i*20), y+770);
+        fill(0);
+        textSize(30);
+        text("BarChart:\n(Concentration of flights per state)", 750, 190);
+        textSize(19);
+        text("States/(state abreviation)", 560, 925);
         textSize(11);
         fill(0);
         text(allStates[i], x+6+(i*20), y+764);
@@ -120,24 +131,29 @@ class barChart {
         strokeWeight(3);
         stroke(3);                                      // needs to be revised
         line(x+(i*25), y+750, (x-5)+(i*25), y+770);
+        fill(0);
+        textSize(30);
+        text("BarChart:\n(Flights sorted by dates)", 750, 190);              // text to be displayed for user to see description of data being displayed
+        textSize(19);
+        text("Dates/(day in the month)", 480, 925);
         textSize(11);
         fill(0);
         text(Integer.toString(i+1), x+6+(i*25), y+764);
         stroke(1);
         fill(17, 17, 200);
-        rect(x+(i*25), y+(750-(amountOnDate.get(i)/countTime)*12000), 20, (amountOnDate.get(i)/countTime)*12000);
-      }
-      
+        rect(x+(i*25), y+(750-(amountOnDate.get(i)/countTime)*12000), 20, (amountOnDate.get(i)/countTime)*12000);      // for each rectangle, draw it from the top of the rectangle, which should be 750 - height.
+      }                                                                                                                // inherintly the user will see the rectangle drawn from the bottom, when actually it is drawn
+                                                                                                                       // as usual from the top left.
       // Y-Axis
       for (int i = 0; i < 25; i++) {
         strokeWeight(4);
         line(x, y+750-(i*25), x-8, y+750-(i*25));
       }
       textSize(20);
-      text(Integer.toString((int)((amountOnDate.get(10)/countTime)*12000)), x-40, y+(750-(amountOnDate.get(10)/countTime)*12000));
-      line(x, y+(750-(amountOnDate.get(10)/countTime)*12000), x-6, y+(750-(amountOnDate.get(10)/countTime)*12000));
+      text(amountOnDate.get(10), x-40, y+(750-(amountOnDate.get(10)/countTime)*12000));                                // give some idea of the scale of the data
+      line(x, y+(750-(amountOnDate.get(10)/countTime)*12000), x-6, y+(750-(amountOnDate.get(10)/countTime)*12000));    // to be displayed on the y-axis
       
-      text(Integer.toString((int)(((amountOnDate.get(10)/countTime)*12000)/2)), x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
+      text(amountOnDate.get(10)/2, x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
       line(x, y+(750-((amountOnDate.get(10)/countTime)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
     }
     
