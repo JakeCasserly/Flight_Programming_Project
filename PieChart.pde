@@ -8,6 +8,7 @@ class PieChart
   Data data;
   ArrayList<Float> angles;
   ArrayList<Integer> colors;
+  ArrayList<String> labels;
   
   PieChart(int x, int y, int radius, Data data)
   {
@@ -20,8 +21,11 @@ class PieChart
     font = loadFont("LucidaSans-Typewriter-20.vlw");
     angles = new ArrayList<Float>();
     colors = new ArrayList<Integer>();
+    labels = new ArrayList<>();
     colors.add(#F0D285);
     colors.add(#85CDF0);
+    labels.add("Cancelled");
+    labels.add("Diverted");
   }
   
   ArrayList<Float> percentages()
@@ -64,6 +68,9 @@ class PieChart
     {
       fill(colors.get(i));
       arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
+      rect(x+radius*0.75, y-i*radius*0.5,height,width);
+      textFont(font,height);
+      text(labels.get(i),x+radius*0.75+1.5*width,y-i*radius*0.5+height);
       lastAngle = angle;
       i++;
     }
