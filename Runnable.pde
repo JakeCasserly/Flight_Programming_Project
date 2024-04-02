@@ -53,7 +53,7 @@ public class readDataTask implements Runnable {
             }
             //print("test");
           }
-          theBarChart.dataRead = true;
+          //theBarChart.dataRead = true;
           terminate();
         }
         //else if (theBarChart.xAxis == "time") {

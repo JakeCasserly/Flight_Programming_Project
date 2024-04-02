@@ -123,8 +123,8 @@ class barChart {
         strokeWeight(4);
         line(x, y+750-(i*25), x-8, y+750-(i*25));
       }
-      text(Integer.toString((int)((amountInStates.get(10)/count)*2000)), x-40, y+(750-(amountInStates.get(10)/count)*2000));
-      line(x, y+(750-(amountInStates.get(10)/count)*2000), x-6, y+(750-(amountInStates.get(10)/count)*2000));
+      text(amountInStates.get(8), x-40, y+(750-(amountInStates.get(8)/count)*2000));
+      line(x, y+(750-(amountInStates.get(8)/count)*2000), x-6, y+(750-(amountInStates.get(8)/count)*2000));
     }
     else if (xAxis == "time") {
       for (int i = 0; i < dates.length; i++) {
@@ -156,12 +156,6 @@ class barChart {
       text(amountOnDate.get(10)/2, x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
       line(x, y+(750-((amountOnDate.get(10)/countTime)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
     }
-    
-    
-    //if (!theBarChart.paramatersSame) { // for main
-    //  theBarChart.readData();
-    //  theBarChart.paramatersSame = true;
-    //}
     
     //if (theSearchBar.result != flightCarrier) {
     //  flightCarrier = theSearchBar.result;
