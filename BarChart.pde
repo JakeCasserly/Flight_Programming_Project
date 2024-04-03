@@ -11,7 +11,12 @@
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
+import controlP5.*;
+
 class barChart {
+  //ControlP5 cp5;
+  //DropdownList d1, d2;
+  //cp5 = new ControlP5(this);
   int x;
   int y;
   double height;
@@ -111,7 +116,7 @@ class barChart {
         line(x+(i*20), y+750, (x-5)+(i*20), y+770);
         fill(0);
         textSize(30);
-        text("BarChart:\n(Concentration of flights per state)", 750, 190);
+        text("BarChart:\n(Concentration of flights per state)", 750, 175);
         textSize(19);
         text("States/(state abreviation)", 560, 925);
         textSize(11);
@@ -132,8 +137,20 @@ class barChart {
       line(x, y+(750-(amountInStates.get(8)/count)*2500), x-6, y+(750-(amountInStates.get(8)/count)*2500));
       
       textSize(32);
-      text(allStates[0], x+1100, 800);
-      text(allStates[1], x+1250, 800);
+      text(allStates[2], x+1120, 800);
+      text(allStates[4], x+1320, 800);
+      fill(200, 20, 25);
+      //print((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)) + " "); testing
+      //print((float)((amountInStates.get(2)/(amountInStates.get(2)+amountInStates.get(4)))*100)); testing
+      strokeWeight(1);
+      rect(x+1110, 850, (((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)))*220), 25);
+      fill(100, 220, 20);
+      rect(x+1110+(((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)))*220), 850, ((1-((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4))))*220), 25);
+      
+      //fill(120);
+      //rect(x+1120, 850, 0.2*100, 25);
+      //fill(255);
+      //rect(x+1120 + 0.2*100, 850, (1-0.2)*100, 25);
     }
     else if (xAxis == "time") {
       for (int i = 0; i < dates.length; i++) {

@@ -59,7 +59,7 @@ public class readDataTask implements Runnable {
               }
             }
             theBarChart.count++;
-            print(theBarChart.count + " ");
+            //print(theBarChart.count + " ");
           }
           //print("test");
         }
