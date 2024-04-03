@@ -15,7 +15,8 @@ class barChart {
   int y;
   double height;
   double width;
-  Data currentData;
+  Data stateData;
+  Data timeData;
   boolean paramatersSame;
   int[] yOutputStates;
   ArrayList<Integer> amountInStates;
@@ -41,7 +42,7 @@ class barChart {
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
 
-  barChart (int x, int y, double height, double width) {
+  barChart (int x, int y, double height, double width, String database) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -52,7 +53,8 @@ class barChart {
     readTime = false;
     count = 0;
     countTime = 0;
-    currentData = new Data("flights_full.csv"); // *********
+    stateData = new Data(database); // *********
+    timeData = new Data(database);
     amountInStates = new ArrayList<>();
     dates = new int[30];
     amountOnDate = new ArrayList<>();
@@ -68,8 +70,10 @@ class barChart {
     departures = true;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
-    readStates = new readDataTask("state", flightCarrier);
-    readTimes = new readDataTask("time", flightCarrier);
+    readStates = new readDataTask("state", flightCarrier, stateData);
+    readTimes = new readDataTask("time", flightCarrier, timeData);
+    executorService.execute(readTimes);
+    executorService.execute(readStates);
   }
 
   void draw() {
@@ -78,7 +82,8 @@ class barChart {
       //readData();
       System.out.println("Starting Executor");
 
-      executorService.execute(readTimes);
+      
+
 
       // Start each individual task (i.e. you've created the task objects, 
       // now you just want to run them on individual threads
@@ -88,11 +93,11 @@ class barChart {
       paramatersSame = true;
     }
 
-    if (prevxAxis != xAxis) {                                                                                        // if the xAxis variable is changed, re-read the data
-      readData();
-      executorService.execute(readStates);
+    //if (prevxAxis != xAxis) {                                                                                        // if the xAxis variable is changed, re-read the data
+    //  readData();
+    //  executorService.execute(readStates);
       //prevxAxis = xAxis;
-    }
+    //}
 
     fill(255);
     strokeWeight(7);

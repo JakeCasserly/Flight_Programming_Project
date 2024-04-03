@@ -16,11 +16,13 @@ public class readDataTask implements Runnable {
   private final String taskName;
   private String request;
   private volatile boolean running = true;
+  private Data database;
 
   //constructor
-  public readDataTask(String taskName, String request) {
+  public readDataTask(String taskName, String request, Data database) {
     this.taskName = taskName;
     this.request = request;
+    this.database = database;
 
     //sleepTime = generator.nextInt(5000); // pick random sleep time between 0 and 5 seconds
   }
@@ -37,15 +39,15 @@ public class readDataTask implements Runnable {
       String[] date;
       // reads Data for a specific flight carrier state by state
       if (taskName == "state") {
-        for (int i = 0; i < theBarChart.currentData.length; i++) {
-          theBarChart.currentData.setData(i);
-          if (theBarChart.currentData.code.contains(request)) {
+        for (int i = 0; i < database.length; i++) {
+          database.setData(i);
+          if (database.code.contains(request)) {
             for (int z = 0; z < theBarChart.allStates.length; z++) {
               if (theBarChart.departures) {
-                theBarChart.state = theBarChart.currentData.depData.state;
+                theBarChart.state = database.depData.state;
               }
               else {
-                theBarChart.state = theBarChart.currentData.arrData.state;
+                theBarChart.state = database.arrData.state;
               }
               if (theBarChart.state.equals(theBarChart.allStates[z])) {
                 theBarChart.number = theBarChart.amountInStates.get(z);
@@ -62,10 +64,10 @@ public class readDataTask implements Runnable {
         terminate();
       }
       else if (taskName == "time" && theBarChart.readTime == false) {
-        for (int i = 0; i < theBarChart.currentData.length; i++) {
-          theBarChart.currentData.setData(i);
+        for (int i = 0; i < database.length; i++) {
+          database.setData(i);
           //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-          date = theBarChart.currentData.date.split("/");
+          date = database.date.split("/");
           //print(date[1]); testing
           for (int z = 0; z < theBarChart.dates.length; z++) {
             if (Integer.parseInt(date[1]) == theBarChart.dates[z]) {
