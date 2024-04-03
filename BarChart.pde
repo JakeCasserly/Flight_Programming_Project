@@ -5,7 +5,8 @@
  * This class generates a barChart of data. 
  * 
  * 
- * @params: 
+ * @params: x-coordinate (int), y-coordinate (int),
+ * height (double), width (double), database (String)
  */
 
 import java.util.concurrent.Executors;
@@ -23,7 +24,6 @@ class barChart {
   String state;
   String flightCarrier;
   String prevFlightCarrier;
-  int number;
   float count;
   float countTime;
   boolean departures;
@@ -130,6 +130,10 @@ class barChart {
       }
       text(amountInStates.get(8), x-40, y+(750-(amountInStates.get(8)/count)*2500));
       line(x, y+(750-(amountInStates.get(8)/count)*2500), x-6, y+(750-(amountInStates.get(8)/count)*2500));
+      
+      textSize(32);
+      text(allStates[0], x+1100, 800);
+      text(allStates[1], x+1250, 800);
     }
     else if (xAxis == "time") {
       for (int i = 0; i < dates.length; i++) {

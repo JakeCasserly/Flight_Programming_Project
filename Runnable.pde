@@ -17,12 +17,14 @@ public class readDataTask implements Runnable {
   private String request;
   private volatile boolean running = true;
   private Data database;
+  private int number;
 
   //constructor
   public readDataTask(String taskName, String request, Data database) {
     this.taskName = taskName;
     this.request = request;
     this.database = database;
+    number = 0;
 
     //sleepTime = generator.nextInt(5000); // pick random sleep time between 0 and 5 seconds
   }
@@ -50,13 +52,14 @@ public class readDataTask implements Runnable {
                 theBarChart.state = database.arrData.state;
               }
               if (theBarChart.state.equals(theBarChart.allStates[z])) {
-                theBarChart.number = theBarChart.amountInStates.get(z);
-                theBarChart.amountInStates.set(z, theBarChart.number+1);
+                number = theBarChart.amountInStates.get(z);
+                theBarChart.amountInStates.set(z, number+1);
                 //print(z);
 
               }
             }
             theBarChart.count++;
+            print(theBarChart.count + " ");
           }
           //print("test");
         }
@@ -71,8 +74,8 @@ public class readDataTask implements Runnable {
           //print(date[1]); testing
           for (int z = 0; z < theBarChart.dates.length; z++) {
             if (Integer.parseInt(date[1]) == theBarChart.dates[z]) {
-              theBarChart.number = theBarChart.amountOnDate.get(z);
-              theBarChart.amountOnDate.set(z, theBarChart.number+1);
+              number = theBarChart.amountOnDate.get(z);
+              theBarChart.amountOnDate.set(z, number+1);
             }
           }
           theBarChart.countTime++;
