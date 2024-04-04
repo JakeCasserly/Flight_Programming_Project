@@ -190,12 +190,19 @@ class barChart {
 
     if (theChartSearchBar.result != "null") {
       if (theChartSearchBar.result != "state" && theChartSearchBar.result != "time"){
-        print(theChartSearchBar.result);
-        if (prevFlightCarrier != theChartSearchBar.result) {
-          prevFlightCarrier = flightCarrier;
+        //print(theChartSearchBar.result);
+        print(flightCarrier);
+        if (flightCarrier != theChartSearchBar.result) {
+          //prevFlightCarrier = flightCarrier;
           flightCarrier = theChartSearchBar.result;
-          readStates.setRunning();
-          print("something");
+          for (int i = 0; i < allStates.length; i++) {
+            amountInStates.set(i, 0);
+          }
+          //readStates.setRunning();
+          readStates = new readDataTask("state", flightCarrier, stateData);
+          executorService.execute(readStates);
+          count = 0;
+          //print("something");
         }
       }
       else if (theSearchBar.result == "state" || theSearchBar.result == "time"){

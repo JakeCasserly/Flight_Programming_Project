@@ -81,6 +81,7 @@ class searchBar {
   
   void result() {
      String test = label;
+     println("Request");
       
       if (label != "type text here...") {
         if (test != "time" && test != "state") {
