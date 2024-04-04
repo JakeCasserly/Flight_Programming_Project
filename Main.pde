@@ -17,6 +17,7 @@ int count = 0;
 HeatMap theHeatMap;
 PShape theUSImage;
 searchBar theSearchBar;
+searchBar theChartSearchBar;
 boolean searchBarActive;
 barChart theBarChart;
 String barChartLabel;
@@ -51,6 +52,7 @@ void setup()
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
+  theChartSearchBar = new searchBar(1280, 600, 200, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
@@ -96,6 +98,11 @@ else if (count == barChartScreen)
     theBarChart.draw();
     textSize(25);
     widgetList4.display();
+    theChartSearchBar.display();
+    if(searchBarActive)
+    {
+      theChartSearchBar.adjustText();
+    }
   }
   else if(count == divertedScreen)
   {
