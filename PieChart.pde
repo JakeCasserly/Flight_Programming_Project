@@ -18,7 +18,7 @@ class PieChart
     this.data = data;
     height = radius/10;
     width = radius/10;
-    font = loadFont("LucidaSans-Typewriter-20.vlw");
+    //font = loadFont("LucidaSans-Typewriter-20.vlw");
     angles = new ArrayList<Float>();
     colors = new ArrayList<Integer>();
     labels = new ArrayList<>();
@@ -69,7 +69,7 @@ class PieChart
       fill(colors.get(i));
       arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
       rect(x+radius*0.75, y-i*radius*0.5,height,width);
-      textFont(font,height);
+      //textFont(font,height);
       text(labels.get(i),x+radius*0.75+1.5*width,y-i*radius*0.5+height);
       lastAngle = angle;
       i++;
