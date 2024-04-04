@@ -101,4 +101,8 @@ public class readDataTask implements Runnable {
   public void terminate() {
     running = false;
   }
+  
+  public void setRunning() {
+    running = true;
+  }
 }

@@ -188,13 +188,13 @@ class barChart {
     //  paramatersSame = false;
     //}
 
-    if (theSearchBar.result != "null") {
-      if (theSearchBar.result != "state" && theSearchBar.result != "time"){
-        print(theSearchBar.result);
-        if (prevFlightCarrier != theSearchBar.result) {
+    if (theChartSearchBar.result != "null") {
+      if (theChartSearchBar.result != "state" && theChartSearchBar.result != "time"){
+        print(theChartSearchBar.result);
+        if (prevFlightCarrier != theChartSearchBar.result) {
           prevFlightCarrier = flightCarrier;
-          flightCarrier = theSearchBar.result;
-          readData();
+          flightCarrier = theChartSearchBar.result;
+          readStates.setRunning();
           print("something");
         }
       }
