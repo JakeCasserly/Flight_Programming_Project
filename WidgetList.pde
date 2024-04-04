@@ -35,7 +35,7 @@ class WidgetList
   
   boolean checkBarChartButton(float mx, float my)
   {
-    if (mx > 1220 && mx < 1220 + width && my > 110 && my < 110 + height)
+    if (mx > 1220 && mx < 1220 + width && my > 110 && my < 140)
     {
       return true;
     }

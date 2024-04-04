@@ -66,7 +66,7 @@ public class readDataTask implements Runnable {
         //theBarChart.dataRead = true;
         terminate();
       }
-      else if (taskName == "time" && theBarChart.readTime == false) {
+      else if (taskName == "time") {
         for (int i = 0; i < database.length; i++) {
           database.setData(i);
           //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers

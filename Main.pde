@@ -11,6 +11,7 @@ final int divertedScreen = 2;
 final int cancelledScreen = 3;
 final int heatMapScreen = 4;
 final int barChartScreen = 5;
+final int pieChartScreen = 6;
 final int loadingFrameAmount = 64;
 PImage[] loadingGif = new PImage[loadingFrameAmount];
 int count = 0;
@@ -21,9 +22,12 @@ searchBar theChartSearchBar;
 boolean searchBarActive;
 barChart theBarChart;
 String barChartLabel;
+Data flightData;
+PieChart thePieChart;
 
 void setup() 
 {
+  flightData = new Data("flights_full.csv");
   barChartLabel = "Change to Time";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
@@ -44,7 +48,7 @@ void setup()
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
-  widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), 1);
+  widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), pieChartScreen);
   widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
   widgetList2 = new WidgetList();
@@ -56,6 +60,7 @@ void setup()
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
+  thePieChart = new PieChart(400, 500, 600, flightData);
 }
 
 void draw() 
@@ -90,7 +95,7 @@ void draw()
       theSearchBar.adjustText();
     }
   }
-else if (count == barChartScreen)
+  else if (count == barChartScreen)
   {
     background(255, 255, 0);
     textSize(25);
@@ -103,6 +108,12 @@ else if (count == barChartScreen)
     {
       theChartSearchBar.adjustText();
     }
+  }
+  else if (count == pieChartScreen)
+  {
+    background(255, 255, 0);
+    widgetList1.display();
+    thePieChart.draw();
   }
   else if(count == divertedScreen)
   {
@@ -128,13 +139,28 @@ void mouseMoved()
 
 void mousePressed() 
 {
-  widgetList.checkButtons(mouseX, mouseY);
-  widgetList1.checkButtons(mouseX, mouseY);
-  widgetList2.checkButtons(mouseX, mouseY);
-  widgetList3.checkButtons(mouseX, mouseY);
-  widgetList4.checkButtons(mouseX, mouseY);
+  if(count == homeScreen)
+  {
+    widgetList.checkButtons(mouseX, mouseY);
+  }
+  else if(count == flightScreen || count == heatMapScreen || count == barChartScreen || count == pieChartScreen)
+  {
+    widgetList1.checkButtons(mouseX, mouseY);
+  }
+  else if(count == divertedScreen)
+  {
+    widgetList2.checkButtons(mouseX, mouseY);
+  }
+  else if(count == cancelledScreen)
+  {
+    widgetList3.checkButtons(mouseX, mouseY);
+  }
+  if(count == barChartScreen)
+  {
+    widgetList4.checkButtons(mouseX, mouseY);
+  }
   //theSearchBar.result();
-  if(widgetList4.checkBarChartButton(mouseX, mouseY))
+  if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
   {
     if(theBarChart.xAxis == "state")
     {
