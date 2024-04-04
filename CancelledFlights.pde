@@ -1,34 +1,76 @@
-// cancelled Flights
-Data flights2k;
-boolean search;
+// cancelled Flight
 
-void setup()
-{
-  flights2k = new Data("flights2k.csv");
-  search = true;
-}
-
-
-void draw()
-{
-  while(search)
+class CancelledFlights {
+  
+  int cancld;
+  ArrayList<ArrayList<String>> cancelledArrayList = new ArrayList<>();
+  int numCncld = 0;
+  int arrayRow = 0;
+  String date, carrier, carrierFlNum, origin, originCity, originState, originWAC, dest, destCity, destState, destWAC, crsDepTime, crsArrTime, dist;
+  
+  
+  CancelledFlights (Data data)
   {
-    int cancelNum = 0;
-    int jfkFlights = 0;
-    int jfkArrivals = 0;
-    int divertedNum = 0;
-    for(int i=0;i<flights2k.length;i++)
+    
+    int row = 1;
+    
+    while ( row <= data.length)
     {
-      flights2k.setData(i);
-      if(flights2k.cancelled == true) cancelNum++;
-      if(flights2k.depData.origin.equals("JFK")) jfkFlights++;
-      if(flights2k.arrData.dest.equals("JFK")) jfkArrivals++;
-      if(flights2k.diverted == true) divertedNum++;
-      
+        cancld = data.getEntry(row).getInt("CANCELLED");
+        if(cancld == 1)
+        {
+          
+          numCncld = numCncld + 1;
+          
+          date = data.getEntry(row).getString("FL_DATE");
+          carrier = data.getEntry(row).getString("MKT_CARRIER");
+          carrierFlNum = data.getEntry(row).getString("MKT_CARRIER_FL_NUM");
+          origin = data.getEntry(row).getString("ORIGIN");
+          originCity = data.getEntry(row).getString("ORIGIN_CITY_NAME");
+          originState = data.getEntry(row).getString("ORIGIN_STATE_ABR");
+          originWAC = data.getEntry(row).getString("FL_DATE");
+          dest = data.getEntry(row).getString("DEST");
+          destCity = data.getEntry(row).getString("DEST_CITY");
+          destState = data.getEntry(row).getString("DEST_STATE_ABR");
+          destWAC = data.getEntry(row).getString("DEST_WAC");
+          crsDepTime = timeFormat(data.getEntry(row).getInt("CRS_DEP_TIME"));
+          crsArrTime = timeFormat(data.getEntry(row).getInt("CRS_ARR_TIME"));
+          dist = data.getEntry(row).getString("DISTANCE");
+          
+          cancelledArrayList.add(new ArrayList<>());
+          
+          cancelledArrayList.get(arrayRow).add(date);
+          cancelledArrayList.get(arrayRow).add(carrier);
+          cancelledArrayList.get(arrayRow).add(carrierFlNum);
+          cancelledArrayList.get(arrayRow).add(origin);
+          cancelledArrayList.get(arrayRow).add(originCity);
+          cancelledArrayList.get(arrayRow).add(originState);
+          cancelledArrayList.get(arrayRow).add(originWAC);
+          cancelledArrayList.get(arrayRow).add(dest);
+          cancelledArrayList.get(arrayRow).add(destCity);
+          cancelledArrayList.get(arrayRow).add(destState);
+          cancelledArrayList.get(arrayRow).add(destWAC);
+          cancelledArrayList.get(arrayRow).add(crsDepTime);
+          cancelledArrayList.get(arrayRow).add(crsArrTime);
+          cancelledArrayList.get(arrayRow).add(dist);
+          
+          arrayRow = arrayRow + 1;
+          
+          
+        }
+        
+        row = row + 1;
     }
-    println("There are "+cancelNum+" cancelled flights");
-    println("There are "+jfkFlights+" flights departing from JFK airport");
-    println("There are "+jfkArrivals+" flights arriving at JFK airport");
-    search = false;
+    
   }
+  
+  String timeFormat(int time)
+  {
+    int hours = time/100;
+    int minutes = time%100;
+    return hours+":"+(minutes == 0 ? "00" :minutes);
+  }
+  
+  
+  
 }
