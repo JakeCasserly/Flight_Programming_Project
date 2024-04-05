@@ -28,7 +28,7 @@ PieChart thePieChart;
 void setup() 
 {
   flightData = new Data("flights_full.csv");
-  barChartLabel = "Change to Time";
+  barChartLabel = "Change to State";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
