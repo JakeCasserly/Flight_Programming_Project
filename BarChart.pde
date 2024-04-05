@@ -116,7 +116,7 @@ class barChart {
         line(x+(i*20), y+750, (x-5)+(i*20), y+770);
         fill(0);
         textSize(30);
-        text("BarChart:\n(Concentration of flights per state)", 750, 175);
+        text("BarChart:\n(Concentration of flights per state)\nFlight Carrier: " + ((flightCarrier != "") ? flightCarrier : "all carriers"), 750, 165);
         textSize(19);
         text("States/(state abreviation)", 560, 925);
         textSize(11);

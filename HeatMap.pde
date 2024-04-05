@@ -17,25 +17,41 @@ class HeatMap {
   PShape stateShape;
   float t;
   int largest;
+  ExecutorService executorService = Executors.newCachedThreadPool();
+  readDataTask readStates;
+  String flightCarrier;
+  Data stateData;
+  String database;
+  String state;
+  int count;
+  boolean departures;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
   
-  HeatMap(int xpos, int ypos, PShape img) {
+  HeatMap(int xpos, int ypos, PShape img, String database) {
     this.xpos = xpos;
     this.ypos = ypos;
+    this.database = database;
     currentxpos = 200;
     currentypos = 900;
     this.img = img;
-    table = loadTable("flights_full.csv", "header");
+    departures = true;
+    //table = loadTable("flights_full.csv", "header");
     readInData = false;
     animated = false;
     amountInStates = new ArrayList<>();
-    entries = table.getRowCount();
+    for (int i = 0; i < allStates.length; i++) {
+      amountInStates.add(0);
+    }
+    //entries = table.getRowCount();
     t = 0;
     largest = 0;
+    flightCarrier = "";
+    readStates = new readDataTask("stateHeat", flightCarrier, stateData);
+    executorService.execute(readStates);
   }
   
   void draw() {
@@ -48,26 +64,11 @@ class HeatMap {
     state within an ArrayList by the name of "amountInStates".
     */
     
-    if (!readInData) {
-      for (int i = 0; i < allStates.length; i++) {
-        for(TableRow row:table.rows()) {
-          String state = row.getString("ORIGIN_STATE_ABR");
-          if (state.equals(allStates[i])) {
-            //println(state + " ");
-            amountInThisState++;
-          }
-        }
-        amountInStates.add(amountInThisState);
-        //println(amountInStates.get(i));
-        amountInThisState = 0;
-      }
-      readInData = true;
-      for (int i = 0; i < amountInStates.size(); i++) {
-        if (amountInStates.get(i) > largest) {
-          largest = amountInStates.get(i);
-        }
-      }
-    }
+    //if (!readInData) {
+      
+    //}
+    
+    entries = count;
     
     if (!animated) {
       animate();
@@ -90,10 +91,22 @@ class HeatMap {
     fill(0);
     text(largest, 1325, 277);
     text("0", 1310, 790);
-    textSize(25);
-    
+    textSize(25);   
     setGradient(1263, 283, 12, 514, color(255,20,50), color(0,20,50), 1);
     
+    if (theSearchBar.result != "null") {
+        //print(theChartSearchBar.result);
+        if (flightCarrier != theSearchBar.result) {
+          //prevFlightCarrier = flightCarrier;
+          flightCarrier = theSearchBar.result;
+          for (int i = 0; i < allStates.length; i++) {
+            amountInStates.set(i, 0);
+          }
+          readStates = new readDataTask("stateHeat", flightCarrier, stateData);
+          executorService.execute(readStates);
+          count = 0;
+      }
+    }
   }
   
   void drawStates() {
@@ -130,6 +143,37 @@ class HeatMap {
       currentypos -= 9.5;
       //print(currentypos);
     }
+  }
+  
+  void readInData() {
+    stateData = new Data(database); // *********
+    int number = 0;
+    for (int i = 0; i < stateData.length; i++) {
+          stateData.setData(i);
+          if (stateData.code.contains(flightCarrier)) {
+            for (int z = 0; z < allStates.length; z++) {
+              if (departures) {
+                state = stateData.depData.state;
+              }
+              else {
+                state = stateData.arrData.state;
+              }
+              if (state.equals(allStates[z])) {
+                number = amountInStates.get(z);
+                amountInStates.set(z, number+1);
+              }
+            }
+            count++;
+          }
+     }
+     largest = 0;
+     for (int i = 0; i < amountInStates.size(); i++) {
+       if (amountInStates.get(i) > largest) {
+         largest = amountInStates.get(i);
+         print(largest);
+       }
+     }
+     print(count);
   }
   
   void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
