@@ -191,7 +191,7 @@ class barChart {
     if (theChartSearchBar.result != "null") {
       if (theChartSearchBar.result != "state" && theChartSearchBar.result != "time"){
         //print(theChartSearchBar.result);
-        print(flightCarrier);
+        //print(flightCarrier);
         if (flightCarrier != theChartSearchBar.result) {
           //prevFlightCarrier = flightCarrier;
           flightCarrier = theChartSearchBar.result;

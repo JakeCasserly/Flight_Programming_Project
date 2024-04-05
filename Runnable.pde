@@ -82,11 +82,16 @@ public class readDataTask implements Runnable {
           //}
         }
         theBarChart.readTime = true;
+        terminate();
+      }
+      else if (taskName == "PieChart") {
+        thePieChart.angles = thePieChart.percentages();
+        terminate();
       }
       else {
         // do nothing forever
       }
-      terminate();
+      
       //}
       //catch (InterruptedException exception) {
       //  exception.printStackTrace();

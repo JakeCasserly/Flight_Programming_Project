@@ -1,4 +1,6 @@
 // create PieChart class to show percentage of cancelled/diverted flights??
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
 
 class PieChart
 {
@@ -9,6 +11,9 @@ class PieChart
   ArrayList<Float> angles;
   ArrayList<Integer> colors;
   ArrayList<String> labels;
+  String flightCarrier;
+  readDataTask readPie;
+  ExecutorService executorService = Executors.newCachedThreadPool();
   
   PieChart(int x, int y, int radius, Data data)
   {
@@ -26,7 +31,14 @@ class PieChart
     colors.add(#85CDF0);
     labels.add("Cancelled");
     labels.add("Diverted");
-    angles = percentages();
+    
+    /*
+    * Jake's Code for PieChart class:
+    * Implemented a thread to help load in the data
+    * such that the pressure is taken off of setup
+    */
+    readPie = new readDataTask("PieChart", flightCarrier, data);
+    executorService.execute(readPie);
   }
   
   ArrayList<Float> percentages()
