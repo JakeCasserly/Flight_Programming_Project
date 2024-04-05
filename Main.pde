@@ -32,7 +32,7 @@ void setup()
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
-  theHeatMap = new HeatMap(200, 264, theUSImage);
+  theHeatMap = new HeatMap(200, 264, theUSImage, "flights_full.csv");
   theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv");
   size(1512, 982);
    // for loop to load in array of image frames for loading gif

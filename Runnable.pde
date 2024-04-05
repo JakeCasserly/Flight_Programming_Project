@@ -88,6 +88,10 @@ public class readDataTask implements Runnable {
         thePieChart.angles = thePieChart.percentages();
         terminate();
       }
+      else if (taskName == "stateHeat") {
+        theHeatMap.readInData();
+        terminate();
+      }
       else {
         // do nothing forever
       }
