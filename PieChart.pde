@@ -26,6 +26,7 @@ class PieChart
     colors.add(#85CDF0);
     labels.add("Cancelled");
     labels.add("Diverted");
+    angles = percentages();
   }
   
   ArrayList<Float> percentages()
@@ -61,7 +62,7 @@ class PieChart
   {
     fill(#9585F0);
     ellipse(x,y,radius,radius);
-    angles = percentages();
+    //angles = percentages();
     float lastAngle = 0;
     int i = 0;
     for(Float angle: angles)
