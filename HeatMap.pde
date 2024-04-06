@@ -187,19 +187,18 @@ class HeatMap {
       //print(currentypos);
     }
   }
-  
+  // N.Cunningham changed references to Data class 07/04 00:00
   void readInData() {
     stateData = new Data(database); // *********
     int number = 0;
     for (int i = 0; i < stateData.length; i++) {
-          stateData.setData(i);
-          if (stateData.code.contains(flightCarrier)) {
+          if (stateData.getCode(i).contains(flightCarrier)) {
             for (int z = 0; z < allStates.length; z++) {
               if (departures) {
-                state = stateData.depData.state;
+                state = stateData.getDep(i).getState();
               }
               else {
-                state = stateData.arrData.state;
+                state = stateData.getArr(i).getState();
               }
               if (state.equals(allStates[z])) {
                 number = amountInStates.get(z);
