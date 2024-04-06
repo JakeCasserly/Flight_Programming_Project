@@ -128,6 +128,49 @@ class HeatMap {
       //println((((double)amountInStates.get(i)/(entries)) * 2550)); for testing
       shape(stateShape, currentxpos, currentypos);
       //println((((double)amountInStates.get(i)/(entries)) * 2550));
+      fill(255);
+      text("WA", currentxpos+245, currentypos+70);
+      text("OR", currentxpos+230, currentypos+145);
+      text("MT", currentxpos+390, currentypos+105);
+      text("WY", currentxpos+410, currentypos+185);
+      text("ID", currentxpos+310, currentypos+160);
+      text("CA", currentxpos+210, currentypos+290);
+      text("AK", currentxpos+220, currentypos+480);
+      text("NV", currentxpos+260, currentypos+232);
+      text("UT", currentxpos+340, currentypos+256);
+      text("AZ", currentxpos+332, currentypos+350);
+      text("CO", currentxpos+430, currentypos+270);
+      text("NM", currentxpos+420, currentypos+360);
+      text("TX", currentxpos+532, currentypos+430);
+      text("KS", currentxpos+550, currentypos+285);
+      text("OK", currentxpos+570, currentypos+345);
+      text("NE", currentxpos+520, currentypos+225);
+      text("SD", currentxpos+520, currentypos+165);
+      text("ND", currentxpos+520, currentypos+105);
+      text("MN", currentxpos+600, currentypos+120);
+      text("IA", currentxpos+615, currentypos+210);
+      text("MO", currentxpos+637, currentypos+275);
+      text("AR", currentxpos+645, currentypos+360);
+      text("LA", currentxpos+650, currentypos+420);
+      text("MS", currentxpos+698, currentypos+390);
+      text("AL", currentxpos+750, currentypos+385);
+      text("GL", currentxpos+810, currentypos+380);
+      text("FL", currentxpos+850, currentypos+460);
+      text("SC", currentxpos+852, currentypos+350);
+      text("NC", currentxpos+850, currentypos+305);
+      text("TN", currentxpos+740, currentypos+325);
+      text("KY", currentxpos+760, currentypos+285);
+      text("VA", currentxpos+856, currentypos+263);
+      textSize(13);
+      text("WV", currentxpos+819, currentypos+250);
+      textSize(25);
+      text("OH", currentxpos+780, currentypos+220);
+      text("IN", currentxpos+732, currentypos+230);
+      text("IL", currentxpos+690, currentypos+240);
+      text("MI", currentxpos+740, currentypos+160);
+      text("WI", currentxpos+660, currentypos+145);
+      text("PA", currentxpos+855, currentypos+193);
+      text("NY", currentxpos+883, currentypos+145);
     }
   }
   

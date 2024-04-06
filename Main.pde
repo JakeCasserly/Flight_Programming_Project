@@ -159,8 +159,12 @@ void mousePressed()
   {
     widgetList4.checkButtons(mouseX, mouseY);
   }
-  theSearchBar.result();
-  theChartSearchBar.result();
+  if (theSearchBar.checkSearchBar(mouseX, mouseY)) {
+    theSearchBar.result();
+  }
+  if (theChartSearchBar.checkSearchBar(mouseX, mouseY)) {
+    theChartSearchBar.result();
+  }
   if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
   {
     if(theBarChart.xAxis == "state")

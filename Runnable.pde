@@ -38,50 +38,13 @@ public class readDataTask implements Runnable {
   public void run() {
     while (running) {
       //try {
-      String[] date;
       // reads Data for a specific flight carrier state by state
       if (taskName == "state") {
-        for (int i = 0; i < database.length; i++) {
-          database.setData(i);
-          if (database.code.contains(request)) {
-            for (int z = 0; z < theBarChart.allStates.length; z++) {
-              if (theBarChart.departures) {
-                theBarChart.state = database.depData.state;
-              }
-              else {
-                theBarChart.state = database.arrData.state;
-              }
-              if (theBarChart.state.equals(theBarChart.allStates[z])) {
-                number = theBarChart.amountInStates.get(z);
-                theBarChart.amountInStates.set(z, number+1);
-                //print(z);
-
-              }
-            }
-            theBarChart.count++;
-            //print(theBarChart.count + " ");
-          }
-          //print("test");
-        }
-        //theBarChart.dataRead = true;
+        theBarChart.readState();
         terminate();
       }
       else if (taskName == "time") {
-        for (int i = 0; i < database.length; i++) {
-          database.setData(i);
-          //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-          date = database.date.split("/");
-          //print(date[1]); testing
-          for (int z = 0; z < theBarChart.dates.length; z++) {
-            if (Integer.parseInt(date[1]) == theBarChart.dates[z]) {
-              number = theBarChart.amountOnDate.get(z);
-              theBarChart.amountOnDate.set(z, number+1);
-            }
-          }
-          theBarChart.countTime++;
-          //}
-        }
-        theBarChart.readTime = true;
+        theBarChart.readTime();
         terminate();
       }
       else if (taskName == "PieChart") {
