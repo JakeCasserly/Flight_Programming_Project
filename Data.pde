@@ -3,65 +3,77 @@ class Data
 {
    Table data;
    TableRow entry;
-   // variables of each flight entry
-   Departure depData;
-   Arrivals arrData;
-   String date, code;
-   boolean cancelled, diverted;
-   int distance;
    int length;
    
-   // parameter string is csv file name
+   ArrayList<String> date,code;
+   ArrayList<Departure> departure;
+   ArrayList<Arrival> arrival;
+   ArrayList<Boolean> cancelled,diverted;
+   ArrayList<Integer> distance;
+
    Data(String database)
    {
        data = loadTable(database,"header");
        length = data.getRowCount();
-       //for (TableRow row:data.getRows())
-       //{
-       //  setData(row);
-       //}
+       
+       date = new ArrayList<String>();
+       code = new ArrayList<String>();
+       cancelled = new ArrayList<Boolean>();
+       diverted = new ArrayList<Boolean>();
+       distance = new ArrayList<Integer>();
+       
+       departure = new ArrayList<Departure>();
+       arrival = new ArrayList<Arrival>();
+       
+       setData();
    }
    
-   // return full table of data
-   Table getData()
+   String getDate(int row)
    {
-     return data;
+     return date.get(row);
    }
    
-   // sets variables for row 
-   
-   /* To search through database, use for loop in main with some
-   counter variable i. For each loop MUST use setData(i) to set
-   the variables of that row. 
-   
-   Then access variables e.g. 
-   data.cancelled == TRUE ? or average += data.distance
-   
-   Access depData and arrData: 
-   e.g. data.depData.time for departure time
-   e.g. data.arrData.city for destination city
-   */
-   
-   void setData(int row)
+   String getCode(int row)
    {
-     entry = data.getRow(row);
-     // take first index of date & disregard time
-     date = split(entry.getString("FL_DATE")," ")[0];
-     code = entry.getString("MKT_CARRIER") + entry.getString("MKT_CARRIER_FL_NUM");
-     // depData holds variables for departure e.g. time, origin
-     depData = new Departure(this,row);
-     // arrData holds variable for arrival e.g. time, destination
-     arrData = new Arrivals(this,row);
-     // check if cancelled / diverted
-     cancelled = entry.getInt("CANCELLED")==1 ? true : false;
-     diverted = entry.getInt("DIVERTED")==1 ? true : false;
-     distance = entry.getInt("DISTANCE");
+     return code.get(row);
    }
    
-   // return row from databas
-   TableRow getEntry(int row)
+   Departure getDep(int row)
    {
-     entry = data.getRow(row);
-     return entry;
+     return departure.get(row);
+   }
+   
+   Arrival getArr(int row)
+   {
+     return arrival.get(row);
+   }
+   
+   boolean getCancelled(int row)
+   {
+     return cancelled.get(row);
+   }
+   
+   boolean getDiverted(int row)
+   {
+     return diverted.get(row);
+   }
+   
+   int getDistance(int row)
+   {
+     return distance.get(row);
+   }
+
+   void setData()
+   {
+       for (TableRow row : data.rows()) 
+       {
+         date.add(split(row.getString("FL_DATE")," ")[0]);
+         code.add(row.getString("MKT_CARRIER") + row.getString("MKT_CARRIER_FL_NUM"));
+         cancelled.add(row.getInt("CANCELLED")==1?true:false);
+         diverted.add(row.getInt("DIVERTED")==1?true:false);
+         distance.add(row.getInt("DISTANCE"));
+         departure.add(new Departure(this,row));
+         arrival.add(new Arrival(this, row));
+       }
    }
 }

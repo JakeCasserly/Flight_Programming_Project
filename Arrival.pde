@@ -1,10 +1,10 @@
-class Departure {  
+class Arrival {  
   Data data;
   TableRow row;
   int wac, time,crs; 
-  String origin, city, state;
+  String dest, city, state;
   
-  Departure(Data data,TableRow row)
+  Arrival(Data data,TableRow row)
   {   
     this.data = data;
     this.row = row;
@@ -21,9 +21,9 @@ class Departure {
     return crs;
   }
   
-  String getOrigin()
+  String getDest()
   {
-    return origin;
+    return dest;
   }
   
   String getCity()
@@ -43,12 +43,12 @@ class Departure {
   
   void setData()
   {
-    time = row.getInt("DEP_TIME");
-    crs = row.getInt("CRS_DEP_TIME");
-    origin = row.getString("ORIGIN");
-    city = row.getString("ORIGIN_CITY_NAME");
-    state = row.getString("ORIGIN_STATE_ABR");
-    wac = row.getInt("ORIGIN_WAC");
+    time = row.getInt("ARR_TIME");
+    crs = row.getInt("CRS_ARR_TIME");
+    dest = row.getString("DEST");
+    city = row.getString("DEST_CITY_NAME");
+    state = row.getString("DEST_STATE_ABR");
+    wac = row.getInt("DEST_WAC");
   }
 
   String timeFormat(int time)
