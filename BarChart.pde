@@ -31,6 +31,7 @@ class barChart {
   String prevFlightCarrier;
   float count;
   float countTime;
+  String[] date;
   boolean departures;
   int[] dates;
   ArrayList<Integer> amountOnDate;
@@ -41,6 +42,8 @@ class barChart {
   readDataTask readStates;
   readDataTask readTimes;
   boolean readTime;
+  int number;
+  int numberTime;
 
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -58,6 +61,8 @@ class barChart {
     readTime = false;
     count = 0;
     countTime = 0;
+    number = 0;
+    numberTime = 0;
     stateData = new Data(database); // *********
     timeData = new Data(database);
     amountInStates = new ArrayList<>();
@@ -159,7 +164,7 @@ class barChart {
         line(x+(i*25), y+750, (x-5)+(i*25), y+770);
         fill(0);
         textSize(30);
-        text("BarChart:\n(Flights sorted by dates)", 750, 190);                                                        // text to be displayed for user to see description of data being displayed
+        text("BarChart:\n(Flights sorted by dates)\nFlight Carrier: " + ((flightCarrier != "") ? flightCarrier : "all carriers"), 750, 180);                                                        // text to be displayed for user to see description of data being displayed
         textSize(19);
         text("Dates/(day in the month)", 480, 925);
         textSize(11);
@@ -198,10 +203,16 @@ class barChart {
           for (int i = 0; i < allStates.length; i++) {
             amountInStates.set(i, 0);
           }
+          for (int i = 0; i < dates.length; i++) {
+            amountOnDate.set(i, 0);
+          }
           //readStates.setRunning();
+          count = 0;
+          countTime = 0;
           readStates = new readDataTask("state", flightCarrier, stateData);
           executorService.execute(readStates);
-          count = 0;
+          readTimes = new readDataTask("time", flightCarrier, timeData);
+          executorService.execute(readTimes);
           //print("something");
         }
       }
@@ -264,6 +275,46 @@ class barChart {
     //  // do nothing forever
     //}
 
+  }
+  
+  void readTime() {
+    countTime = 0;
+    for (int i = 0; i < timeData.length; i++) {
+        timeData.setData(i);
+        if (timeData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
+          date = timeData.date.split("/");
+          //print(date[1]); testing
+          for (int z = 0; z < dates.length; z++) {
+            if (Integer.parseInt(date[1]) == dates[z]) {
+              numberTime = amountOnDate.get(z);
+              amountOnDate.set(z, numberTime+1);
+            }
+          }
+          countTime++;
+        }
+      }
+      readTime = true;
+  }
+  
+  void readState() {
+    for (int i = 0; i < stateData.length; i++) {
+          stateData.setData(i);
+          if (stateData.code.contains(flightCarrier)) {
+            for (int z = 0; z < allStates.length; z++) {
+              if (departures) {
+                state = stateData.depData.state;
+              }
+              else {
+                state = stateData.arrData.state;
+              }
+              if (state.equals(allStates[z])) {
+                number = amountInStates.get(z);
+                amountInStates.set(z, number+1);
+              }
+            }
+            count++;
+          }
+        }
   }
 
   void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
