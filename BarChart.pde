@@ -277,12 +277,13 @@ class barChart {
 
   }
   
+  // N.Cunningham changed references to Data class 07/04 00:00
+  
   void readTime() {
     countTime = 0;
     for (int i = 0; i < timeData.length; i++) {
-        timeData.setData(i);
-        if (timeData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-          date = timeData.date.split("/");
+        if (timeData.getCode(i).contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
+          date = timeData.getDate(i).split("/");
           //print(date[1]); testing
           for (int z = 0; z < dates.length; z++) {
             if (Integer.parseInt(date[1]) == dates[z]) {
@@ -295,17 +296,16 @@ class barChart {
       }
       readTime = true;
   }
-  
+ 
   void readState() {
     for (int i = 0; i < stateData.length; i++) {
-          stateData.setData(i);
-          if (stateData.code.contains(flightCarrier)) {
+          if (stateData.getCode(i).contains(flightCarrier)) {
             for (int z = 0; z < allStates.length; z++) {
               if (departures) {
-                state = stateData.depData.state;
+                state = stateData.getDep(i).getState();
               }
               else {
-                state = stateData.arrData.state;
+                state = stateData.getArr(i).getState();
               }
               if (state.equals(allStates[z])) {
                 number = amountInStates.get(z);
