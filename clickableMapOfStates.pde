@@ -5,6 +5,7 @@ import processing.data.TableRow;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+class clickableMap extends PApplet {
     ArrayList<Button> stateButtons;
     String selectedState = "";
     PImage mapImage;
@@ -48,17 +49,17 @@ import java.util.HashMap;
         }
     }
 
-    public void mousePressed() {
-        for (Button button : stateButtons) {
-            if (button.isOver(mouseX, mouseY)) {
-                selectedState = button.label;
-                return;
-            }
-        }
-        if (backButton.isOver(mouseX, mouseY)) {
-            selectedState = ""; // Reset selected state if back button is pressed
-        }
-    }
+    //public void mousePressed() {
+    //    for (Button button : stateButtons) {
+    //        if (button.isOver(mouseX, mouseY)) {
+    //            selectedState = button.label;
+    //            return;
+    //        }
+    //    }
+    //    if (backButton.isOver(mouseX, mouseY)) {
+    //        selectedState = ""; // Reset selected state if back button is pressed
+    //    }
+    //}
 
     void loadAndParseData(String fileName) {
         Table table = loadTable(fileName, "header");
@@ -125,13 +126,12 @@ import java.util.HashMap;
         text("Number of Flights", margin / 4, height / 2);
     }
     void initializeButtons() {
-        // Initialize your buttons based on the `states` and `buttonPositions`
+     
         stateButtons = new ArrayList<Button>();
         for (int i = 0; i < states.length; i++) {
             float x = buttonPositions[i][0];
             float y = buttonPositions[i][1];
             stateButtons.add(new Button(states[i], x, y, 80, 40, false));
-        }
+            }
     }
-
-    // Inner classes for Button and BackButton (including any logic for displaying and checking if they are clicked
+}
