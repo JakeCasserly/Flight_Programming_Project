@@ -80,8 +80,10 @@ class barChart {
     departures = true;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
-    readStates = new readDataTask("state", flightCarrier, stateData);
-    readTimes = new readDataTask("time", flightCarrier, timeData);
+    stateData.setData();
+    timeData.setData();
+    readStates = new readDataTask("state");
+    readTimes = new readDataTask("time");
     executorService.execute(readTimes);
     executorService.execute(readStates);
   }
@@ -102,12 +104,6 @@ class barChart {
       //executorService.shutdown();                                                                                  // this is used to shut down the threads
       paramatersSame = true;
     }
-
-    //if (prevxAxis != xAxis) {                                                                                        // if the xAxis variable is changed, re-read the data
-    //  readData();
-    //  executorService.execute(readStates);
-      //prevxAxis = xAxis;
-    //}
 
     fill(255);
     strokeWeight(7);
@@ -209,16 +205,15 @@ class barChart {
           //readStates.setRunning();
           count = 0;
           countTime = 0;
-          readStates = new readDataTask("state", flightCarrier, stateData);
+          readStates = new readDataTask("state");
           executorService.execute(readStates);
-          readTimes = new readDataTask("time", flightCarrier, timeData);
+          readTimes = new readDataTask("time");
           executorService.execute(readTimes);
           //print("something");
         }
       }
       else if (theSearchBar.result == "state" || theSearchBar.result == "time"){
         xAxis = theSearchBar.result;
-        readData();
       }
       else {
         // do nothing forever
@@ -226,64 +221,12 @@ class barChart {
     }
 
   }
-
-  void readData() {
-    //int amountInThisState = 0;
-    //String[] date;
-
-    //// reads Data for a specific flight carrier state by state
-    //if (xAxis == "state") {
-    //  for (int i = 0; i < currentData.length; i++) {
-    //    currentData.setData(i);
-    //    if (currentData.code.contains(flightCarrier)) {
-    //      for (int z = 0; z < allStates.length; z++) {
-    //        if (departures) {
-    //          state = currentData.depData.state;
-    //        }
-    //        else {
-    //          state = currentData.arrData.state;
-    //        }
-    //        if (state.equals(allStates[z])) {
-    //          number = amountInStates.get(z);
-    //          amountInStates.set(z, number+1);
-
-    //        }
-    //      }
-    //      count++;
-    //    }
-    //    //print("test");
-    //  }
-    //  dataRead = true;
-    //}
-    //else if (xAxis == "time") {
-    //  for (int i = 0; i < currentData.length; i++) {
-    //    currentData.setData(i);
-    //    //if (currentData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-    //    date = currentData.date.split("/");
-    //    //print(date[1]); testing
-    //    for (int z = 0; z < dates.length; z++) {
-    //      if (Integer.parseInt(date[1]) == dates[z]) {
-    //        number = amountOnDate.get(z);
-    //        amountOnDate.set(z, number+1);
-    //      }
-    //    }
-    //    count++;
-    //  //}
-    //  }
-    //}
-    //else {
-    //  // do nothing forever
-    //}
-
-  }
   
   void readTime() {
     countTime = 0;
-    for (int i = 0; i < timeData.length; i++) {
-        timeData.setData(i);
-        if (timeData.code.contains(flightCarrier)) {        // possiblility to restrict it to specific flight carriers
-          date = timeData.date.split("/");
-          //print(date[1]); testing
+      for (int i = 0; i < timeData.length; i++) {
+        if (timeData.getCode(i).contains(flightCarrier)) {
+          date = timeData.getDate(i).split("/");
           for (int z = 0; z < dates.length; z++) {
             if (Integer.parseInt(date[1]) == dates[z]) {
               numberTime = amountOnDate.get(z);
@@ -293,28 +236,27 @@ class barChart {
           countTime++;
         }
       }
-      readTime = true;
   }
   
   void readState() {
+    
     for (int i = 0; i < stateData.length; i++) {
-          stateData.setData(i);
-          if (stateData.code.contains(flightCarrier)) {
-            for (int z = 0; z < allStates.length; z++) {
-              if (departures) {
-                state = stateData.depData.state;
-              }
-              else {
-                state = stateData.arrData.state;
-              }
-              if (state.equals(allStates[z])) {
-                number = amountInStates.get(z);
-                amountInStates.set(z, number+1);
-              }
-            }
-            count++;
+      if (stateData.getCode(i).contains(flightCarrier)) {
+        for (int z = 0; z < allStates.length; z++) {
+          if (departures) {
+            state = stateData.getDep(i).getState();
+          }
+          else {
+            state = stateData.getArr(i).getState();
+          }
+          if (state.equals(allStates[z])) {
+            number = amountInStates.get(z);
+            amountInStates.set(z, number+1);
           }
         }
+        count++;
+      }
+    }
   }
 
   void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {

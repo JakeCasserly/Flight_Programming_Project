@@ -25,6 +25,8 @@ class HeatMap {
   String state;
   int count;
   boolean departures;
+  readDataTask animate;
+  boolean startingThread;
   
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -42,6 +44,7 @@ class HeatMap {
     //table = loadTable("flights_full.csv", "header");
     readInData = false;
     animated = false;
+    startingThread = true;
     amountInStates = new ArrayList<>();
     for (int i = 0; i < allStates.length; i++) {
       amountInStates.add(0);
@@ -50,8 +53,9 @@ class HeatMap {
     t = 0;
     largest = 0;
     flightCarrier = "";
-    readStates = new readDataTask("stateHeat", flightCarrier, stateData);
+    readStates = new readDataTask("stateHeat");
     executorService.execute(readStates);
+    animate = new readDataTask("animateHeatMap");
   }
   
   void draw() {
@@ -68,11 +72,17 @@ class HeatMap {
       
     //}
     
+    //if (startingThread) {
+    //  executorService.execute(animate);
+    //  startingThread = false;
+    //}
+    
     entries = count;
     
     if (!animated) {
-      animate();
-    } else {
+       animate();
+    }
+    else {
       shape(img, 200, 264);
     }
     
@@ -102,7 +112,7 @@ class HeatMap {
           for (int i = 0; i < allStates.length; i++) {
             amountInStates.set(i, 0);
           }
-          readStates = new readDataTask("stateHeat", flightCarrier, stateData);
+          readStates = new readDataTask("stateHeat");
           executorService.execute(readStates);
           count = 0;
       }
@@ -110,6 +120,7 @@ class HeatMap {
   }
   
   void drawStates() {
+    //img.enableStyle();
     String state;
     
     strokeWeight(0.5);
@@ -191,15 +202,17 @@ class HeatMap {
   void readInData() {
     stateData = new Data(database); // *********
     int number = 0;
+    String code = "";
+    stateData.setData();
     for (int i = 0; i < stateData.length; i++) {
-          stateData.setData(i);
-          if (stateData.code.contains(flightCarrier)) {
+      code = stateData.getCode(i);
+          if (code.contains(flightCarrier)) {
             for (int z = 0; z < allStates.length; z++) {
               if (departures) {
-                state = stateData.depData.state;
+                state = stateData.getDep(i).getState();
               }
               else {
-                state = stateData.arrData.state;
+                state = stateData.getArr(i).getState();
               }
               if (state.equals(allStates[z])) {
                 number = amountInStates.get(z);
@@ -213,7 +226,6 @@ class HeatMap {
      for (int i = 0; i < amountInStates.size(); i++) {
        if (amountInStates.get(i) > largest) {
          largest = amountInStates.get(i);
-         print(largest);
        }
      }
      print(count);

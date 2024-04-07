@@ -14,17 +14,12 @@ public class readDataTask implements Runnable {
   //private final SecureRandom generator = new SecureRandom();
   //private final int sleepTime; // random sleep time for thread if we want the thread to sleep
   private final String taskName;
-  private String request;
   private volatile boolean running = true;
   private Data database;
-  private int number;
 
   //constructor
-  public readDataTask(String taskName, String request, Data database) {
+  public readDataTask(String taskName) {
     this.taskName = taskName;
-    this.request = request;
-    this.database = database;
-    number = 0;
 
     //sleepTime = generator.nextInt(5000); // pick random sleep time between 0 and 5 seconds
   }
@@ -54,6 +49,16 @@ public class readDataTask implements Runnable {
       else if (taskName == "stateHeat") {
         theHeatMap.readInData();
         terminate();
+      }
+      else if (taskName == "animateHeatMap") {
+        //theHeatMap.drawStates();
+        /*
+        * Erm... Lets not talk about this... well look...
+        * for some reason one thread cannot handle svg styles
+        * and colouring in the states. I think theirs some trickery
+        * going on within the main thread that can bypass those sorts of errors
+        * because by running this code, the program completely combusts.
+        */
       }
       else {
         // do nothing forever
