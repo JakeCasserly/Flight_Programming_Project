@@ -47,7 +47,12 @@ class PieChart
     labels.add("Late Departures");
     labels.add("On Time");
     
-    readPie = new readDataTask("PieChart", flightCarrier, data);
+    /*
+    * Jake's Code for PieChart class:
+    * Implemented a thread to help load in the data
+    * such that the pressure is taken off of setup
+    */
+    readPie = new readDataTask("PieChart");
     executorService.execute(readPie);
   }
   
