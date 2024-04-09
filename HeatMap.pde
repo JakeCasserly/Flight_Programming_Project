@@ -53,7 +53,7 @@ class HeatMap {
     flightCarrier = "";
     readStates = new readDataTask("stateHeat");
     executorService.execute(readStates);
-    animate = new readDataTask("animateHeatMap");
+    //animate = new readDataTask("animateHeatMap");
   }
   
   void draw() {
