@@ -28,6 +28,7 @@ PieChart thePieChart;
 void setup() 
 {
   flightData = new Data("flights_full.csv");
+  flightData.setData();
   barChartLabel = "Change to State";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
@@ -58,7 +59,7 @@ void setup()
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
-  theChartSearchBar = new searchBar(1280, 600, 200, 70, "type text here...", color(210, 210, 0), "null", false);
+  theChartSearchBar = new searchBar(1230, 700, 200, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
@@ -170,6 +171,7 @@ void mousePressed()
   }
   if (theChartSearchBar.checkSearchBar(mouseX, mouseY)) {
     theChartSearchBar.result();
+    println(searchBarActive);
   }
   if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
   {
@@ -193,6 +195,10 @@ void mousePressed()
     }
   }
   if(theSearchBar.checkSearchBar(mouseX, mouseY))
+  {
+    searchBarActive = true;
+  }
+  if(theChartSearchBar.checkSearchBar(mouseX, mouseY))
   {
     searchBarActive = true;
   }
