@@ -62,7 +62,7 @@ void setup()
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
-  //thePieChart = new PieChart(400, 500, 600, flightData);
+  thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
 }
 
 void draw() 
