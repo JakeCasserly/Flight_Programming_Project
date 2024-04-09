@@ -127,7 +127,7 @@ void draw()
     diverted.draw();
     if(searchBarActive)
     {
-      divertedSearchBar.adjustText();
+      theSearchBar.adjustText();
     }
   }
   else if(count == cancelledScreen)
@@ -182,7 +182,7 @@ void mousePressed()
     println(searchBarActive);
   }
   if (divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
-    //divertedSearchBar.result();
+    divertedSearchBar.result();
   }
   if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
   {
