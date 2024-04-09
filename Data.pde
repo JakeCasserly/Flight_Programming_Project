@@ -33,7 +33,7 @@ class Data
      return date.get(row);
    }
    
-   String getCode(int row)
+   synchronized String getCode(int row)
    {
      return code.get(row);
    }
@@ -63,7 +63,7 @@ class Data
      return distance.get(row);
    }
 
-   void setData()
+   synchronized void setData()
    {
        for (TableRow row : data.rows()) 
        {

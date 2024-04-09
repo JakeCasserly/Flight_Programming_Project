@@ -1,12 +1,12 @@
 /**
  * Jake Casserly's code 02/04/2024
- * I use the "Java: How to program late objects (Java)" book in the Hamilton library to help me with learning concurrency
+ * I use the "Java How to program late objects - 11th edition - Paul Deitel and Harvey Deitel" book in the Hamilton library to help me with learning concurrency
  * I felt that using mutli-threading would help make the code more efficient when loading in data that has to respond to user input.
  * The code that I have here is a class called readDataTask that implements the Runnable class which is built into java.
  * Using the runnable class I can instantiate threads which can do specific tasks whilst keeping the main thread free.
  * Keeping the main thread free will allow the main thread to draw the objects to the screen whilst data is being
  * read in in the background.
- */
+*/
 
 //import java.security.SecureRandom;
 

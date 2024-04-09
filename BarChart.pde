@@ -88,8 +88,8 @@ class barChart {
     prevFlightCarrier = "B6";
     PFont font = createFont("arial",16);
     this.cp5 = cp5;
-    d1 = cp5.addDropdownList("State1").setPosition(x+1080, 770).setSize(100, 100).setFont(font);
-    d2 = cp5.addDropdownList("State2").setPosition(x+1280, 770).setSize(100, 100).setFont(font);
+    d1 = cp5.addDropdownList("S1").setPosition(x+1060, 850).setSize(40, 100).setFont(font);
+    d2 = cp5.addDropdownList("S2").setPosition(x+1350, 850).setSize(40, 100).setFont(font);
     
     customize(d1);
     customize(d2);
@@ -136,7 +136,9 @@ class barChart {
         textSize(30);
         text("BarChart:\n(Concentration of flights per state)\nFlight Carrier: " + ((flightCarrier != "") ? flightCarrier : "all carriers"), 750, 165);
         textSize(19);
+        text("No.\nflights", 50, 200);
         text("States/(state abreviation)", 560, 925);
+        text("Search Flight_Carrier", 1330, 670);
         textSize(11);
         fill(0);
         text(allStates[i], x+6+(i*20), y+764);
@@ -179,9 +181,11 @@ class barChart {
         line(x+(i*25), y+750, (x-5)+(i*25), y+770);
         fill(0);
         textSize(30);
-        text("BarChart:\n(Flights sorted by dates)\nFlight Carrier: " + ((flightCarrier != "") ? flightCarrier : "all carriers"), 750, 180);                                                        // text to be displayed for user to see description of data being displayed
+        text("BarChart:\n(Flights sorted by dates)\nFlight Carrier: " + ((flightCarrier != "") ? flightCarrier : "all carriers"), 750, 180); // text to be displayed for user to see description of data being displayed
         textSize(19);
+        text("No.\nflights", 50, 200);
         text("Dates/(day in the month)", 480, 925);
+        text("Search Flight_Carrier", 1330, 670);
         textSize(11);
         fill(0);
         text(Integer.toString(i+1), x+6+(i*25), y+764);
@@ -202,11 +206,6 @@ class barChart {
       text(amountOnDate.get(10)/2, x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
       line(x, y+(750-((amountOnDate.get(10)/countTime)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
     }
-
-    //if (theSearchBar.result != flightCarrier) {
-    //  flightCarrier = theSearchBar.result;
-    //  paramatersSame = false;
-    //}
 
     if (theChartSearchBar.result != "null") {
       if (theChartSearchBar.result != "state" && theChartSearchBar.result != "time"){
@@ -241,16 +240,30 @@ class barChart {
 
   }
   
-  void readTime() {
+  synchronized void readTime() {
     if (readTime == false) {
-      timeData = new Data(database);
-      timeData.setData();
+      //timeData = new Data(database);
+      //timeData.setData();
       readTime = true;
     }
-    countTime = 0;
-      for (int i = 0; i < timeData.length; i++) {
-        if (timeData.getCode(i).contains(flightCarrier)) {
-          date = timeData.getDate(i).split("/");
+    //countTime = 0;
+    //  for (int i = 0; i < timeData.length; i++) {
+    //    if (timeData.getCode(i).contains(flightCarrier)) {
+    //      date = timeData.getDate(i).split("/");
+    //      for (int z = 0; z < dates.length; z++) {
+    //        if (Integer.parseInt(date[1]) == dates[z]) {
+    //          numberTime = amountOnDate.get(z);
+    //          amountOnDate.set(z, numberTime+1);
+    //        }
+    //      }
+    //      countTime++;
+    //    }
+    //  }
+      
+      countTime = 0;
+      for (int i = 0; i < flightData.length; i++) {
+        if (flightData.getCode(i).contains(flightCarrier)) {
+          date = flightData.getDate(i).split("/");
           for (int z = 0; z < dates.length; z++) {
             if (Integer.parseInt(date[1]) == dates[z]) {
               numberTime = amountOnDate.get(z);
@@ -264,18 +277,36 @@ class barChart {
   
   void readState() {
     if (readState == false) {
-      stateData = new Data(database);
-      stateData.setData();
+      //stateData = new Data(database);
+      //stateData.setData();
       readState = true;
     }
-    for (int i = 0; i < stateData.length; i++) {
-      if (stateData.getCode(i).contains(flightCarrier)) {
+    //for (int i = 0; i < stateData.length; i++) {
+    //  if (stateData.getCode(i).contains(flightCarrier)) {
+    //    for (int z = 0; z < allStates.length; z++) {
+    //      if (departures) {
+    //        state = stateData.getDep(i).getState();
+    //      }
+    //      else {
+    //        state = stateData.getArr(i).getState();
+    //      }
+    //      if (state.equals(allStates[z])) {
+    //        number = amountInStates.get(z);
+    //        amountInStates.set(z, number+1);
+    //      }
+    //    }
+    //    count++;
+    //  }
+    //}
+    
+    for (int i = 0; i < flightData.length; i++) {
+      if (flightData.getCode(i).contains(flightCarrier)) {
         for (int z = 0; z < allStates.length; z++) {
           if (departures) {
-            state = stateData.getDep(i).getState();
+            state = flightData.getDep(i).getState();
           }
           else {
-            state = stateData.getArr(i).getState();
+            state = flightData.getArr(i).getState();
           }
           if (state.equals(allStates[z])) {
             number = amountInStates.get(z);

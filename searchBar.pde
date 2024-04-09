@@ -82,19 +82,13 @@ class searchBar {
   void result() {
      String test = label;
      println("Request");
-      
       if (label != "type text here...") {
-        if (test != "time" && test != "state") {
-          
-          //test = label.substring(2);
-          result = test.toUpperCase();
-          
-          println("Request fulfilled");
-        }
-        else {    
-          result = label;
-          println("Request fulfilled time");
-        }
+        result = test.toUpperCase();
+        println("Request fulfilled");
+      }
+      else {
+        label = "";
+        print("reset");
       }
   }
  }
