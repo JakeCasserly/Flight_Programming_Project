@@ -217,6 +217,11 @@ void mousePressed()
   {
     searchBarActive = true;
   }
+  
+  // N.Cunningham added events for PieChart radio buttons 23:00 09/04/24 
+  if(thePieChart.radioTime.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_TIME;
+  else if(thePieChart.radioScheduled.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_SCHEDULED;
+  
 }
 
 void controlEvent(ControlEvent theEvent) {
