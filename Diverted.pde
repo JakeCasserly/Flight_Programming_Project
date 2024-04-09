@@ -66,7 +66,6 @@ void draw() {
         text(flightInfo[3], 900, yPos, width - 40, textHeight); 
         String flightStatus = "DIVERTED"; fill(250, 5, 5); 
         text(flightStatus, 1000, yPos, width - 40, textHeight);
-        text(flightInfo[5], 1100, yPos, width - 40, textHeight);
         yPos += (0.5*textHeight);
     }
 }
