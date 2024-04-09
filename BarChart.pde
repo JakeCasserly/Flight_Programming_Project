@@ -39,6 +39,7 @@ class barChart {
   ExecutorService executorService = Executors.newCachedThreadPool();
   readDataTask readStates;
   readDataTask readTimes;
+  boolean readState;
   boolean readTime;
   int number;
   int numberTime;
@@ -47,6 +48,7 @@ class barChart {
   String state2;
   int state1num;
   int state2num;
+  String database;
 
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
@@ -56,23 +58,30 @@ class barChart {
   barChart (int x, int y, double height, double width, String database, ControlP5 cp5) {
     this.x = x;
     this.y = y;
+    this.database = database;
     this.width = width;
     this.height = height;
     xAxis = "time";
     prevxAxis = "time";
     paramatersSame = false;
     readTime = false;
+    readState = false;
     count = 0;
     countTime = 0;
     number = 0;
     numberTime = 0;
-    stateData = new Data(database); // *********
-    timeData = new Data(database);
+    
     amountInStates = new ArrayList<>();
     dates = new int[30];
     amountOnDate = new ArrayList<>();
     for (int i = 0; i < allStates.length; i++) {
       amountInStates.add(0);
+    }
+    for (int i = 0; i < dates.length; i++) {
+      dates[i] = i+1;
+    }
+    for (int i = 0; i < dates.length; i++) {
+      amountOnDate.add(0);
     }
     departures = true;
     flightCarrier = "B6";
@@ -90,8 +99,6 @@ class barChart {
     state1num = 0;
     state2num = 1;
     
-    stateData.setData();
-    timeData.setData();
     readStates = new readDataTask("state");
     readTimes = new readDataTask("time");
     executorService.execute(readTimes);
@@ -235,11 +242,10 @@ class barChart {
   }
   
   void readTime() {
-    for (int i = 0; i < dates.length; i++) {
-      dates[i] = i+1;
-    }
-    for (int i = 0; i < dates.length; i++) {
-      amountOnDate.add(0);
+    if (readTime == false) {
+      timeData = new Data(database);
+      timeData.setData();
+      readTime = true;
     }
     countTime = 0;
       for (int i = 0; i < timeData.length; i++) {
@@ -257,7 +263,11 @@ class barChart {
   }
   
   void readState() {
-    
+    if (readState == false) {
+      stateData = new Data(database);
+      stateData.setData();
+      readState = true;
+    }
     for (int i = 0; i < stateData.length; i++) {
       if (stateData.getCode(i).contains(flightCarrier)) {
         for (int z = 0; z < allStates.length; z++) {
