@@ -24,6 +24,8 @@ barChart theBarChart;
 String barChartLabel;
 Data flightData;
 PieChart thePieChart;
+diverted diverted;
+searchBar divertedSearchBar;
 
 void setup() 
 {
@@ -36,6 +38,7 @@ void setup()
   theHeatMap = new HeatMap(200, 264, theUSImage, "flights_full.csv");
   ControlP5 cp5;
   cp5 = new ControlP5(this);
+  diverted = new diverted(100, 130, flightData);
   theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
   size(1512, 982);
    // for loop to load in array of image frames for loading gif
@@ -60,6 +63,7 @@ void setup()
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   theChartSearchBar = new searchBar(1230, 700, 200, 70, "type text here...", color(210, 210, 0), "null", false);
+  divertedSearchBar = new searchBar(1200, 120, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
@@ -120,8 +124,11 @@ void draw()
   }
   else if(count == divertedScreen)
   {
-    background(0);
-    widgetList2.display();
+    diverted.draw();
+    if(searchBarActive)
+    {
+      theSearchBar.adjustText();
+    }
   }
   else if(count == cancelledScreen)
   {
@@ -142,6 +149,7 @@ void mouseMoved()
   widgetList3.checkButtonsBorder(mouseX, mouseY);
   widgetList4.checkButtonsBorder(mouseX, mouseY);
   theSearchBar.checkBorder(mouseX, mouseY);
+  divertedSearchBar.checkBorder(mouseX, mouseY);
 }
 
 void mousePressed() 
@@ -173,6 +181,9 @@ void mousePressed()
     theChartSearchBar.result();
     println(searchBarActive);
   }
+  if (divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
+    divertedSearchBar.result();
+  }
   if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
   {
     if(theBarChart.xAxis == "state")
@@ -199,6 +210,10 @@ void mousePressed()
     searchBarActive = true;
   }
   if(theChartSearchBar.checkSearchBar(mouseX, mouseY))
+  {
+    searchBarActive = true;
+  }
+  if(divertedSearchBar.checkSearchBar(mouseX, mouseY))
   {
     searchBarActive = true;
   }

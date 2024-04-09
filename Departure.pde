@@ -55,6 +55,12 @@ class Departure {
   {
     int hours = time/100;
     int minutes = time%100;
-    return hours+":"+(minutes == 0 ? "00" :minutes);
+    String minutesStr;
+    if (minutes>=10)
+    {
+      minutesStr=""+minutes;
+    }
+    else { minutesStr="0" + minutes;}
+    return hours+":"+(minutes == 0 ? "00" :minutesStr);
   }
 }
