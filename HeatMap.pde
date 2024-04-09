@@ -41,7 +41,6 @@ class HeatMap {
     currentypos = 900;
     this.img = img;
     departures = true;
-    //table = loadTable("flights_full.csv", "header");
     readInData = false;
     animated = false;
     startingThread = true;
@@ -49,7 +48,6 @@ class HeatMap {
     for (int i = 0; i < allStates.length; i++) {
       amountInStates.add(0);
     }
-    //entries = table.getRowCount();
     t = 0;
     largest = 0;
     flightCarrier = "";
@@ -136,9 +134,7 @@ class HeatMap {
       else {
         fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 10, 27);
       }
-      //println((((double)amountInStates.get(i)/(entries)) * 2550)); for testing
       shape(stateShape, currentxpos, currentypos);
-      //println((((double)amountInStates.get(i)/(entries)) * 2550));
       fill(255);
       text("WA", currentxpos+245, currentypos+70);
       text("OR", currentxpos+230, currentypos+145);
@@ -195,7 +191,6 @@ class HeatMap {
       currentxpos = (200 + 130 * sin(t) );
       t += 0.097;
       currentypos -= 9.5;
-      //print(currentypos);
     }
   }
   

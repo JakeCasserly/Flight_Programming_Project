@@ -74,12 +74,6 @@ class barChart {
     for (int i = 0; i < allStates.length; i++) {
       amountInStates.add(0);
     }
-    for (int i = 0; i < dates.length; i++) {
-      dates[i] = i+1;
-    }
-    for (int i = 0; i < dates.length; i++) {
-      amountOnDate.add(0);
-    }
     departures = true;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
@@ -241,6 +235,12 @@ class barChart {
   }
   
   void readTime() {
+    for (int i = 0; i < dates.length; i++) {
+      dates[i] = i+1;
+    }
+    for (int i = 0; i < dates.length; i++) {
+      amountOnDate.add(0);
+    }
     countTime = 0;
       for (int i = 0; i < timeData.length; i++) {
         if (timeData.getCode(i).contains(flightCarrier)) {
