@@ -33,7 +33,9 @@ void setup()
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage, "flights_full.csv");
-  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv");
+  ControlP5 cp5;
+  cp5 = new ControlP5(this);
+  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
   size(1512, 982);
    // for loop to load in array of image frames for loading gif
   for (int i = 0; i < loadingFrameAmount; i++) 
@@ -60,7 +62,7 @@ void setup()
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   searchBarActive = false;
-  thePieChart = new PieChart(400, 500, 600, flightData);
+  //thePieChart = new PieChart(400, 500, 600, flightData);
 }
 
 void draw() 
@@ -124,6 +126,10 @@ void draw()
   {
     background(0);
     widgetList3.display();
+  }
+  if ( count != barChartScreen ) {
+    theBarChart.d1.setVisible(false);
+    theBarChart.d2.setVisible(false);
   }
 }
 
@@ -191,3 +197,35 @@ void mousePressed()
     searchBarActive = true;
   }
 }
+
+void controlEvent(ControlEvent theEvent) {
+    // DropdownList is of type ControlGroup.
+    // A controlEvent will be triggered from inside the ControlGroup class.
+    // therefore you need to check the originator of the Event with
+    // if (theEvent.isGroup())
+    // to avoid an error message thrown by controlP5.
+  
+    if (theEvent.isGroup())
+    {
+       // to avoid an error message thrown by controlP5.
+       println(theEvent.getValue());
+       theBarChart.state1 = theBarChart.allStates[(int)theEvent.getValue()];
+       
+       
+       print(theBarChart.state1);
+    }
+    
+    if (theEvent.isFrom(theBarChart.d1)) {
+       theBarChart.state1 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.state1num = (int)theEvent.getValue();
+    }
+    else if (theEvent.isFrom(theBarChart.d2)) {
+       theBarChart.state2 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.state2num = (int)theEvent.getValue();
+    }
+    
+    
+    if (theEvent.isController()) {
+      println("event from controller : "+theEvent.getController().getValue()+" from "+theEvent.getController());
+    }
+  }

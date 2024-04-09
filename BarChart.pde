@@ -14,9 +14,7 @@ import java.util.concurrent.ExecutorService;
 import controlP5.*;
 
 class barChart {
-  //ControlP5 cp5;
-  //DropdownList d1, d2;
-  //cp5 = new ControlP5(this);
+  DropdownList d1, d2;
   int x;
   int y;
   double height;
@@ -44,13 +42,18 @@ class barChart {
   boolean readTime;
   int number;
   int numberTime;
+  ControlP5 cp5;
+  String state1;
+  String state2;
+  int state1num;
+  int state2num;
 
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
 
-  barChart (int x, int y, double height, double width, String database) {
+  barChart (int x, int y, double height, double width, String database, ControlP5 cp5) {
     this.x = x;
     this.y = y;
     this.width = width;
@@ -80,6 +83,19 @@ class barChart {
     departures = true;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
+    PFont font = createFont("arial",16);
+    this.cp5 = cp5;
+    d1 = cp5.addDropdownList("State1").setPosition(x+1080, 770).setSize(100, 100).setFont(font);
+    d2 = cp5.addDropdownList("State2").setPosition(x+1280, 770).setSize(100, 100).setFont(font);
+    
+    customize(d1);
+    customize(d2);
+    
+    state1 = "TX";
+    state2 = "NY";
+    state1num = 0;
+    state2num = 1;
+    
     stateData.setData();
     timeData.setData();
     readStates = new readDataTask("state");
@@ -93,8 +109,6 @@ class barChart {
     if (!paramatersSame) {           // initial read of the data
       //readData();
       System.out.println("Starting Executor");
-
-      
 
 
       // Start each individual task (i.e. you've created the task objects, 
@@ -111,6 +125,8 @@ class barChart {
     line(x, y+750, x+1000, y+750);
     strokeWeight(3);
     if(xAxis == "state") {                                                                                           // if the x-Axis is meant to display states, then display states, else display time
+      d1.setVisible(true);
+      d2.setVisible(true);
       for (int i = 0; i < allStates.length; i++) {
         strokeWeight(3);
         stroke(3);
@@ -138,15 +154,15 @@ class barChart {
       line(x, y+(750-(amountInStates.get(8)/count)*2500), x-6, y+(750-(amountInStates.get(8)/count)*2500));
       
       textSize(32);
-      text(allStates[2], x+1120, 800);
-      text(allStates[4], x+1320, 800);
+      //text(state1, x+1120, 800);
+      //text(state2, x+1320, 800);
       fill(200, 20, 25);
       //print((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)) + " "); testing
       //print((float)((amountInStates.get(2)/(amountInStates.get(2)+amountInStates.get(4)))*100)); testing
       strokeWeight(1);
-      rect(x+1110, 850, (((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)))*220), 25);
+      rect(x+1110, 850, (((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num)))*220), 25);
       fill(100, 220, 20);
-      rect(x+1110+(((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)))*220), 850, ((1-((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4))))*220), 25);
+      rect(x+1110+(((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num)))*220), 850, ((1-((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num))))*220), 25);
       
       //fill(120);
       //rect(x+1120, 850, 0.2*100, 25);
@@ -154,6 +170,8 @@ class barChart {
       //rect(x+1120 + 0.2*100, 850, (1-0.2)*100, 25);
     }
     else if (xAxis == "time") {
+      d1.setVisible(false);
+      d2.setVisible(false);
       for (int i = 0; i < dates.length; i++) {
         strokeWeight(3);
         stroke(3);                                                                                                     // needs to be revised
@@ -283,6 +301,23 @@ class barChart {
 
   void mousePressed() {
 
+  }
+  
+  void customize(DropdownList ddl) {
+    // a convenience function to customize a DropdownList
+    ddl.setBackgroundColor(color(190));
+    ddl.setItemHeight(30);
+    ddl.setBarHeight(30);
+    //ddl.captionLabel().set("dropdown");
+    //ddl.captionLabel().style().marginTop = 3;
+    //ddl.captionLabel().style().marginLeft = 3;
+    //ddl.valueLabel().style().marginTop = 3;
+    for (int i=0;i<allStates.length;i++) {
+      ddl.addItem(allStates[i], i);
+    }
+    //ddl.scroll(0);
+    ddl.setColorBackground(color(60));
+    ddl.setColorActive(color(255, 128));
   }
 
 }
