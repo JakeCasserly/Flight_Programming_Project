@@ -5,10 +5,12 @@ import processing.data.TableRow;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class clickableMap extends PApplet {
+class clickableMap  {
+  PApplet p;
     ArrayList<Button> stateButtons;
     String selectedState = "";
     PImage mapImage;
+     String databasePath;
     HashMap<String, HashMap<String, Integer>> stateAirports = new HashMap<>();
     String[] states = {"WA", "ID", "MT", "ND", "MN", "IL", "MI", "NY", "VT", "NH", "ME",
     "OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "RI", "MA",
@@ -24,6 +26,25 @@ class clickableMap extends PApplet {
     {692, 488}, {850, 465}, {1002, 455}, {987, 497}, {751, 202}, {593, 476}, {737, 626}, {770, 556}, {840, 528},
     {945, 547}, {1006, 691}, {549, 594}, {145, 663}, {364, 750}};
     BackButton backButton;
+    
+   public clickableMapOfStates(PApplet p, int x, int y, double width, double height, String database) {
+        this.p = p;
+        this.databasePath = database; 
+        
+        this.mapImage = p.loadImage("Map_of_USA_showing_state_names.png");
+        
+        loadAndParseData(databasePath); 
+        initializeButtons(x, y, width, height);
+        backButton = new BackButton(p, "Back", p.width - 160, p.height - 80, 150, 60, true);
+    }
+    
+     void initializeButtons(int x, int y, double width, double height) {
+       
+        for (int i = 0; i < states.length; i++) {
+           
+            stateButtons.add(new Button(p, states[i], buttonPositions[i][0], buttonPositions[i][1], 80, 40, false));
+        }
+    }
 
     public void settings() {
         size(1310, 796);
@@ -32,17 +53,16 @@ class clickableMap extends PApplet {
     public void setup() {
         mapImage = loadImage("Map_of_USA_showing_state_names.png");
         loadAndParseData("flights2k(1).csv");
-        initializeButtons();
-        backButton = new BackButton("Back", 50, height - 60, 150, 60, true);
+        initializeButtons(0, 0, p.width, p.height); 
+        backButton = new BackButton(p, "Back", 50, p.height - 60, 150, 60, true);
     }
 
-    public void draw() {
-        background(255);
-        image(mapImage, 0, 0, width, height);
+     public void draw() {
+        p.background(255);
+        p.image(mapImage, 0, 0, p.width, p.height);
         for (Button button : stateButtons) {
             button.display();
         }
-
         backButton.display();
         if (!selectedState.isEmpty()) {
             drawHistogram(selectedState);
@@ -62,7 +82,7 @@ class clickableMap extends PApplet {
     //}
 
     void loadAndParseData(String fileName) {
-        Table table = loadTable(fileName, "header");
+        Table table = p.loadTable(fileName, "header");
         for (TableRow row : table.rows()) {
             String state = row.getString("ORIGIN_STATE_ABR");
             String airport = row.getString("ORIGIN");
@@ -78,60 +98,50 @@ class clickableMap extends PApplet {
     return maxFlights;
   }
 
-    void drawHistogram(String state) {
-        if (!stateAirports.containsKey(state)) {
-            println("State not found or no data for state: " + state);
-            return;
-        }
-        
-
-        HashMap<String, Integer> airports = stateAirports.get(state);
-        if (airports.isEmpty()) return;
-
-        float margin = 50;
-        float spacing = 10;
-        float barWidth = (width - 2 * margin - (airports.size() - 1) * spacing) / airports.size();
-        float maxFlights = findMaxFlights(airports);
-
-        textSize(20);
-        textAlign(CENTER, BOTTOM);
-        text("State: " + state, width / 2, margin / 2);
-
-        int i = 0;
-        for (String airport : airports.keySet()) {
-            float x = margin + i * (barWidth + spacing);
-            float flights = airports.get(airport);
-            float barHeight = map(flights, 0, maxFlights, 0, height - 2 * margin);
-
-            fill(100, 100, 250);
-            noStroke();
-            rect(x, height - margin - barHeight, barWidth, barHeight);
-
-            pushMatrix();
-            translate(x + barWidth / 2, height - margin + 5);
-            rotate(PI / 4);
-            fill(0);
-            textAlign(LEFT, CENTER);
-            text(airport, 0, 0);
-            popMatrix();
-
-            i++;
-        }
-
-        fill(0);
-        textSize(12);
-        textAlign(CENTER, BOTTOM);
-        text("Airports", width / 2, height - 10);
-        textAlign(RIGHT, CENTER);
-        text("Number of Flights", margin / 4, height / 2);
+   void drawHistogram(String state) {
+    if (!stateAirports.containsKey(state)) {
+        p.println("State not found or no data for state: " + state); // Use p.println
+        return;
     }
-    void initializeButtons() {
-     
-        stateButtons = new ArrayList<Button>();
-        for (int i = 0; i < states.length; i++) {
-            float x = buttonPositions[i][0];
-            float y = buttonPositions[i][1];
-            stateButtons.add(new Button(states[i], x, y, 80, 40, false));
-            }
+
+    HashMap<String, Integer> airports = stateAirports.get(state);
+    if (airports.isEmpty()) return;
+
+    float margin = 50;
+    float spacing = 10;
+    // Note: use p.width and p.height to access the dimensions of the sketch
+    float barWidth = (p.width - 2 * margin - (airports.size() - 1) * spacing) / airports.size();
+    float maxFlights = findMaxFlights(airports);
+
+    p.textSize(20);
+    p.textAlign(PApplet.CENTER, PApplet.BOTTOM);
+    p.text("State: " + state, p.width / 2, margin / 2);
+
+    int i = 0;
+    for (String airport : airports.keySet()) {
+        float x = margin + i * (barWidth + spacing);
+        float flights = airports.get(airport);
+        float barHeight = p.map(flights, 0, maxFlights, 0, p.height - 2 * margin);
+
+        p.fill(100, 100, 250);
+        p.noStroke();
+        p.rect(x, p.height - margin - barHeight, barWidth, barHeight);
+
+        p.pushMatrix();
+        p.translate(x + barWidth / 2, p.height - margin + 5);
+        p.rotate(PApplet.PI / 4);
+        p.fill(0);
+        p.textAlign(PApplet.LEFT, PApplet.CENTER);
+        p.text(airport, 0, 0);
+        p.popMatrix();
+
+        i++;
     }
+
+    p.fill(0);
+    p.textSize(12);
+    p.textAlign(PApplet.CENTER, PApplet.BOTTOM);
+    p.text("Airports", p.width / 2, p.height - 10);
+    p.textAlign(PApplet.RIGHT, PApplet.CENTER);
+    p.text("Number of Flights", margin / 4, p.height / 2);
 }

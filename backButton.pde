@@ -1,20 +1,26 @@
+import processing.core.PApplet; // Import PApplet
+
 class BackButton {
+    PApplet p; 
     float x, y; 
     float width, height; 
     String label; 
-    color baseColor; 
-    color hoverColor; 
+    int baseColor; 
+    int hoverColor; 
     boolean labelVisible; 
 
-   
-    BackButton(String label, float x, float y, float width, float height, boolean labelVisible) {
+    
+    BackButton(PApplet p, String label, float x, float y, float width, float height, boolean labelVisible) {
+        this.p = p; 
         this.label = label;
         this.x = x;
         this.y = y;
         this.width = width;
         this.height = height;
         this.labelVisible = labelVisible;
-      
+        
+        this.baseColor = p.color(200);
+        this.hoverColor = p.color(255, 200, 200);
     }
 
     
@@ -24,17 +30,18 @@ class BackButton {
 
     
     void display() {
-        if (isOver(mouseX, mouseY)) {
-            fill(0, 0, 0, 127);
+        p.stroke(0); 
+        if (isOver(p.mouseX, p.mouseY)) {
+            p.fill(hoverColor); 
         } else {
-            noFill();
+            p.fill(baseColor); 
         }
-        rect(x, y, width, height, 7); 
+        p.rect(x, y, width, height, 7); 
 
         if (labelVisible) {
-            fill(0); // Black text
-            textAlign(CENTER, CENTER);
-            text(label, x + width / 2, y + height / 2);
+            p.fill(0); 
+            p.textAlign(PApplet.CENTER, PApplet.CENTER);
+            p.text(label, x + width / 2, y + height / 2);
         }
     }
 }

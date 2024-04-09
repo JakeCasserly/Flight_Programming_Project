@@ -1,21 +1,25 @@
+import processing.core.PApplet;
+
 class Button {
+  PApplet p; 
   float x, y; 
   float width, height; 
   String label; 
-  boolean isOver;
-  boolean labelVisible; 
+  boolean isOver = false;
+  boolean labelVisible = true;
+  boolean active; 
+
   
- 
-  Button(String lbl, float xPos, float yPos, float w, float h, boolean isVisible) {
-    label = lbl;
-    x = xPos;
-    y = yPos;
-    width = w;
-    height = h;
-    isOver = false;
-    labelVisible = isVisible; 
+  Button(PApplet p, String label, float x, float y, float width, float height, boolean active) {
+    this.p = p;
+    this.label = label;
+    this.x = x;
+    this.y = y;
+    this.width = width;
+    this.height = height;
+    this.active = active;
   }
-  
+
   
   boolean isOver(float mx, float my) {
     if (mx >= x && mx <= x + width && my >= y && my <= y + height) {
@@ -26,17 +30,15 @@ class Button {
       return false;
     }
   }
-  
-  
-  void display() {  
-    
-    
-    
-    if (labelVisible && isOver) {
-      fill(0); 
-      textSize(12);
-      textAlign(CENTER, CENTER);
-      text(label, x + width / 2, y + height / 2);
+
+ 
+  void display() {
+    p.fill(255);
+    p.rect(x, y, width, height);
+    if (labelVisible) {
+      p.fill(0);
+      p.textAlign(PApplet.CENTER, PApplet.CENTER);
+      p.text(label, x + width / 2, y + height / 2);
     }
   }
 }
