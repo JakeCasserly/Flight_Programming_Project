@@ -1,4 +1,8 @@
 // Diverted class Rosie Casssidy 09/04
+import java.util.concurrent.Executors;
+import java.util.concurrent.ExecutorService;
+import controlP5.*;
+
 class diverted{
   ArrayList<String[]> divertedFlights;
   int yOffset = 20;
@@ -10,6 +14,8 @@ class diverted{
   int x, y;
   Data data;
   String input;
+  readDataTask drawTheList;
+  ExecutorService executorService;
 
 diverted (int x, int y, Data data) {
     this.x = x;
@@ -18,6 +24,9 @@ diverted (int x, int y, Data data) {
     divertedFlights = data.getDivertedFlights();
     plane = loadImage("Plane Symbol.png");
     searchBarActive = false;
+    executorService = Executors.newCachedThreadPool();
+    drawTheList = new readDataTask("divertedList");
+    executorService.execute(drawTheList);
 }
 
 void draw() {
@@ -32,17 +41,20 @@ void draw() {
     image(plane, 800, 100, height/11, width/11);
 
     if (mousePressed && divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
-        divertedSearchBar.active = true;
+        divertedSearchBar.active = true;        
     }
 
-    if (divertedSearchBar.active) {
-        divertedSearchBar.adjustText();
-    }
+    //if (divertedSearchBar.active) {
+    //    divertedSearchBar.adjustText();
+    //}
     
     if (keyCode == ENTER && divertedSearchBar.active) {
-        String searchResult = searchResult();
+        //String searchResult = searchResult(); // old-code: edited by Jake
+        divertedSearchBar.active = true;
+        divertedSearchBar.result();
+        String searchResult = divertedSearchBar.result;
         filterFlightsByState(searchResult);
-        divertedSearchBar.active = false; 
+        //divertedSearchBar.active = false; 
         println("search" + "blah");
     }
     fill(0);
@@ -56,6 +68,7 @@ void draw() {
     text("STATUS", 1000, title+20);
     textSize(20); fill(0);
     int yPos = 60 + title;
+    print(divertedSearchBar.active);
     for (String[] flightInfo : divertedFlights) {
         fill(0);
         int textHeight = ceil(textWidth(flightInfo[0]) / (width - 40)) * lineHeight;
@@ -69,6 +82,14 @@ void draw() {
         yPos += (0.5*textHeight);
     }
 }
+
+  //synchronized void drawList() {
+  //  divertedSearchBar.adjustText();
+  //}
+  
+  void keyPressed() {
+    divertedSearchBar.adjustText();
+  }
 
   ArrayList<String[]> filterFlightsByState(String state) {
       ArrayList<String[]> filteredFlights = new ArrayList<String[]>();

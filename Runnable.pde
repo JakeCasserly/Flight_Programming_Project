@@ -60,6 +60,10 @@ public class readDataTask implements Runnable {
         * because by running this code, the program completely combusts.
         */
       }
+      else if (taskName == "divertedList") {
+        //diverted.drawList();
+        terminate();
+      }
       else {
         // do nothing forever
       }
