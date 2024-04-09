@@ -2,6 +2,10 @@
 
 class PieChart
 {
+    final int CURRENT =0;
+  final int SHOW_SCHEDULED = 1;
+  final int SHOW_TIME = 2;
+  
   final int HALF_HOUR = 30;
   final int MORNING = 500;
   final int AFTERNOON = 1200;
@@ -12,14 +16,16 @@ class PieChart
   float angle; // angle in radians
   PFont font;
   
+  int query;
+  
+  RadioButton radioTime, radioScheduled;
+  
   int red,green,blue;
   
   Data data;
   ArrayList<Float> angles;
   ArrayList<String> labels;
-  
-  String flightCarrier;
-  String query;
+
   readDataTask readPie;
   ExecutorService executorService = Executors.newCachedThreadPool();
   
@@ -31,9 +37,11 @@ class PieChart
     height = radius/15;
     width = radius/15;
     this.data = data;
-   
-    query = "Scheduled";
-    
+
+    query = CURRENT;
+    radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",color(red,green,blue));
+    radioTime = new RadioButton(x+radius,y+radius*0.75,height,"Time",color(red,green,blue));
+
     //colorMode(HSB,360,100,100);
     this.red = red;
     this.green = green;
@@ -41,7 +49,7 @@ class PieChart
     
     angles = new ArrayList<Float>();
     labels = new ArrayList<>();
-    angles = percentages();
+    percentages();
     
     /*
     * Jake's Code for PieChart class:
@@ -52,15 +60,16 @@ class PieChart
     executorService.execute(readPie);
   }
   
-  ArrayList<Float> percentages()
+  void percentages()
   {
-    ArrayList percentages = new ArrayList<Float>();
-    float total = data.length;
+    angles.clear();
+    labels.clear();
+    float total = data.length; 
     
     switch(query)
     {
       default:
-      case "Scheduled":
+      case SHOW_SCHEDULED:
         float cancelled = 0;
         float diverted = 0;
         float lateArrival = 0;  
@@ -79,24 +88,24 @@ class PieChart
         lateDepart = lateDepart*2*PI/total;
         println(cancelled,diverted,lateArrival,lateDepart);
     
-        percentages.add(cancelled);
+        angles.add(cancelled);
         labels.add("Cancelled");
-        percentages.add(diverted);
+        angles.add(diverted);
         labels.add("Diverted");
-        percentages.add(lateArrival);
+        angles.add(lateArrival);
         labels.add("Late Arrival");
-        percentages.add(lateDepart);
+        angles.add(lateDepart);
         labels.add("Late Departure");
-        percentages.add(2*PI-(cancelled+diverted+lateArrival+lateDepart));
+        angles.add(2*PI-(cancelled+diverted+lateArrival+lateDepart));
         labels.add("On Time");
         
         break;
-      case "Airports":
+      //case "Airports":
         
         
         
-        break;
-      case "Time":
+        //break;
+      case SHOW_TIME:
         float morning = 0;
         float afternoon = 0;
         float evening = 0;
@@ -111,23 +120,24 @@ class PieChart
           else night++;
         }
         
-        percentages.add((morning*2*PI)/total);
+        angles.add((morning*2*PI)/total);
         labels.add("Morning");
-        percentages.add((afternoon*2*PI)/total);
+        angles.add((afternoon*2*PI)/total);
         labels.add("Afternoon");
-        percentages.add((evening*2*PI)/total);
+        angles.add((evening*2*PI)/total);
         labels.add("Evening");
-        percentages.add((night*2*PI)/total);
+        angles.add((night*2*PI)/total);
         labels.add("Night");
         break;
         
     
     }
-    return percentages;
+    query = CURRENT;
   }
   
   void draw()
   {
+    if(query!=CURRENT) percentages();
     float lastAngle = 0;
     for(int i=0; i<angles.size(); i++)
     {
@@ -149,5 +159,7 @@ class PieChart
 
       lastAngle += angle;
     }
+    radioTime.draw();
+    radioScheduled.draw();
   }
 }
