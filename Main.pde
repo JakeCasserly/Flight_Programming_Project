@@ -141,6 +141,8 @@ void draw()
   if ( count != barChartScreen ) {
     theBarChart.d1.setVisible(false);
     theBarChart.d2.setVisible(false);
+    theBarChart.d3.setVisible(false);
+    theBarChart.d4.setVisible(false);
   }
 }
 
@@ -279,6 +281,14 @@ void controlEvent(ControlEvent theEvent) {
     else if (theEvent.isFrom(theBarChart.d2)) {
        theBarChart.state2 = theBarChart.allStates[(int)theEvent.getValue()];
        theBarChart.state2num = (int)theEvent.getValue();
+    }
+    else if (theEvent.isFrom(theBarChart.d3)) {
+       //theBarChart.time1 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.time1num = (int)theEvent.getValue();
+    }
+    else if (theEvent.isFrom(theBarChart.d4)) {
+       //theBarChart.time1 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.time2num = (int)theEvent.getValue();
     }
     
     
