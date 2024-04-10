@@ -33,7 +33,7 @@ class Data
      return date.get(row);
    }
    
-   String getCode(int row)
+   synchronized String getCode(int row)
    {
      return code.get(row);
    }
@@ -63,7 +63,7 @@ class Data
      return distance.get(row);
    }
 
-   void setData()
+   synchronized void setData()
    {
        for (TableRow row : data.rows()) 
        {
@@ -76,4 +76,23 @@ class Data
          arrival.add(new Arrival(this, row));
        }
    }
+   
+   // for diverted class
+   ArrayList<String[]> getDivertedFlights() {
+    ArrayList<String[]> divertedFlights = new ArrayList<String[]>();
+    for (int i = 0; i < length; i++) {
+        boolean diverted = getDiverted(i);
+        if(diverted){
+        Departure depData = getDep(i);
+        Arrival arrData = getArr(i);
+        String flightCode = getCode(i); 
+        String date = getDate(i);
+        if (diverted) {
+            String[] flightInfo = {flightCode, depData.getCity(), arrData.getCity(), arrData.timeFormat(depData.getTime()), date, arrData.getState()};
+            divertedFlights.add(flightInfo);
+        }
+        }
+    }
+    return divertedFlights;
+  }
 }

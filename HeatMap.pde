@@ -53,7 +53,7 @@ class HeatMap {
     flightCarrier = "";
     readStates = new readDataTask("stateHeat");
     executorService.execute(readStates);
-    animate = new readDataTask("animateHeatMap");
+    //animate = new readDataTask("animateHeatMap");
   }
   
   void draw() {
@@ -195,19 +195,19 @@ class HeatMap {
   }
   
   void readInData() {
-    stateData = new Data(database); // *********
+    //stateData = new Data(database); // *********
     int number = 0;
     String code = "";
-    stateData.setData();
-    for (int i = 0; i < stateData.length; i++) {
-      code = stateData.getCode(i);
+    //stateData.setData();
+    for (int i = 0; i < flightData.length; i++) {
+      code = flightData.getCode(i);
           if (code.contains(flightCarrier)) {
             for (int z = 0; z < allStates.length; z++) {
               if (departures) {
-                state = stateData.getDep(i).getState();
+                state = flightData.getDep(i).getState();
               }
               else {
-                state = stateData.getArr(i).getState();
+                state = flightData.getArr(i).getState();
               }
               if (state.equals(allStates[z])) {
                 number = amountInStates.get(z);

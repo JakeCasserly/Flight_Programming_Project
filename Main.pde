@@ -22,20 +22,33 @@ searchBar theChartSearchBar;
 boolean searchBarActive;
 barChart theBarChart;
 String barChartLabel;
+String barChartLabel2;
 Data flightData;
 PieChart thePieChart;
+diverted diverted;
+searchBar divertedSearchBar;
+ControlP5 cp5;
+ExecutorService executorService;
+readDataTask readInTheData;
 
 void setup() 
 {
+  executorService = Executors.newCachedThreadPool();
+  readInTheData = new readDataTask("readAllData!");
   flightData = new Data("flights_full.csv");
+  //flightData.setData();
+  executorService.execute(readInTheData);
+  cp5 = new ControlP5(this);
+  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
+  executorService.execute(theBarChart.readTimes);
+  executorService.execute(theBarChart.readStates);
   barChartLabel = "Change to State";
+  barChartLabel2 = "Departures";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage, "flights_full.csv");
-  ControlP5 cp5;
-  cp5 = new ControlP5(this);
-  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
+  diverted = new diverted(100, 130, flightData);
   size(1512, 982);
    // for loop to load in array of image frames for loading gif
   for (int i = 0; i < loadingFrameAmount; i++) 
@@ -46,21 +59,23 @@ void setup()
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
   widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
-  widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
+  //widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), pieChartScreen);
-  widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
+  //widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
   widgetList2 = new WidgetList();
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList3 = new WidgetList();
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
-  theChartSearchBar = new searchBar(1280, 600, 200, 70, "type text here...", color(210, 210, 0), "null", false);
+  theChartSearchBar = new searchBar(1230, 700, 200, 70, "type text here...", color(210, 210, 0), "null", false);
+  divertedSearchBar = new searchBar(1200, 120, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
+  widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);
   searchBarActive = false;
   thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
 }
@@ -119,8 +134,11 @@ void draw()
   }
   else if(count == divertedScreen)
   {
-    background(0);
-    widgetList2.display();
+    diverted.draw();
+    if(divertedSearchBar.active)
+    {
+      divertedSearchBar.adjustText();
+    }
   }
   else if(count == cancelledScreen)
   {
@@ -130,6 +148,8 @@ void draw()
   if ( count != barChartScreen ) {
     theBarChart.d1.setVisible(false);
     theBarChart.d2.setVisible(false);
+    theBarChart.d3.setVisible(false);
+    theBarChart.d4.setVisible(false);
   }
 }
 
@@ -141,6 +161,7 @@ void mouseMoved()
   widgetList3.checkButtonsBorder(mouseX, mouseY);
   widgetList4.checkButtonsBorder(mouseX, mouseY);
   theSearchBar.checkBorder(mouseX, mouseY);
+  divertedSearchBar.checkBorder(mouseX, mouseY);
 }
 
 void mousePressed() 
@@ -170,32 +191,77 @@ void mousePressed()
   }
   if (theChartSearchBar.checkSearchBar(mouseX, mouseY)) {
     theChartSearchBar.result();
+    println(searchBarActive);
   }
-  if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
+  if (divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
+    divertedSearchBar.result();
+  }
+  if(widgetList4.checkBarChartButton(mouseX, mouseY, 1220, 110) && count == barChartScreen)
   {
-    if(theBarChart.xAxis == "state")
-    {
-      theBarChart.xAxis = "time";
+    println(barChartLabel2);
+    if (barChartLabel == "Change to Time" || barChartLabel == "Change to State") {
+      if(theBarChart.xAxis == "state")
+      {
+        theBarChart.xAxis = "time";
+      }
+      else
+      {
+        theBarChart.xAxis = "state";
+      }
+      if(barChartLabel == "Change to Time")
+      {
+        widgetList4.setBarChartButtonLabel("Change to State", 1);
+        barChartLabel = "Change to State";
+      }
+      else
+      {
+        widgetList4.setBarChartButtonLabel("Change to Time", 1);
+        barChartLabel = "Change to Time";
+      }
     }
-    else
-    {
-      theBarChart.xAxis = "state";
-    }
-    if(barChartLabel == "Change to Time")
-    {
-      widgetList4.setBarChartButtonLabel("Change to State");
-      barChartLabel = "Change to State";
-    }
-    else
-    {
-      widgetList4.setBarChartButtonLabel("Change to Time");
-      barChartLabel = "Change to Time";
+  }
+    
+  if(widgetList4.checkBarChartButton(mouseX, mouseY, 1220, 200) && count == barChartScreen) {
+    if (barChartLabel2 == "Arrivals" || barChartLabel2 == "Departures") {
+      if(theBarChart.departures == true)
+      {
+        theBarChart.departures = false;
+        println("heremm");
+      }
+      else
+      {
+        theBarChart.departures = true;
+        println("heremmtrue");
+      }
+      if(barChartLabel2 == "Arrivals")
+      {
+        widgetList4.setBarChartButtonLabel("Departures", 2);
+        barChartLabel2 = "Departures";
+      }
+      else
+      {
+        widgetList4.setBarChartButtonLabel("Arrivals", 2);
+        barChartLabel2 = "Arrivals";
+      }
     }
   }
   if(theSearchBar.checkSearchBar(mouseX, mouseY))
   {
     searchBarActive = true;
   }
+  if(theChartSearchBar.checkSearchBar(mouseX, mouseY))
+  {
+    searchBarActive = true;
+  }
+  if(divertedSearchBar.checkSearchBar(mouseX, mouseY))
+  {
+    searchBarActive = true;
+  }
+  
+  // N.Cunningham added events for PieChart radio buttons 23:00 09/04/24 
+  if(thePieChart.radioTime.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_TIME;
+  else if(thePieChart.radioScheduled.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_SCHEDULED;
+  
 }
 
 void controlEvent(ControlEvent theEvent) {
@@ -222,6 +288,14 @@ void controlEvent(ControlEvent theEvent) {
     else if (theEvent.isFrom(theBarChart.d2)) {
        theBarChart.state2 = theBarChart.allStates[(int)theEvent.getValue()];
        theBarChart.state2num = (int)theEvent.getValue();
+    }
+    else if (theEvent.isFrom(theBarChart.d3)) {
+       //theBarChart.time1 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.time1num = (int)theEvent.getValue();
+    }
+    else if (theEvent.isFrom(theBarChart.d4)) {
+       //theBarChart.time1 = theBarChart.allStates[(int)theEvent.getValue()];
+       theBarChart.time2num = (int)theEvent.getValue();
     }
     
     

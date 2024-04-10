@@ -1,4 +1,4 @@
-// arrivals
+/*// arrivals
 class Arrivals {  
   int wac; 
   String time, crs, city, state, dest;
@@ -21,3 +21,4 @@ class Arrivals {
   }
   
 }
+*/
