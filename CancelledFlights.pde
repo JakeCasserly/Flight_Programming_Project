@@ -143,8 +143,7 @@ void draw() {
     text("FROM", 200, title+20);
     text("DESTINATION", 500, title+20);
     text("DATE", 750, title+20);
-    text("TIME", 900, title+20);
-    text("STATUS", 1000, title+20);
+    text("STATUS", 900, title+20);
     textSize(20); fill(0);
     int yPos = 60 + title;
     print(divertedSearchBar.active);
@@ -154,10 +153,9 @@ void draw() {
         text(flightInfo[0], 20, yPos, width - 40, textHeight); 
         text(flightInfo[1], 200, yPos, width - 40, textHeight); 
         text(flightInfo[2], 500, yPos, width - 40, textHeight); 
-        text(flightInfo[4], 750, yPos, width - 40, textHeight); 
-        text(flightInfo[3], 900, yPos, width - 40, textHeight); 
+        text(flightInfo[3], 750, yPos, width - 40, textHeight); 
         String flightStatus = "CANCELLED"; fill(250, 5, 5); 
-        text(flightStatus, 1000, yPos, width - 40, textHeight);
+        text(flightStatus, 900, yPos, width - 40, textHeight);
         yPos += (0.5*textHeight);
     }
 }
@@ -171,7 +169,7 @@ void draw() {
   ArrayList<String[]> filterFlightsByState(String state) {
       ArrayList<String[]> filteredFlights = new ArrayList<String[]>();
       for (String[] flightInfo : data.getCancelledFlights()) {
-          if (state.equalsIgnoreCase(flightInfo[5])) {
+          if (state.equalsIgnoreCase(flightInfo[4])) {
               filteredFlights.add(flightInfo);
           }
       }

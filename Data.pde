@@ -114,7 +114,7 @@ class Data
           String date = getDate(i);
           if (cancelled) 
           {
-              String[] flightInfo = {flightCode, depData.getCity(), arrData.getCity(), arrData.timeFormat(depData.getTime()), date, arrData.getState()};
+              String[] flightInfo = {flightCode, depData.getCity(), arrData.getCity(), date, arrData.getState()};
               cancelledFlights.add(flightInfo);
           }
         }
