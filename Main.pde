@@ -31,6 +31,7 @@ ControlP5 cp5;
 ExecutorService executorService;
 readDataTask readInTheData;
 float xBarpos;
+CancelledFlights theCancelledFLights;
 
 void setup() 
 {
@@ -60,7 +61,7 @@ void setup()
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
   widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
-  //widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
+  widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
@@ -78,8 +79,9 @@ void setup()
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);
   searchBarActive = false;
-  thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
+  thePieChart = new PieChart(400, 500, 600, flightData, color(209,38,72),color(38,122,209));
   xBarpos = 799;
+  theCancelledFLights = new CancelledFlights(100, 130, flightData);
 }
 
 void draw() 
@@ -130,6 +132,7 @@ void draw()
   }
   else if (count == pieChartScreen)
   {
+    textSize(25);
     background(255, 255, 0);
     widgetList1.display();
     thePieChart.draw();
@@ -146,6 +149,11 @@ void draw()
   {
     background(0);
     widgetList3.display();
+    theCancelledFLights.draw();
+    if(divertedSearchBar.active)
+    {
+      divertedSearchBar.adjustText();
+    }
   }
   if ( count != barChartScreen ) {
     theBarChart.d1.setVisible(false);
@@ -161,6 +169,7 @@ void draw()
       xBarpos = 2200;
     }
     fill(255);
+    textSize(25);
     text("The Flight Visualizer - by Jake Casserly, Darragh Considine, Rosie Cassidy, Naomi Cunnigham, Luke Hand and Keith Lyons", xBarpos, 12);
   }
 }
@@ -273,6 +282,7 @@ void mousePressed()
   // N.Cunningham added events for PieChart radio buttons 23:00 09/04/24 
   if(thePieChart.radioTime.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_TIME;
   else if(thePieChart.radioScheduled.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_SCHEDULED;
+  else if(thePieChart.radioAirports.checkMouse(mouseX,mouseY)) thePieChart.query = thePieChart.SHOW_AIRPORTS;
   
 }
 
