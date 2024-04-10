@@ -14,7 +14,7 @@ import java.util.concurrent.ExecutorService;
 import controlP5.*;
 
 class barChart {
-  DropdownList d1, d2;
+  DropdownList d1, d2, d3, d4;
   int x;
   int y;
   double height;
@@ -49,12 +49,18 @@ class barChart {
   String state2;
   int state1num;
   int state2num;
+  int time1num;
+  int time2num;
   String database;
+  float value;
 
   String[] allStates = {"AL","AK","AZ","AR","CA","CO","CT","DE","FL","GA","HI","ID","IL",
       "IN","IA","KS","KY","LA","ME","MD","MA","MI","MN","MS","MO","MT","NE","NV","NH","NJ",
       "NM","NY","NC","ND","OH","OK","OR","PA","RI","SC","SD","TN","TX","UT","VT","VA","WA",
       "WV","WI","WY"};
+      
+  String[] StringDates = {"1","2","3","4","5","6","7","8","9","10","11","12","13","14","15","16",
+    "17","18","19","20","21","22","23","24","25","26","27","28","29","30"};
 
   barChart (int x, int y, double height, double width, String database, ControlP5 cp5) {
     this.x = x;
@@ -74,32 +80,39 @@ class barChart {
     
     amountInStates = new ArrayList<>();
     dates = new int[30];
+    for (int i = 0; i < dates.length; i++) {
+        dates[i] = i+1;
+    }
     amountOnDate = new ArrayList<>();
     for (int i = 0; i < allStates.length; i++) {
       amountInStates.add(0);
-    }
-    for (int i = 0; i < dates.length; i++) {
-      dates[i] = i+1;
-    }
-    for (int i = 0; i < dates.length; i++) {
-      amountOnDate.add(0);
     }
     departures = true;
     prevdepartures = departures;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
+    value = 1;
     PFont font = createFont("arial",16);
     this.cp5 = cp5;
     d1 = cp5.addDropdownList("S1").setPosition(x+1060, 850).setSize(40, 100).setFont(font);
     d2 = cp5.addDropdownList("S2").setPosition(x+1350, 850).setSize(40, 100).setFont(font);
     
+    d3 = cp5.addDropdownList("T1").setPosition(x+1060, 850).setSize(40, 100).setFont(font);
+    d4 = cp5.addDropdownList("T2").setPosition(x+1350, 850).setSize(40, 100).setFont(font);
+    
     customize(d1);
     customize(d2);
+    
+    customize(d3);
+    customize(d4);
     
     state1 = "TX";
     state2 = "NY";
     state1num = 0;
     state2num = 1;
+    
+    time1num = 0;
+    time2num = 1;
     
     readStates = new readDataTask("state");
     readTimes = new readDataTask("time");
@@ -147,6 +160,8 @@ class barChart {
     if(xAxis == "state") {                                                                                           // if the x-Axis is meant to display states, then display states, else display time
       d1.setVisible(true);
       d2.setVisible(true);
+      d3.setVisible(false);
+      d4.setVisible(false);
       for (int i = 0; i < allStates.length; i++) {
         strokeWeight(3);
         stroke(3);
@@ -172,19 +187,17 @@ class barChart {
         strokeWeight(4);
         line(x, y+750-(i*25), x-8, y+750-(i*25));
       }
+      textSize(16);
       text(amountInStates.get(8), x-40, y+(750-(amountInStates.get(8)/count)*2500));
       line(x, y+(750-(amountInStates.get(8)/count)*2500), x-6, y+(750-(amountInStates.get(8)/count)*2500));
       
       textSize(32);
-      //text(state1, x+1120, 800);
-      //text(state2, x+1320, 800);
       fill(200, 20, 25);
-      //print((float)amountInStates.get(2)/((float)amountInStates.get(2)+amountInStates.get(4)) + " "); testing
-      //print((float)((amountInStates.get(2)/(amountInStates.get(2)+amountInStates.get(4)))*100)); testing
-      strokeWeight(1);
-      rect(x+1110, 850, (((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num)))*220), 25);
+      strokeWeight(2);
+      value = (((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num)))*220);
+      rect(x+1115, 850, value, 25);
       fill(100, 220, 20);
-      rect(x+1110+(((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num)))*220), 850, ((1-((float)amountInStates.get(state1num)/((float)amountInStates.get(state1num)+amountInStates.get(state2num))))*220), 25);
+      rect(x+1115+value, 850, ((1-value/220)*220), 25);
       
       //fill(120);
       //rect(x+1120, 850, 0.2*100, 25);
@@ -194,6 +207,8 @@ class barChart {
     else if (xAxis == "time") {
       d1.setVisible(false);
       d2.setVisible(false);
+      d3.setVisible(true);
+      d4.setVisible(true);
       for (int i = 0; i < dates.length; i++) {
         strokeWeight(3);
         stroke(3);                                                                                                     // needs to be revised
@@ -224,6 +239,12 @@ class barChart {
 
       text(amountOnDate.get(10)/2, x-40, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
       line(x, y+(750-((amountOnDate.get(10)/countTime)*12000)/2), x-6, y+(750-((amountOnDate.get(10)/countTime)*12000)/2));
+      
+      strokeWeight(2);
+      value = (((float)amountOnDate.get(time1num)/((float)amountOnDate.get(time1num)+amountOnDate.get(time2num)))*220);
+      rect(x+1115, 850, value, 25);
+      fill(100, 220, 20);
+      rect(x+1115+value, 850, ((1-value/220)*220), 25);
     }
 
     if (theChartSearchBar.result != "null") {
@@ -264,6 +285,9 @@ class barChart {
       //timeData = new Data(database);
       //timeData.setData();
       readTime = true;
+    }
+    for (int i = 0; i < dates.length; i++) {
+      amountOnDate.add(0);
     }
     //countTime = 0;
     //  for (int i = 0; i < timeData.length; i++) {
@@ -372,11 +396,18 @@ class barChart {
     //ddl.captionLabel().style().marginTop = 3;
     //ddl.captionLabel().style().marginLeft = 3;
     //ddl.valueLabel().style().marginTop = 3;
-    for (int i=0;i<allStates.length;i++) {
-      ddl.addItem(allStates[i], i);
+    if (ddl.getLabel() == "S1" || ddl.getLabel() == "S2") {
+      for (int i=0;i<allStates.length;i++) {
+        ddl.addItem(allStates[i], i);
+      }
+    }
+    else {
+      for (int z=0;z<dates.length;z++) {
+        ddl.addItem(StringDates[z], z);
+      }
     }
     //ddl.scroll(0);
-    ddl.setColorBackground(color(60));
+    ddl.setColorBackground(color(20));
     ddl.setColorActive(color(255, 128));
   }
 
