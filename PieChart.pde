@@ -2,9 +2,10 @@
 
 class PieChart
 {
-    final int CURRENT =0;
+  final int CURRENT =0;
   final int SHOW_SCHEDULED = 1;
   final int SHOW_TIME = 2;
+  final int SHOW_AIRPORTS = 3;
   
   final int HALF_HOUR = 30;
   final int MORNING = 500;
@@ -17,8 +18,9 @@ class PieChart
   PFont font;
   
   int query;
+  searchBar pieSearch;
   
-  RadioButton radioTime, radioScheduled;
+  RadioButton radioTime, radioScheduled, radioAirports;
   
   int red,green,blue;
   
@@ -40,7 +42,9 @@ class PieChart
 
     query = CURRENT;
     radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",color(red,green,blue));
-    radioTime = new RadioButton(x+radius,y+radius*0.75,height,"Time",color(red,green,blue));
+    radioTime = new RadioButton(x+radius*0.5,y+radius*0.75,height,"Time",color(red,green,blue));
+    radioAirports = new RadioButton(x+radius,y+radius*0.75,height,"Airports",color(red,green,blue));
+    pieSearch = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
 
     //colorMode(HSB,360,100,100);
     this.red = red;
@@ -100,11 +104,6 @@ class PieChart
         labels.add("On Time");
         
         break;
-      //case "Airports":
-        
-        
-        
-        //break;
       case SHOW_TIME:
         float morning = 0;
         float afternoon = 0;
@@ -130,36 +129,80 @@ class PieChart
         labels.add("Night");
         break;
         
-    
+      case SHOW_AIRPORTS:
+      
+        if (pieSearch.result != "null") {
+          String state = pieSearch.result;
+          
+          ArrayList<String> airports = new ArrayList<String>();
+          ArrayList<Integer> counts = new ArrayList<Integer>();
+          total = 0;
+          for(int i=0;i<data.length;i++)
+          {
+            if(data.getDep(i).getState().equals(state))
+            {
+              String airport = data.getDep(i).getOrigin();
+              if (!airports.contains(airport)) 
+              {
+                airports.add(airport);
+                counts.add(1);
+                total++;
+              }
+              else
+              {
+                counts.add(counts.get(airports.indexOf(airport))+1,airports.indexOf(airport));
+              }
+            }
+          }
+          labels = airports;
+          for(int count : counts)
+          {
+            angles.add(count*2*PI/total);
+          }
+      }
     }
     query = CURRENT;
   }
   
   void draw()
   {
-    if(query!=CURRENT) percentages();
-    float lastAngle = 0;
-    for(int i=0; i<angles.size(); i++)
+    println(query);
+    if(query==SHOW_AIRPORTS)
     {
-      angle = angles.get(i); 
-     
-      strokeWeight(3);
-      stroke(0);
-      float diffColor = map(i,0,angles.size(),0,100);
-      fill(red+diffColor,green+diffColor,blue+diffColor);
-      arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
-      
-      float xRect = x+radius*0.75;
-      float yRect = y/2+i*height*2;
-      
-      
-      rect(xRect, yRect,height,width);
-      textSize(height);
-      text(labels.get(i),xRect+radius/2,yRect+height/2);
-
-      lastAngle += angle;
+      fill(red,green,blue);
+      ellipse(x,y,radius,radius);
+    }
+    else
+    {
+      if(query!=CURRENT) percentages();
+      float lastAngle = 0;
+      for(int i=0; i<angles.size(); i++)
+      {
+        angle = angles.get(i); 
+       
+        strokeWeight(3);
+        stroke(0);
+        float diffColor = map(i,0,angles.size(),0,100);
+        fill(red+diffColor,green+diffColor,blue+diffColor);
+        arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
+        
+        float xRect = x+radius*0.75;
+        float yRect = y/2+i*height*2;
+        
+        
+        rect(xRect, yRect,height,width);
+        textSize(height);
+        text(labels.get(i),xRect+radius/2,yRect+height/2);
+  
+        lastAngle += angle;
+      }
     }
     radioTime.draw();
     radioScheduled.draw();
+    radioAirports.draw();
+    pieSearch.display();
+    if (pieSearch.active) {
+       pieSearch.adjustText();
+    }
   }
 }
