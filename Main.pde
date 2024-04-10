@@ -31,6 +31,7 @@ ControlP5 cp5;
 ExecutorService executorService;
 readDataTask readInTheData;
 float xBarpos;
+CancelledFlights theCancelledFLights;
 
 void setup() 
 {
@@ -60,7 +61,7 @@ void setup()
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
   widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
-  //widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
+  widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
@@ -80,6 +81,7 @@ void setup()
   searchBarActive = false;
   thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
   xBarpos = 799;
+  theCancelledFLights = new CancelledFlights(100, 130, flightData);
 }
 
 void draw() 
@@ -146,6 +148,7 @@ void draw()
   {
     background(0);
     widgetList3.display();
+    theCancelledFLights.draw();
   }
   if ( count != barChartScreen ) {
     theBarChart.d1.setVisible(false);
