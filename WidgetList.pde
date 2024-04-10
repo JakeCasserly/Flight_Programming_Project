@@ -15,7 +15,7 @@ class WidgetList
   
   void addButton(String label, color widgetColor, int screen) 
   {
-    float x = (buttons.size() * 500) + 50;
+    float x = (buttons.size() * 500) + 300;
     Widget button = new Widget(x, 400, 400, 100, label, widgetColor, screen);
     buttons.add(button);
   }

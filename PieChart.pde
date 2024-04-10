@@ -1,7 +1,5 @@
 // create PieChart class to show percentage of cancelled/diverted flights
 
-import java.util.Arrays;
-
 class PieChart
 {
   final int CURRENT =0;
@@ -20,16 +18,11 @@ class PieChart
   PFont font;
   
   int query;
-  String state;
-  String stringState;
   searchBar pieSearch;
-  boolean searchActive;
-  
   
   RadioButton radioTime, radioScheduled, radioAirports;
   
-  color from;
-  color to;
+  int red,green,blue;
   
   Data data;
   ArrayList<Float> angles;
@@ -38,7 +31,7 @@ class PieChart
   readDataTask readPie;
   ExecutorService executorService = Executors.newCachedThreadPool();
   
-  PieChart(int x, int y, int radius, Data data, color from, color to)
+  PieChart(int x, int y, int radius, Data data, int red, int green, int blue)
   {
     this.x = x;
     this.y = y;
@@ -46,21 +39,20 @@ class PieChart
     height = radius/15;
     width = radius/15;
     this.data = data;
-    this.from = from;
-    this.to = to;
-
-    searchActive = false;
 
     query = CURRENT;
-    radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",from);
-    radioTime = new RadioButton(x+radius*0.5,y+radius*0.75,height,"Time",from);
-    radioAirports = new RadioButton(x+radius,y+radius*0.75,height,"Airports",from);
+    radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",color(red,green,blue));
+    radioTime = new RadioButton(x+radius*0.5,y+radius*0.75,height,"Time",color(red,green,blue));
+    radioAirports = new RadioButton(x+radius,y+radius*0.75,height,"Airports",color(red,green,blue));
     pieSearch = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
+
+    //colorMode(HSB,360,100,100);
+    this.red = red;
+    this.green = green;
+    this.blue = blue;
     
     angles = new ArrayList<Float>();
     labels = new ArrayList<>();
-    state = "NY";
-    stringState = "";
     percentages();
     
     /*
@@ -98,7 +90,7 @@ class PieChart
         diverted /= total; diverted = diverted*2*PI/total;
         lateArrival = lateArrival*2*PI/total;
         lateDepart = lateDepart*2*PI/total;
-        //println(cancelled,diverted,lateArrival,lateDepart);
+        println(cancelled,diverted,lateArrival,lateDepart);
     
         angles.add(cancelled);
         labels.add("Cancelled");
@@ -138,87 +130,79 @@ class PieChart
         break;
         
       case SHOW_AIRPORTS:
+      
+        if (pieSearch.result != "null") {
+          String state = pieSearch.result;
+          
           ArrayList<String> airports = new ArrayList<String>();
           ArrayList<Integer> counts = new ArrayList<Integer>();
-          
-          stringState = state;
           total = 0;
           for(int i=0;i<data.length;i++)
           {
             if(data.getDep(i).getState().equals(state))
             {
               String airport = data.getDep(i).getOrigin();
-              if(airports.contains(airport)) 
+              if (!airports.contains(airport)) 
               {
-                int count = counts.get(airports.indexOf(airport));
-                count++;
-                counts.set(airports.indexOf(airport),count);
+                airports.add(airport);
+                counts.add(1);
                 total++;
               }
               else
               {
-                airports.add(airport);
-                counts.add(1);
+                counts.add(counts.get(airports.indexOf(airport))+1,airports.indexOf(airport));
               }
             }
           }
           labels = airports;
-          println(counts);
           for(int count : counts)
           {
             angles.add(count*2*PI/total);
           }
-          println(angles);
-          
+      }
     }
     query = CURRENT;
   }
   
   void draw()
   {
-    radioTime.draw();
-    radioScheduled.draw();
-    radioAirports.draw();
-    pieSearch.display();
-    
-    if(mousePressed && pieSearch.checkSearchBar(mouseX,mouseY))
-        {
-          pieSearch.active = true;
-        }
-        if(pieSearch.active)
-        {
-          pieSearch.adjustText();
-        }
-        if(keyCode == ENTER && pieSearch.active)
-        {
-          pieSearch.active = true;
-          pieSearch.result();
-          state = pieSearch.result;
-          query = SHOW_AIRPORTS;
-          percentages();
-          println(pieSearch.result);
-        }
-    if(query!=CURRENT) percentages();
-    float lastAngle = 0;
-    for(int i=0; i<angles.size(); i++)
+    println(query);
+    if(query==SHOW_AIRPORTS)
     {
+      fill(red,green,blue);
+      ellipse(x,y,radius,radius);
+    }
+    else
+    {
+      if(query!=CURRENT) percentages();
+      float lastAngle = 0;
+      for(int i=0; i<angles.size(); i++)
+      {
         angle = angles.get(i); 
-         
+       
         strokeWeight(3);
         stroke(0);
-        fill(lerpColor(from,to,(float)i/labels.size()));
+        float diffColor = map(i,0,angles.size(),0,100);
+        fill(red+diffColor,green+diffColor,blue+diffColor);
         arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
         
         float xRect = x+radius*0.75;
         float yRect = y/2+i*height*2;
-          
+        
+        
         rect(xRect, yRect,height,width);
         textSize(height);
         text(labels.get(i),xRect+radius/2,yRect+height/2);
-        fill(0);
-        text(stringState,x,y-radius*0.6);
-    
+  
         lastAngle += angle;
+      }
+    }
+    radioTime.draw();
+    radioScheduled.draw();
+    radioAirports.draw();
+    pieSearch.display();
+    if (pieSearch.active) {
+       pieSearch.adjustText();
     }
   }
 }
