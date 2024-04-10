@@ -79,7 +79,7 @@ void setup()
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);
   searchBarActive = false;
-  thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
+  thePieChart = new PieChart(400, 500, 600, flightData, color(209,38,72),color(38,122,209));
   xBarpos = 799;
   theCancelledFLights = new CancelledFlights(100, 130, flightData);
 }
