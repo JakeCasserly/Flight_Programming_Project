@@ -31,6 +31,7 @@ class barChart {
   float countTime;
   String[] date;
   boolean departures;
+  boolean prevdepartures;
   int[] dates;
   ArrayList<Integer> amountOnDate;
   String xAxis;
@@ -84,6 +85,7 @@ class barChart {
       amountOnDate.add(0);
     }
     departures = true;
+    prevdepartures = departures;
     flightCarrier = "B6";
     prevFlightCarrier = "B6";
     PFont font = createFont("arial",16);
@@ -106,11 +108,28 @@ class barChart {
   }
 
   void draw() {
+    
+    //println(departures);
+    if (prevdepartures != departures) {
+      prevdepartures = departures;
+      paramatersSame = false;
+    }
 
-    if (!paramatersSame) {           // initial read of the data
-      //readData();
+    if (!paramatersSame) {           // read of the data when changing from arrivals to departures and vica-versa
       System.out.println("Starting Executor");
-
+      
+      for (int i = 0; i < allStates.length; i++) {
+        amountInStates.set(i, 0);
+      }
+      for (int i = 0; i < dates.length; i++) {
+        amountOnDate.set(i, 0);
+      }
+      count = 0;
+      countTime = 0;
+      readStates = new readDataTask("state");
+      executorService.execute(readStates);
+      readTimes = new readDataTask("time");
+      executorService.execute(readTimes);
 
       // Start each individual task (i.e. you've created the task objects, 
       // now you just want to run them on individual threads
