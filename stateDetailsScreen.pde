@@ -1,4 +1,4 @@
-class StateDetailsScreen {
+/*class StateDetailsScreen {
     Button backButton;
     String state = ""; 
     
@@ -27,3 +27,4 @@ class StateDetailsScreen {
         return backButton.isOver(mouseX, mouseY);
     }
 }
+*/
