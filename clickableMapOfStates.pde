@@ -1,4 +1,4 @@
-import processing.core.PApplet;
+/*import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.Table;
 import processing.data.TableRow;
@@ -145,3 +145,4 @@ class clickableMap  {
     p.textAlign(PApplet.RIGHT, PApplet.CENTER);
     p.text("Number of Flights", margin / 4, p.height / 2);
 }
+*/
