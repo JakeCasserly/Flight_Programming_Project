@@ -22,6 +22,7 @@ searchBar theChartSearchBar;
 boolean searchBarActive;
 barChart theBarChart;
 String barChartLabel;
+String barChartLabel2;
 Data flightData;
 PieChart thePieChart;
 diverted diverted;
@@ -32,6 +33,7 @@ void setup()
   flightData = new Data("flights_full.csv");
   flightData.setData();
   barChartLabel = "Change to State";
+  barChartLabel2 = "Departures";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
@@ -66,6 +68,7 @@ void setup()
   divertedSearchBar = new searchBar(1200, 120, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
+  widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);
   searchBarActive = false;
   thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
 }
@@ -184,25 +187,53 @@ void mousePressed()
   if (divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
     divertedSearchBar.result();
   }
-  if(widgetList4.checkBarChartButton(mouseX, mouseY) && count == barChartScreen)
+  if(widgetList4.checkBarChartButton(mouseX, mouseY, 1220, 110) && count == barChartScreen)
   {
-    if(theBarChart.xAxis == "state")
-    {
-      theBarChart.xAxis = "time";
+    println(barChartLabel2);
+    if (barChartLabel == "Change to Time" || barChartLabel == "Change to State") {
+      if(theBarChart.xAxis == "state")
+      {
+        theBarChart.xAxis = "time";
+      }
+      else
+      {
+        theBarChart.xAxis = "state";
+      }
+      if(barChartLabel == "Change to Time")
+      {
+        widgetList4.setBarChartButtonLabel("Change to State", 1);
+        barChartLabel = "Change to State";
+      }
+      else
+      {
+        widgetList4.setBarChartButtonLabel("Change to Time", 1);
+        barChartLabel = "Change to Time";
+      }
     }
-    else
-    {
-      theBarChart.xAxis = "state";
-    }
-    if(barChartLabel == "Change to Time")
-    {
-      widgetList4.setBarChartButtonLabel("Change to State");
-      barChartLabel = "Change to State";
-    }
-    else
-    {
-      widgetList4.setBarChartButtonLabel("Change to Time");
-      barChartLabel = "Change to Time";
+  }
+    
+  if(widgetList4.checkBarChartButton(mouseX, mouseY, 1220, 200) && count == barChartScreen) {
+    if (barChartLabel2 == "Arrivals" || barChartLabel2 == "Departures") {
+      if(theBarChart.departures == true)
+      {
+        theBarChart.departures = false;
+        println("heremm");
+      }
+      else
+      {
+        theBarChart.departures = true;
+        println("heremmtrue");
+      }
+      if(barChartLabel2 == "Arrivals")
+      {
+        widgetList4.setBarChartButtonLabel("Departures", 2);
+        barChartLabel2 = "Departures";
+      }
+      else
+      {
+        widgetList4.setBarChartButtonLabel("Arrivals", 2);
+        barChartLabel2 = "Arrivals";
+      }
     }
   }
   if(theSearchBar.checkSearchBar(mouseX, mouseY))

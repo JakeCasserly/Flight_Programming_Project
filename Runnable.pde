@@ -43,7 +43,8 @@ public class readDataTask implements Runnable {
         terminate();
       }
       else if (taskName == "PieChart") {
-        thePieChart.angles = thePieChart.percentages();
+        //thePieChart.angles = thePieChart.percentages();
+        thePieChart.percentages();
         terminate();
       }
       else if (taskName == "stateHeat") {
