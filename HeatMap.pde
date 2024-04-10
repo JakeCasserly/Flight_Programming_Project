@@ -72,10 +72,10 @@ class HeatMap {
     
     entries = count;
     
-    if (!animated) {
+    if (!animated) {                  // if not fully animated, animate the rest
        animate();
     }
-    else {
+    else {                            // else just draw the shape
       shape(img, 200, 264);
     }
     
@@ -92,21 +92,21 @@ class HeatMap {
     line(1260, 800, 1283, 800);
     text("No.\nflights", 1330, 530);
     fill(0);
-    text(largest, 1325, 277);
+    text(largest, 1325, 277);                  // display the largest concentration of flights as the maximum value for the scale
     text("0", 1310, 790);
     textSize(25);   
     setGradient(1263, 283, 12, 514, color(255,20,50), color(0,20,50), 1);
     
-    if (theSearchBar.result != "null") {
+    if (theSearchBar.result != "null") { 
         //print(theChartSearchBar.result);
-        if (flightCarrier != theSearchBar.result) {
-          //prevFlightCarrier = flightCarrier;
+        if (flightCarrier != theSearchBar.result) {              // consistently check if the searchBar has a new result, if so
+          //prevFlightCarrier = flightCarrier;                   // start a new thread and execute it
           flightCarrier = theSearchBar.result;
           for (int i = 0; i < allStates.length; i++) {
             amountInStates.set(i, 0);
           }
           readStates = new readDataTask("stateHeat");
-          executorService.execute(readStates);
+          executorService.execute(readStates);                   // execute the readInData() method from a new thread
           count = 0;
       }
     }
@@ -217,7 +217,6 @@ class HeatMap {
          largest = amountInStates.get(i);
        }
      }
-     print(count);
   }
   
   void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {    // giving the gradient for the indicator to the right side of the heat map
