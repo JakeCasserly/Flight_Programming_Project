@@ -1,6 +1,18 @@
 // HeatMap
 // Jake Casserly's code for Heat map 15/03/2024
 
+/**
+ * This class generates a BarChart of data. The draw method periodically draws to the screen.
+ * The type of BarChart that is drawn varies between different x-axis.
+ * The BarChart is able to detect a change in paramaters e.g. xAxis, departures etc.
+ * And as a result reload the data accordingly, using a new thread.
+ * 
+ * @param: x-coordinate   the x position of the heat map
+ * @param: y-coordinate   the y position of the heat map
+ * @param: img            the svg file of the states of america
+ * @param: database       the database name to be loaded in
+**/
+
 class HeatMap {
   int xpos;
   int ypos;
@@ -57,23 +69,6 @@ class HeatMap {
   }
   
   void draw() {
-    
-    /*
-    Initial read in of the data:
-    This code loops through the entire dataset and checks
-    for the amount of occurances of specific states.
-    It then stores the number of occurances of each respective
-    state within an ArrayList by the name of "amountInStates".
-    */
-    
-    //if (!readInData) {
-      
-    //}
-    
-    //if (startingThread) {
-    //  executorService.execute(animate);
-    //  startingThread = false;
-    //}
     
     entries = count;
     
@@ -132,11 +127,11 @@ class HeatMap {
         fill(255, 20, 50);
       }
       else {
-        fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 10, 27);
-      }
+        fill((int)(((double)amountInStates.get(i) / (double)entries) * 2550), 10, 27);      // filling each state in the heatMap based on the amount of flights in
+      }                                                                                     // that specific state compared to the flights in all states defined by "entries"
       shape(stateShape, currentxpos, currentypos);
       fill(255);
-      text("WA", currentxpos+245, currentypos+70);
+      text("WA", currentxpos+245, currentypos+70);        // drawing the text for each state in the heat map
       text("OR", currentxpos+230, currentypos+145);
       text("MT", currentxpos+390, currentypos+105);
       text("WY", currentxpos+410, currentypos+185);
@@ -195,11 +190,10 @@ class HeatMap {
   }
   
   void readInData() {
-    //stateData = new Data(database); // *********
     int number = 0;
     String code = "";
     //stateData.setData();
-    for (int i = 0; i < flightData.length; i++) {
+    for (int i = 0; i < flightData.length; i++) {        // loops through all the data and gets assigns totals to an arrayList of the name "amountInStates"
       code = flightData.getCode(i);
           if (code.contains(flightCarrier)) {
             for (int z = 0; z < allStates.length; z++) {
@@ -218,7 +212,7 @@ class HeatMap {
           }
      }
      largest = 0;
-     for (int i = 0; i < amountInStates.size(); i++) {
+     for (int i = 0; i < amountInStates.size(); i++) {    // gets the largest amount in one specific state
        if (amountInStates.get(i) > largest) {
          largest = amountInStates.get(i);
        }
@@ -226,7 +220,7 @@ class HeatMap {
      print(count);
   }
   
-  void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {
+  void setGradient(int x, int y, float w, float h, color c1, color c2, int axis ) {    // giving the gradient for the indicator to the right side of the heat map
 
   noFill();
 

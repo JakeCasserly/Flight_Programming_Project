@@ -6,6 +6,10 @@
  * Using the runnable class I can instantiate threads which can do specific tasks whilst keeping the main thread free.
  * Keeping the main thread free will allow the main thread to draw the objects to the screen whilst data is being
  * read in in the background.
+ *
+ *
+ * @ param: taskName  a description of the data needing to be read for the thread to deduce
+ *  which method to run.
 */
 
 //import java.security.SecureRandom;

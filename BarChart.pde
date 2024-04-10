@@ -2,11 +2,17 @@
 // Jake Casserly's code for Bar Chart 20/03/2024
 
 /**
- * This class generates a barChart of data. 
+ * This class generates a BarChart of data. The draw method periodically draws to the screen.
+ * The type of BarChart that is drawn varies between different x-axis.
+ * The BarChart is able to detect a change in paramaters e.g. xAxis, departures etc.
+ * And as a result reload the data accordingly, using a new thread.
  * 
- * 
- * @params: x-coordinate (int), y-coordinate (int),
- * height (double), width (double), database (String)
+ * @param: x-coordinate   the x position of the barChart
+ * @param: y-coordinate   the y position of the barChart
+ * @param: height         the height of the barChart
+ * @param: width          the width of the barChart
+ * @param: database       the database name to be loaded in
+ * @param: cp5            the instance of cp5 for the dropdownLists
  */
 
 import java.util.concurrent.Executors;
@@ -209,7 +215,7 @@ class barChart {
       d4.setVisible(true);
       for (int i = 0; i < dates.length; i++) {
         strokeWeight(3);
-        stroke(3);                                                                                                     // needs to be revised
+        stroke(3);
         line(x+(i*25), y+750, (x-5)+(i*25), y+770);
         fill(0);
         textSize(30);
@@ -280,26 +286,13 @@ class barChart {
   
   synchronized void readTime() {
     if (readTime == false) {
-      //timeData = new Data(database);
+      //timeData = new Data(database); // made code more inefficient, now using one object initialized in main
       //timeData.setData();
       readTime = true;
     }
     for (int i = 0; i < dates.length; i++) {
       amountOnDate.add(0);
     }
-    //countTime = 0;
-    //  for (int i = 0; i < timeData.length; i++) {
-    //    if (timeData.getCode(i).contains(flightCarrier)) {
-    //      date = timeData.getDate(i).split("/");
-    //      for (int z = 0; z < dates.length; z++) {
-    //        if (Integer.parseInt(date[1]) == dates[z]) {
-    //          numberTime = amountOnDate.get(z);
-    //          amountOnDate.set(z, numberTime+1);
-    //        }
-    //      }
-    //      countTime++;
-    //    }
-    //  }
       
       countTime = 0;
       for (int i = 0; i < flightData.length; i++) {
@@ -322,23 +315,6 @@ class barChart {
       //stateData.setData();
       readState = true;
     }
-    //for (int i = 0; i < stateData.length; i++) {
-    //  if (stateData.getCode(i).contains(flightCarrier)) {
-    //    for (int z = 0; z < allStates.length; z++) {
-    //      if (departures) {
-    //        state = stateData.getDep(i).getState();
-    //      }
-    //      else {
-    //        state = stateData.getArr(i).getState();
-    //      }
-    //      if (state.equals(allStates[z])) {
-    //        number = amountInStates.get(z);
-    //        amountInStates.set(z, number+1);
-    //      }
-    //    }
-    //    count++;
-    //  }
-    //}
     
     for (int i = 0; i < flightData.length; i++) {
       if (flightData.getCode(i).contains(flightCarrier)) {
@@ -390,21 +366,16 @@ class barChart {
     ddl.setBackgroundColor(color(190));
     ddl.setItemHeight(30);
     ddl.setBarHeight(30);
-    //ddl.captionLabel().set("dropdown");
-    //ddl.captionLabel().style().marginTop = 3;
-    //ddl.captionLabel().style().marginLeft = 3;
-    //ddl.valueLabel().style().marginTop = 3;
     if (ddl.getLabel() == "S1" || ddl.getLabel() == "S2") {
-      for (int i=0;i<allStates.length;i++) {
+      for (int i=0;i<allStates.length;i++) {                // adding states to the 1st set of dropdownlist
         ddl.addItem(allStates[i], i);
       }
     }
     else {
-      for (int z=0;z<dates.length;z++) {
+      for (int z=0;z<dates.length;z++) {                    // adding dates to the 2nd set of dropdownlist
         ddl.addItem(StringDates[z], z);
       }
     }
-    //ddl.scroll(0);
     ddl.setColorBackground(color(20));
     ddl.setColorActive(color(255, 128));
   }
