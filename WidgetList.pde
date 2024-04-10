@@ -81,7 +81,8 @@ class WidgetList
     }
     for(Widget button : barChartButtons)
     {
-       button.display(); 
+      textSize(25);
+      button.display(); 
     }
   }
   

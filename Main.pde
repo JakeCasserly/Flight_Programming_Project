@@ -32,16 +32,16 @@ void setup()
 {
   flightData = new Data("flights_full.csv");
   flightData.setData();
+  ControlP5 cp5;
+  cp5 = new ControlP5(this);
+  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
   barChartLabel = "Change to State";
   barChartLabel2 = "Departures";
   globe = loadImage("BG Pic.jpg");
   planeSymbol = loadImage("Plane Symbol.png");
   theUSImage = loadShape("theUS.svg");
   theHeatMap = new HeatMap(200, 264, theUSImage, "flights_full.csv");
-  ControlP5 cp5;
-  cp5 = new ControlP5(this);
   diverted = new diverted(100, 130, flightData);
-  theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
   size(1512, 982);
    // for loop to load in array of image frames for loading gif
   for (int i = 0; i < loadingFrameAmount; i++) 
