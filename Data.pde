@@ -101,7 +101,7 @@ class Data
    ArrayList<String[]> getCancelledFlights() {
     ArrayList<String[]> cancelledFlights = new ArrayList<String[]>();
     int numcncld = 0;
-    for (int i = 0;(i < length) && (numcncld < 1250) ; i++) 
+    for (int i = 0;(i < length) && (numcncld < 1000) ; i++) 
     {
         boolean cancelled = getCancelled(i);
         
