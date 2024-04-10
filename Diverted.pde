@@ -43,19 +43,12 @@ void draw() {
     if (mousePressed && divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
         divertedSearchBar.active = true;        
     }
-
-    //if (divertedSearchBar.active) {
-    //    divertedSearchBar.adjustText();
-    //}
     
     if (keyCode == ENTER && divertedSearchBar.active) {
-        //String searchResult = searchResult(); // old-code: edited by Jake
         divertedSearchBar.active = true;
         divertedSearchBar.result();
         String searchResult = divertedSearchBar.result;
         filterFlightsByState(searchResult);
-        //divertedSearchBar.active = false; 
-        println("search" +  searchResult + "blah");
     }
     fill(0);
     textAlign(LEFT, TOP);
@@ -68,7 +61,6 @@ void draw() {
     text("STATUS", 1000, title+20);
     textSize(20); fill(0);
     int yPos = 60 + title;
-    print(divertedSearchBar.active);
     for (String[] flightInfo : divertedFlights) {
         fill(0);
         int textHeight = ceil(textWidth(flightInfo[0]) / (width - 40)) * lineHeight;
