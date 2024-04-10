@@ -16,7 +16,7 @@ class Widget
     labelColor = color(0);
   }
   
-  void display() 
+  void display()                                                         // display is used to draw home screen buttons
   {
     strokeWeight(5);
     stroke(borderColor);
@@ -28,7 +28,7 @@ class Widget
     textSize(50);
   }
   
-  void display1() 
+  void display1()                                                        // display1 is used to draw the tabs menu at the top of each screen
   {
     strokeWeight(5);
     stroke(borderColor);
@@ -40,7 +40,7 @@ class Widget
     textSize(25);
   }
   
-  boolean checkBorder(float mx, float my)
+  boolean checkBorder(float mx, float my)                                // checks the border of each button and highlights if the mouse is over
   {
     if (mx > x && mx < x + width && my > y && my < y + height)
     {
@@ -55,7 +55,7 @@ class Widget
     return false;
   }
   
-  boolean checkMouse(float mx, float my) {
+  boolean checkMouse(float mx, float my) {                               // is used to see if a button is clicked
     if (mx > x && mx < x + width && my > y && my < y + height) 
     {
       count = screenNumber;

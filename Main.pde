@@ -84,12 +84,13 @@ void setup()
   theCancelledFLights = new CancelledFlights(100, 130, flightData);
 }
 
+                                                                            // draw uses a count to check which sscreen it's on and then draws using other classes
 void draw() 
 {
   if(count == homeScreen)
   {
     background(0);
-    widgetList.display();
+    widgetList.display();                                                   // widgetList is 3 buttons to choose between our main three pages
     fill(255, 255, 0);
     textSize(75);
     text("Flight Visualiser", (width / 2) + 35, 100);
@@ -101,22 +102,22 @@ void draw()
   {
     background(0);
     textSize(25);
-    widgetList1.display();
-  }
+    widgetList1.display();                                                  // widgetList1 is our tabs buttons at the top which allow you to switch between screens easily
+  }                                                                         // widgetList1 iis displayed on all screens under the "Flights" banner
   else if (count == heatMapScreen) 
-  {
+  {                                                                         // heat map screen draws heat map and search bar to screen
     background(255, 255, 0);
     textSize(25);
     widgetList1.display();
     theHeatMap.draw();
     theHeatMap.drawStates();
     theSearchBar.display();
-    if(searchBarActive)
+    if(searchBarActive)                                                      // checks if search bar is in use
     {
       theSearchBar.adjustText();
     }
   }
-  else if (count == barChartScreen)
+  else if (count == barChartScreen)                                          // bar chart screen draws bar chart and search bar to screen
   {
     background(255, 255, 0);
     textSize(25);
@@ -125,19 +126,19 @@ void draw()
     textSize(25);
     widgetList4.display();
     theChartSearchBar.display();
-    if(searchBarActive)
+    if(searchBarActive)                                                       // checks if search bar is in use
     {
       theChartSearchBar.adjustText();
     }
   }
-  else if (count == pieChartScreen)
+  else if (count == pieChartScreen)                                           // pie chart screen
   {
     textSize(25);
     background(255, 255, 0);
     widgetList1.display();
     thePieChart.draw();
   }
-  else if(count == divertedScreen)
+  else if(count == divertedScreen)                                             // diverted screen displays a list of diverted flights and a search bar
   {
     diverted.draw();
     if(divertedSearchBar.active)
@@ -145,7 +146,7 @@ void draw()
       divertedSearchBar.adjustText();
     }
   }
-  else if(count == cancelledScreen)
+  else if(count == cancelledScreen)                                            // cancelled screen displays a list of cancelled flights and a search bar
   {
     background(0);
     widgetList3.display();
@@ -174,7 +175,7 @@ void draw()
   }
 }
 
-void mouseMoved()
+void mouseMoved()                                                               // checks all buttons for the mouse hovering over
 {
   widgetList.checkButtonsBorder(mouseX, mouseY);
   widgetList1.checkButtonsBorder(mouseX, mouseY);
@@ -185,7 +186,7 @@ void mouseMoved()
   divertedSearchBar.checkBorder(mouseX, mouseY);
 }
 
-void mousePressed() 
+void mousePressed()                                                              // checks what button is pressed to see which screen to change to and which array list of buttons to display
 {
   if(count == homeScreen)
   {

@@ -13,21 +13,21 @@ class WidgetList
     barChartButtons = new ArrayList<Widget>();
   }
   
-  void addButton(String label, color widgetColor, int screen) 
+  void addButton(String label, color widgetColor, int screen)                                 // adds button to home screen buttons
   {
     float x = (buttons.size() * 500) + 50;
     Widget button = new Widget(x, 400, 400, 100, label, widgetColor, screen);
     buttons.add(button);
   }
   
-  void addFlightScreenButton(String label, color widgetColor, int screen) 
+  void addFlightScreenButton(String label, color widgetColor, int screen)                     // adds button to the menu at the top of the screen
   {
     float x = (flightScreenButtons.size() * 378);
     Widget button = new Widget(x, 50, 375, 35, label, widgetColor, screen);
     flightScreenButtons.add(button);
   }
   
-  void addBarChartButton(String label, color widgetColor, int screen)
+  void addBarChartButton(String label, color widgetColor, int screen)                         // adds buttons to interact with the bar chart 
   {
     if (label == "Change to State") {
       Widget button = new Widget(1220, 110, 290, 35, label, widgetColor, screen);
@@ -39,7 +39,7 @@ class WidgetList
     }
   }
   
-  boolean checkBarChartButton(float mx, float my, float x, float y)
+  boolean checkBarChartButton(float mx, float my, float x, float y)                          // checks if mouse is over button
   {
     if (mx > x && mx < x + width && my > y && my < y+30)
     {
@@ -48,7 +48,7 @@ class WidgetList
     return false;
   }
   
-  void setBarChartButtonLabel(String newLabel, int code) 
+  void setBarChartButtonLabel(String newLabel, int code)                                     // is used to change the label of the buttons during queries of bar chart
   {
     //for (Widget button : barChartButtons) 
     //{
@@ -69,7 +69,7 @@ class WidgetList
     buttons.add(button);
   }
   
-  void display() 
+  void display()                                                                             // runs through each array list of buttons and displays them
   {
     for (Widget button : buttons) 
     {
@@ -86,7 +86,7 @@ class WidgetList
     }
   }
   
-  void checkButtons(float mx, float my) 
+  void checkButtons(float mx, float my)                                                     // runs through each array list of buttons and checks if mouse is over them
   {
     for (Widget button : buttons) 
     {
@@ -102,7 +102,7 @@ class WidgetList
     }
   }
   
-  void checkButtonsBorder(float mx, float my)
+  void checkButtonsBorder(float mx, float my)                                              // runs through each array list of buttons and checks if mouse is over them
   {
     for (Widget button : buttons) 
     {
