@@ -1,16 +1,16 @@
-/*import processing.core.PApplet;
+/*
+import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.Table;
 import processing.data.TableRow;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-class clickableMap  {
-  PApplet p;
-    ArrayList<Button> stateButtons;
+public class clickableMapOfStates {
+    PApplet p;
+    ArrayList<Button> stateButtons = new ArrayList<>();
     String selectedState = "";
     PImage mapImage;
-     String databasePath;
     HashMap<String, HashMap<String, Integer>> stateAirports = new HashMap<>();
     String[] states = {"WA", "ID", "MT", "ND", "MN", "IL", "MI", "NY", "VT", "NH", "ME",
     "OR", "NV", "WY", "SD", "IA", "IN", "OH", "PA", "NJ", "CT", "RI", "MA",
@@ -26,19 +26,26 @@ class clickableMap  {
     {692, 488}, {850, 465}, {1002, 455}, {987, 497}, {751, 202}, {593, 476}, {737, 626}, {770, 556}, {840, 528},
     {945, 547}, {1006, 691}, {549, 594}, {145, 663}, {364, 750}};
     BackButton backButton;
+    String databasePath;
     
-   public clickableMapOfStates(PApplet p, int x, int y, double width, double height, String database) {
+    int x, y;
+    double width, height;
+
+    public clickableMapOfStates(PApplet p, int x, int y, double width, double height, String database) {
         this.p = p;
-        this.databasePath = database; 
-        
+        this.x = x;
+        this.y = y;
+        this.width = width;
+        this.height = height;
+        this.databasePath = database;
         this.mapImage = p.loadImage("Map_of_USA_showing_state_names.png");
-        
-        loadAndParseData(databasePath); 
-        initializeButtons(x, y, width, height);
+
+        loadAndParseData(databasePath);
+        initializeButtons();
         backButton = new BackButton(p, "Back", p.width - 160, p.height - 80, 150, 60, true);
     }
     
-     void initializeButtons(int x, int y, double width, double height) {
+     void initializeButtons() {
        
         for (int i = 0; i < states.length; i++) {
            
@@ -53,7 +60,7 @@ class clickableMap  {
     public void setup() {
         mapImage = loadImage("Map_of_USA_showing_state_names.png");
         loadAndParseData("flights2k(1).csv");
-        initializeButtons(0, 0, p.width, p.height); 
+        initializeButtons(); 
         backButton = new BackButton(p, "Back", 50, p.height - 60, 150, 60, true);
     }
 
@@ -109,7 +116,7 @@ class clickableMap  {
 
     float margin = 50;
     float spacing = 10;
-    // Note: use p.width and p.height to access the dimensions of the sketch
+    
     float barWidth = (p.width - 2 * margin - (airports.size() - 1) * spacing) / airports.size();
     float maxFlights = findMaxFlights(airports);
 
@@ -144,5 +151,6 @@ class clickableMap  {
     p.text("Airports", p.width / 2, p.height - 10);
     p.textAlign(PApplet.RIGHT, PApplet.CENTER);
     p.text("Number of Flights", margin / 4, p.height / 2);
+   }
 }
 */
