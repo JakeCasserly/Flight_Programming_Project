@@ -116,8 +116,6 @@ class barChart {
     
     readStates = new readDataTask("state");
     readTimes = new readDataTask("time");
-    executorService.execute(readTimes);
-    executorService.execute(readStates);
   }
 
   void draw() {

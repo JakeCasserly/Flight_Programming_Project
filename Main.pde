@@ -40,6 +40,8 @@ void setup()
   executorService.execute(readInTheData);
   cp5 = new ControlP5(this);
   theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
+  executorService.execute(theBarChart.readTimes);
+  executorService.execute(theBarChart.readStates);
   barChartLabel = "Change to State";
   barChartLabel2 = "Departures";
   globe = loadImage("BG Pic.jpg");
