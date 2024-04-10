@@ -28,7 +28,8 @@ class PieChart
   
   RadioButton radioTime, radioScheduled, radioAirports;
   
-  int red,green,blue;
+  color from;
+  color to;
   
   Data data;
   ArrayList<Float> angles;
@@ -37,7 +38,7 @@ class PieChart
   readDataTask readPie;
   ExecutorService executorService = Executors.newCachedThreadPool();
   
-  PieChart(int x, int y, int radius, Data data, int red, int green, int blue)
+  PieChart(int x, int y, int radius, Data data, color from, color to)
   {
     this.x = x;
     this.y = y;
@@ -45,19 +46,16 @@ class PieChart
     height = radius/15;
     width = radius/15;
     this.data = data;
+    this.from = from;
+    this.to = to;
 
     searchActive = false;
 
     query = CURRENT;
-    radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",color(red,green,blue));
-    radioTime = new RadioButton(x+radius*0.5,y+radius*0.75,height,"Time",color(red,green,blue));
-    radioAirports = new RadioButton(x+radius,y+radius*0.75,height,"Airports",color(red,green,blue));
+    radioScheduled = new RadioButton(x,y+radius*0.75,height,"Scheduled",from);
+    radioTime = new RadioButton(x+radius*0.5,y+radius*0.75,height,"Time",from);
+    radioAirports = new RadioButton(x+radius,y+radius*0.75,height,"Airports",from);
     pieSearch = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
-
-    //colorMode(HSB,360,100,100);
-    this.red = red;
-    this.green = green;
-    this.blue = blue;
     
     angles = new ArrayList<Float>();
     labels = new ArrayList<>();
@@ -200,7 +198,6 @@ class PieChart
           percentages();
           println(pieSearch.result);
         }
-    println(query);
     if(query!=CURRENT) percentages();
     float lastAngle = 0;
     for(int i=0; i<angles.size(); i++)
@@ -209,8 +206,7 @@ class PieChart
          
         strokeWeight(3);
         stroke(0);
-        float diffColor = map(i,0,angles.size(),0,100);
-        fill(red+diffColor,green+diffColor,blue+diffColor);
+        fill(lerpColor(from,to,(float)i/labels.size()));
         arc(x,y,radius,radius,lastAngle,lastAngle+angle,PIE);
         
         float xRect = x+radius*0.75;

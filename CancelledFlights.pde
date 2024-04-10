@@ -95,8 +95,6 @@ class CancelledFlights{
   int x, y;
   Data data;
   String input;
-  readDataTask drawTheList;
-  ExecutorService executorService;
 
 CancelledFlights (int x, int y, Data data) {
     this.x = x;
@@ -105,9 +103,6 @@ CancelledFlights (int x, int y, Data data) {
     cancelledFlights = data.getCancelledFlights();
     plane = loadImage("Plane Symbol.png");
     searchBarActive = false;
-    executorService = Executors.newCachedThreadPool();
-    drawTheList = new readDataTask("cancelledList");
-    executorService.execute(drawTheList);
 }
 
 void draw() {

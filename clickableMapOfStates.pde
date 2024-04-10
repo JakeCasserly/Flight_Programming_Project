@@ -1,4 +1,4 @@
-
+/*
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.Table;
@@ -188,3 +188,4 @@ public class clickableMapOfStates {
     p.text("Number of Flights", margin / 4, p.height / 2);
    }
 } 
+*/
