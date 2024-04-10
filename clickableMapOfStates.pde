@@ -27,7 +27,7 @@ class clickableMap  {
     {945, 547}, {1006, 691}, {549, 594}, {145, 663}, {364, 750}};
     BackButton backButton;
     
-   public clickableMapOfStates(PApplet p, int x, int y, double width, double height, String database) {
+   public clickableMap(PApplet p, int x, int y, double width, double height, String database) {
         this.p = p;
         this.databasePath = database; 
         
@@ -144,5 +144,6 @@ class clickableMap  {
     p.text("Airports", p.width / 2, p.height - 10);
     p.textAlign(PApplet.RIGHT, PApplet.CENTER);
     p.text("Number of Flights", margin / 4, p.height / 2);
+   }
 }
 */

@@ -76,7 +76,9 @@ class CancelledFlights {
 }
 */
 
+
 // removed old cancelled flights code as data function called has been changed making it redundant
+
 
 import java.util.concurrent.Executors;
 import java.util.concurrent.ExecutorService;
@@ -126,7 +128,7 @@ void draw() {
     //if (divertedSearchBar.active) {
     //    divertedSearchBar.adjustText();
     //}
-    
+
     if (keyCode == ENTER && divertedSearchBar.active) {
         //String searchResult = searchResult(); // old-code: edited by Jake
         divertedSearchBar.active = true;
@@ -165,7 +167,7 @@ void draw() {
   //synchronized void drawList() {
   //  divertedSearchBar.adjustText();
   //}
-  
+
   void keyPressed() {
     divertedSearchBar.adjustText();
   }
@@ -180,7 +182,9 @@ void draw() {
       cancelledFlights=filteredFlights;
       return cancelledFlights;
   }
-  
+
+
+
   String searchResult() {
     String result = "";
     if (keyPressed && key != ENTER && key != BACKSPACE) {
