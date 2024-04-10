@@ -149,6 +149,10 @@ void draw()
     background(0);
     widgetList3.display();
     theCancelledFLights.draw();
+    if(divertedSearchBar.active)
+    {
+      divertedSearchBar.adjustText();
+    }
   }
   if ( count != barChartScreen ) {
     theBarChart.d1.setVisible(false);
