@@ -1,4 +1,4 @@
-/*
+
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.data.Table;
@@ -32,6 +32,8 @@ public class clickableMapOfStates {
 
     BackButton backButton;
     String databasePath;
+    boolean showingHistogram = false;
+
     
     int x, y;
     double width, height;
@@ -50,11 +52,11 @@ public class clickableMapOfStates {
         backButton = new BackButton(p, "Back", p.width - 160, p.height - 80, 150, 60, true);
     }
     void initializeButtons() {
-    stateButtons.clear(); // Clear existing buttons if any.
+    stateButtons.clear(); 
     for (int i = 0; i < states.length; i++) {
         float x = buttonPositions[i][0];
         float y = buttonPositions[i][1];
-        // Adding 'true' as the last parameter to denote that the button is active by default
+    
         stateButtons.add(new Button(p, states[i], x, y, 80, 40, true)); 
     }
 }
@@ -74,44 +76,57 @@ public class clickableMapOfStates {
         backButton = new BackButton(p, "Back", 50, p.height - 60, 150, 60, true);
     }
 
-    public void draw() {
+  public void draw() {
     p.background(255);
-    p.image(mapImage, 0, 0, p.width, p.height);
-    
-    boolean isCursorOverButton = false;
-    for (Button button : stateButtons) {
-        button.display();
-        if (button.isOver(p.mouseX, p.mouseY)) {
-            isCursorOverButton = true;
-            break; // Exit the loop early if one is found
+    p.tint(255);
+    if (!showingHistogram) {
+        
+        p.background(255);
+        p.image(mapImage, 0, 0, p.width, p.height);
+        
+        boolean isCursorOverButton = false;
+        for (Button button : stateButtons) {
+            button.display();
+            if (button.isOver(p.mouseX, p.mouseY)) {
+                isCursorOverButton = true;
+                break; 
+            }
         }
-    }
-    
-    // Change cursor based on whether it is over a button
-    if (isCursorOverButton) {
-        p.cursor(PApplet.HAND);
+        
+        
+        if (isCursorOverButton) {
+            p.cursor(PApplet.HAND);
+        } else {
+            p.cursor(PApplet.ARROW);
+        }
+        
+        backButton.display();
     } else {
-        p.cursor(PApplet.ARROW);
-    }
-
-    backButton.display();
-    if (!selectedState.isEmpty()) {
-        drawHistogram(selectedState);
+       
+        if (!selectedState.isEmpty()) {
+            drawHistogram(selectedState);
+        }
     }
 }
 
 
-    public void mousePressed() {
-       for (Button button : stateButtons) {
-           if (button.isOver(mouseX, mouseY)) {
-               selectedState = button.label;
-               return;
-           }
-       }
-        if (backButton.isOver(mouseX, mouseY)) {
-           selectedState = ""; // Reset selected state if back button is pressed
-       }
+   public void mousePressed() {
+    if (!showingHistogram) {
+        for (Button button : stateButtons) {
+            if (button.isOver(p.mouseX, p.mouseY)) {
+                selectedState = button.label;
+                showingHistogram = true; 
+                return;
+            }
+        }
+    } else {
+        if (backButton.isOver(p.mouseX, p.mouseY)) {
+            showingHistogram = false; 
+            selectedState = ""; 
+        }
     }
+}
+
 
     void loadAndParseData(String fileName) {
         Table table = p.loadTable(fileName, "header");
@@ -172,5 +187,4 @@ public class clickableMapOfStates {
     p.textAlign(PApplet.RIGHT, PApplet.CENTER);
     p.text("Number of Flights", margin / 4, p.height / 2);
    }
-}
-*/
+} 
