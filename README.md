@@ -8,4 +8,4 @@ Naomi Cunningham   nacunnin@tcd.ie
 Darragh Considine  dconsidi@tcd.ie
 Rosie Cassidy      rocassid@tcd.ie
 Keith Lyons        Lyonsk8@tcd.ie
-Luke Hand          // need email
+Luke Hand          handlu@tcd.ie
