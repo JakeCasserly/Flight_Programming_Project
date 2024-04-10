@@ -30,6 +30,7 @@ searchBar divertedSearchBar;
 ControlP5 cp5;
 ExecutorService executorService;
 readDataTask readInTheData;
+float xBarpos;
 
 void setup() 
 {
@@ -78,6 +79,7 @@ void setup()
   widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);
   searchBarActive = false;
   thePieChart = new PieChart(400, 500, 600, flightData, 40, 50, 60);
+  xBarpos = 799;
 }
 
 void draw() 
@@ -150,6 +152,16 @@ void draw()
     theBarChart.d2.setVisible(false);
     theBarChart.d3.setVisible(false);
     theBarChart.d4.setVisible(false);
+  }
+  if (count == flightScreen || count == heatMapScreen || count == barChartScreen || count == pieChartScreen) {
+    fill(0);
+    rect(0, 0, 1512, 30);
+    xBarpos -= 1;
+    if (xBarpos < -800) {
+      xBarpos = 2200;
+    }
+    fill(255);
+    text("The Flight Visualizer - by Jake Casserly, Darragh Considine, Rosie Cassidy, Naomi Cunnigham, Luke Hand and Keith Lyons", xBarpos, 12);
   }
 }
 
