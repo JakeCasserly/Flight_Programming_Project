@@ -132,6 +132,7 @@ void draw()
   }
   else if (count == pieChartScreen)
   {
+    textSize(25);
     background(255, 255, 0);
     widgetList1.display();
     thePieChart.draw();
@@ -168,6 +169,7 @@ void draw()
       xBarpos = 2200;
     }
     fill(255);
+    textSize(25);
     text("The Flight Visualizer - by Jake Casserly, Darragh Considine, Rosie Cassidy, Naomi Cunnigham, Luke Hand and Keith Lyons", xBarpos, 12);
   }
 }
