@@ -27,12 +27,17 @@ Data flightData;
 PieChart thePieChart;
 diverted diverted;
 searchBar divertedSearchBar;
+ControlP5 cp5;
+ExecutorService executorService;
+readDataTask readInTheData;
 
 void setup() 
 {
+  executorService = Executors.newCachedThreadPool();
+  readInTheData = new readDataTask("readAllData!");
   flightData = new Data("flights_full.csv");
-  flightData.setData();
-  ControlP5 cp5;
+  //flightData.setData();
+  executorService.execute(readInTheData);
   cp5 = new ControlP5(this);
   theBarChart = new barChart(100, 130, 40, 40, "flights_full.csv", cp5);
   barChartLabel = "Change to State";

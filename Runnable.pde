@@ -65,6 +65,11 @@ public class readDataTask implements Runnable {
         //diverted.drawList();
         terminate();
       }
+      else if (taskName == "readAllData!") {
+        //flightData = new Data("flights_full.csv");
+        flightData.setData();
+        terminate();
+      }
       else {
         // do nothing forever
       }
