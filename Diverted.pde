@@ -1,5 +1,5 @@
 // Diverted class Rosie Casssidy 09/04
-import controlP5.*;
+//import controlP5.*;
 
 class diverted{
   ArrayList<String[]> divertedFlights;
@@ -33,7 +33,6 @@ void draw() {
     text("Diverted Flights", 500, 5);
     textSize(30); fill(0);
     text("Enter a state code:", 1190, 120);
-    image(plane, 200, 100, height/11, width/11);
 
     if (mousePressed && divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
         divertedSearchBar.active = true;        
