@@ -95,4 +95,29 @@ class Data
     }
     return divertedFlights;
   }
+  
+  
+  
+   // modified diverted class code for cancelled class
+   ArrayList<String[]> getCancelledFlights() {
+    ArrayList<String[]> cancelledFlights = new ArrayList<String[]>();
+    for (int i = 0; i < length; i++) {
+        boolean cancelled = getCancelled(i);
+        if(cancelled){
+        Departure depData = getDep(i);
+        Arrival arrData = getArr(i);
+        String flightCode = getCode(i); 
+        String date = getDate(i);
+        if (cancelled) {
+            String[] flightInfo = {flightCode, depData.getCity(), arrData.getCity(), arrData.timeFormat(depData.getTime()), date, arrData.getState()};
+            cancelledFlights.add(flightInfo);
+        }
+        }
+    }
+    return cancelledFlights;
+  }
+  
+  
+  
+  
 }
