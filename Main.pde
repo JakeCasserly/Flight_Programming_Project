@@ -74,7 +74,7 @@ void setup()
   widgetList3.addFlightScreenButton("Main Menu", color(255,255,0), homeScreen);
   theSearchBar = new searchBar(1280, 95, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   theChartSearchBar = new searchBar(1230, 700, 200, 70, "type text here...", color(210, 210, 0), "null", false);
-  divertedSearchBar = new searchBar(1200, 120, 210, 70, "type text here...", color(210, 210, 0), "null", false);
+  divertedSearchBar = new searchBar(1200, 150, 210, 70, "type text here...", color(210, 210, 0), "null", false);
   widgetList4 = new WidgetList();
   widgetList4.addBarChartButton(barChartLabel, color(255,255,0), barChartScreen);
   widgetList4.addBarChartButton(barChartLabel2, color(255,255,0), barChartScreen);

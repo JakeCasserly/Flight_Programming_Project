@@ -1,6 +1,4 @@
 // Diverted class Rosie Casssidy 09/04
-import java.util.concurrent.Executors;
-import java.util.concurrent.ExecutorService;
 import controlP5.*;
 
 class diverted{
@@ -14,8 +12,6 @@ class diverted{
   int x, y;
   Data data;
   String input;
-  readDataTask drawTheList;
-  ExecutorService executorService;
 
 diverted (int x, int y, Data data) {
     this.x = x;
@@ -24,9 +20,6 @@ diverted (int x, int y, Data data) {
     divertedFlights = data.getDivertedFlights();
     plane = loadImage("Plane Symbol.png");
     searchBarActive = false;
-    executorService = Executors.newCachedThreadPool();
-    drawTheList = new readDataTask("divertedList");
-    executorService.execute(drawTheList);
 }
 
 void draw() {
@@ -38,7 +31,9 @@ void draw() {
     textAlign(LEFT, TOP);
     textSize(80); fill(255, 255, 0);
     text("Diverted Flights", 500, 5);
-    image(plane, 800, 100, height/11, width/11);
+    textSize(30); fill(0);
+    text("Enter a state code:", 1190, 120);
+    image(plane, 200, 100, height/11, width/11);
 
     if (mousePressed && divertedSearchBar.checkSearchBar(mouseX, mouseY)) {
         divertedSearchBar.active = true;        
@@ -50,6 +45,7 @@ void draw() {
         String searchResult = divertedSearchBar.result;
         filterFlightsByState(searchResult);
     }
+    
     fill(0);
     textAlign(LEFT, TOP);
     textSize(30);
@@ -62,23 +58,19 @@ void draw() {
     textSize(20); fill(0);
     int yPos = 60 + title;
     for (String[] flightInfo : divertedFlights) {
-        fill(0);
-        int textHeight = ceil(textWidth(flightInfo[0]) / (width - 40)) * lineHeight;
-        text(flightInfo[0], 20, yPos, width - 40, textHeight); 
-        text(flightInfo[1], 200, yPos, width - 40, textHeight); 
-        text(flightInfo[2], 500, yPos, width - 40, textHeight); 
-        text(flightInfo[4], 750, yPos, width - 40, textHeight); 
-        text(flightInfo[3], 900, yPos, width - 40, textHeight); 
-        String flightStatus = "DIVERTED"; fill(250, 5, 5); 
-        text(flightStatus, 1000, yPos, width - 40, textHeight);
-        yPos += (0.5*textHeight);
+      fill(0);
+      int textHeight = ceil(textWidth(flightInfo[0]) / (width - 40)) * lineHeight;
+      text(flightInfo[0], 20, yPos, width - 40, textHeight); 
+      text(flightInfo[1], 200, yPos, width - 40, textHeight); 
+      text(flightInfo[2], 500, yPos, width - 40, textHeight); 
+      text(flightInfo[4], 750, yPos, width - 40, textHeight); 
+      text(flightInfo[3], 900, yPos, width - 40, textHeight); 
+      String flightStatus = "DIVERTED"; fill(250, 5, 5); 
+      text(flightStatus, 1000, yPos, width - 40, textHeight);
+      yPos += (0.5*textHeight);
     }
 }
 
-  //synchronized void drawList() {
-  //  divertedSearchBar.adjustText();
-  //}
-  
   void keyPressed() {
     divertedSearchBar.adjustText();
   }
