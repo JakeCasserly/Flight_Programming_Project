@@ -52,12 +52,12 @@ void setup()
   widgetList = new WidgetList();
   widgetList.addButton("Flights", color(255, 255, 0), flightScreen);
   widgetList.addButton("Diverted Flights", color(255, 255, 0), divertedScreen);
-  widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
+  //widgetList.addButton("Cancelled Flights", color(255, 255, 0), cancelledScreen);
   widgetList1 = new WidgetList();
   widgetList1.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);
   widgetList1.addFlightScreenButton("Bar Chart", color(255, 255, 0), barChartScreen);
   widgetList1.addFlightScreenButton("Pie Chart", color(255, 255, 0), pieChartScreen);
-  widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
+  //widgetList1.addFlightScreenButton("List", color(255, 255, 0), 1);
   widgetList1.addFlightScreenButton("Heat Map", color(255, 255, 0), 4);
   widgetList2 = new WidgetList();
   widgetList2.addFlightScreenButton("Main Menu", color(255, 255, 0), homeScreen);

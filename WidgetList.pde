@@ -15,15 +15,15 @@ class WidgetList
   
   void addButton(String label, color widgetColor, int screen) 
   {
-    float x = (buttons.size() * 500) + 60;
+    float x = (buttons.size() * 500) + 300;
     Widget button = new Widget(x, 400, 400, 100, label, widgetColor, screen);
     buttons.add(button);
   }
   
   void addFlightScreenButton(String label, color widgetColor, int screen) 
   {
-    float x = (flightScreenButtons.size() * 305);
-    Widget button = new Widget(x, 50, 290, 35, label, widgetColor, screen);
+    float x = (flightScreenButtons.size() * 378);
+    Widget button = new Widget(x, 50, 375, 35, label, widgetColor, screen);
     flightScreenButtons.add(button);
   }
   
