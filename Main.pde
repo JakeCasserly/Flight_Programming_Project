@@ -128,9 +128,9 @@ void draw()
   else if(count == divertedScreen)
   {
     diverted.draw();
-    if(searchBarActive)
+    if(divertedSearchBar.active)
     {
-      theSearchBar.adjustText();
+      divertedSearchBar.adjustText();
     }
   }
   else if(count == cancelledScreen)

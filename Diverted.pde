@@ -55,7 +55,7 @@ void draw() {
         String searchResult = divertedSearchBar.result;
         filterFlightsByState(searchResult);
         //divertedSearchBar.active = false; 
-        println("search" + "blah");
+        println("search" +  searchResult + "blah");
     }
     fill(0);
     textAlign(LEFT, TOP);
